@@ -125,7 +125,7 @@ totalScore, averageScore, medianScore, percentagePass = supportFunctions.getOver
 totalScoreDifferentPermutations = supportFunctions.calculateTotalScoreDifferentPermutations(scoreQuestionsAllPermutations,maxTotalScore)
 #print totalScoreDifferentPermutations
 
-numParticipantsSeries, averageScoreSeries, medianScoreSeries, percentagePassSeries = supportFunctions.getOverallStatisticsDifferentSeries(totalScoreDifferentPermutations,columnSeries,maxTotalScore)
+numParticipantsSeries, averageScoreSeries, medianScoreSeries, percentagePassSeries, averageScoreQuestionsDifferentSeries = supportFunctions.getOverallStatisticsDifferentSeries(totalScoreDifferentPermutations,scoreQuestionsIndicatedSeries,columnSeries,maxTotalScore)
 
 averageScoreUpper, averageScoreMiddle, averageScoreLower, averageScoreQuestionsUpper, averageScoreQuestionsMiddle, averageScoreQuestionsLower, numOnmogelijkQuestionsAlternativesUpper, numOnmogelijkQuestionsAlternativesMiddle, numOnmogelijkQuestionsAlternativesLower, numMogelijkQuestionsAlternativesUpper, numMogelijkQuestionsAlternativesMiddle, numMogelijkQuestionsAlternativesLower, numUpper, numMiddle, numLower = supportFunctions.calculateUpperLowerStatistics(sheet,content,columnSeries,totalScore,scoreQuestionsIndicatedSeries,correctAnswers,alternatives,twoOptions,content_colNrs,permutations)
 
@@ -140,6 +140,7 @@ writeResults.write_results(outputbook,numQuestions,correctAnswers,alternatives,m
                   medianScore,
                   averageScore,averageScoreUpper,averageScoreMiddle,averageScoreLower,
                   averageScoreQuestions,averageScoreQuestionsUpper,averageScoreQuestionsMiddle,averageScoreQuestionsLower,
+                  averageScoreQuestionsDifferentSeries,
                   numUpper,numMiddle,numLower,
                   numParticipantsSeries,
                   averageScoreSeries,medianScoreSeries,percentagePassSeries,

@@ -216,14 +216,19 @@ def getOverallStatistics(scoreQuestionsIndicatedSeries_loc,maxTotalScore_loc):
     percentagePass_loc = 100*sum(score>= maxTotalScore_loc/2.0 for score in totalScore_loc)/float(numParticipants_loc)    
     return totalScore_loc, averageScore_loc, medianScore_loc, percentagePass_loc
     
-def getOverallStatisticsDifferentSeries(totalScoreDifferentPermutations_loc,columnSeries_loc,maxTotalScore_loc):
+def getOverallStatisticsDifferentSeries(totalScoreDifferentPermutations_loc,scoreQuestionsIndicatedSeries_loc, columnSeries_loc,maxTotalScore_loc):
+    
     #print "entered getScoreQuestionsIndicatedSeries"    
     numParticipants_loc = len(totalScoreDifferentPermutations_loc)      
     numSeries_loc = len(totalScoreDifferentPermutations_loc[0]) 
-    numParticipantsSeries_loc = numpy.zeros(numSeries_loc)    
+    numParticipantsSeries_loc = numpy.zeros(numSeries_loc) 
+    numQuestions_loc =  len(scoreQuestionsIndicatedSeries_loc[0])
     averageScore_loc = numpy.zeros(numSeries_loc)
     medianScore_loc = numpy.zeros(numSeries_loc)
     percentagePass_loc = numpy.zeros(numSeries_loc)
+    averageScoreQuestionsDifferentSeries_loc = numpy.zeros(numQuestions_loc* numSeries_loc)
+    averageScoreQuestionsDifferentSeries_loc = averageScoreQuestionsDifferentSeries_loc.reshape(numQuestions_loc, numSeries_loc)
+    
     for serie in xrange(1,numSeries_loc+1):
         indicesSerie_loc = [x for x in range(0,numParticipants_loc) if columnSeries_loc[x]==serie]
         totalScoreSerie_loc = [totalScoreDifferentPermutations_loc[i,serie-1] for i in indicesSerie_loc]
@@ -232,7 +237,8 @@ def getOverallStatisticsDifferentSeries(totalScoreDifferentPermutations_loc,colu
         medianScore_loc[serie-1] = numpy.median(totalScoreSerie_loc)
         #print totalScoreSerie_loc
         percentagePass_loc[serie-1] = 100* sum(score>= maxTotalScore_loc/2.0 for score in totalScoreSerie_loc)/float(numParticipantsSeries_loc[serie-1]) 
-    return numParticipantsSeries_loc, averageScore_loc, medianScore_loc, percentagePass_loc
+        averageScoreQuestionsDifferentSeries_loc[:,serie-1] =  numpy.average(scoreQuestionsIndicatedSeries_loc[indicesSerie_loc,:],0)
+    return numParticipantsSeries_loc, averageScore_loc, medianScore_loc, percentagePass_loc, averageScoreQuestionsDifferentSeries_loc
 
 def calculateTotalScoreDifferentPermutations(scoreQuestionsAllPermutations_loc,maxTotalScore_loc):
     numSeries_loc = len(scoreQuestionsAllPermutations_loc)
