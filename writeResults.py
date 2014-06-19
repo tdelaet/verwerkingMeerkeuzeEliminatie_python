@@ -9,7 +9,7 @@ from xlwt import  easyxf
 import numpy
 import string
 
-font_bold = "font: bold true;"
+font_bold = "font: bold on;"
 font_red = "font: color red;"
 font_italic = "font: italic true;"
 align_horizcenter = "align: horiz center;"
