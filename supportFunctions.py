@@ -213,8 +213,9 @@ def getOverallStatistics(scoreQuestionsIndicatedSeries_loc,maxTotalScore_loc):
     #print totalScore
     averageScore_loc = sum(totalScore_loc)/float(numParticipants_loc)
     medianScore_loc = numpy.median(totalScore_loc)
+    standardDeviation_loc = numpy.std(totalScore_loc)
     percentagePass_loc = 100*sum(score>= maxTotalScore_loc/2.0 for score in totalScore_loc)/float(numParticipants_loc)    
-    return totalScore_loc, averageScore_loc, medianScore_loc, percentagePass_loc
+    return totalScore_loc, averageScore_loc, medianScore_loc, standardDeviation_loc, percentagePass_loc
     
 def getOverallStatisticsDifferentSeries(totalScoreDifferentPermutations_loc,scoreQuestionsIndicatedSeries_loc, columnSeries_loc,maxTotalScore_loc):
     
@@ -225,6 +226,7 @@ def getOverallStatisticsDifferentSeries(totalScoreDifferentPermutations_loc,scor
     numQuestions_loc =  len(scoreQuestionsIndicatedSeries_loc[0])
     averageScore_loc = numpy.zeros(numSeries_loc)
     medianScore_loc = numpy.zeros(numSeries_loc)
+    standardDeviation_loc = numpy.zeros(numSeries_loc)    
     percentagePass_loc = numpy.zeros(numSeries_loc)
     averageScoreQuestionsDifferentSeries_loc = numpy.zeros(numQuestions_loc* numSeries_loc)
     averageScoreQuestionsDifferentSeries_loc = averageScoreQuestionsDifferentSeries_loc.reshape(numQuestions_loc, numSeries_loc)
@@ -235,10 +237,11 @@ def getOverallStatisticsDifferentSeries(totalScoreDifferentPermutations_loc,scor
         numParticipantsSeries_loc[serie-1] = len(totalScoreSerie_loc)
         averageScore_loc[serie-1] = sum(totalScoreSerie_loc)/float(numParticipantsSeries_loc[serie-1])
         medianScore_loc[serie-1] = numpy.median(totalScoreSerie_loc)
+        standardDeviation_loc[serie-1] = numpy.std(totalScoreSerie_loc)
         #print totalScoreSerie_loc
         percentagePass_loc[serie-1] = 100* sum(score>= maxTotalScore_loc/2.0 for score in totalScoreSerie_loc)/float(numParticipantsSeries_loc[serie-1]) 
         averageScoreQuestionsDifferentSeries_loc[:,serie-1] =  numpy.average(scoreQuestionsIndicatedSeries_loc[indicesSerie_loc,:],0)
-    return numParticipantsSeries_loc, averageScore_loc, medianScore_loc, percentagePass_loc, averageScoreQuestionsDifferentSeries_loc
+    return numParticipantsSeries_loc, averageScore_loc, medianScore_loc, standardDeviation_loc, percentagePass_loc, averageScoreQuestionsDifferentSeries_loc
 
 def calculateTotalScoreDifferentPermutations(scoreQuestionsAllPermutations_loc,maxTotalScore_loc):
     numSeries_loc = len(scoreQuestionsAllPermutations_loc)
@@ -252,6 +255,7 @@ def calculateTotalScoreDifferentPermutations(scoreQuestionsAllPermutations_loc,m
         totalScorePermutations_loc[:,serie-1] = totalScore_temp
     return totalScorePermutations_loc
 
+ 
 def calculateUpperLowerStatistics(sheet_loc,content_loc,columnSeries_loc,totalScore_loc,scoreQuestionsIndicatedSeries_loc,correctAnswers_loc,alternatives_loc,twoOptions_loc,content_colNrs_loc,permutations_loc):
     orderedDeelnemers_loc = sorted(range(len(totalScore_loc)),key=totalScore_loc.__getitem__) 
     numParticipants_loc = len(orderedDeelnemers_loc)
@@ -327,5 +331,5 @@ def calculateUpperLowerStatistics(sheet_loc,content_loc,columnSeries_loc,totalSc
                 numMogelijkQuestionsAlternativesLower_loc[counter_loc]+=len(indicesMogelijkLower_loc)        
             counter_alternative+=1
 
-    return averageScoreUpper_loc, averageScoreMiddle_loc, averageScoreLower_loc, averageScoreQuestionsUpper_loc, averageScoreQuestionsMiddle_loc, averageScoreQuestionsLower_loc, numOnmogelijkQuestionsAlternativesUpper_loc, numOnmogelijkQuestionsAlternativesMiddle_loc, numOnmogelijkQuestionsAlternativesLower_loc, numMogelijkQuestionsAlternativesUpper_loc, numMogelijkQuestionsAlternativesMiddle_loc, numMogelijkQuestionsAlternativesLower_loc, numUpper_loc, numMiddle_loc, numLower_loc
+    return totalScoreUpper_loc,totalScoreMiddle_loc,totalScoreLower_loc,averageScoreUpper_loc, averageScoreMiddle_loc, averageScoreLower_loc, averageScoreQuestionsUpper_loc, averageScoreQuestionsMiddle_loc, averageScoreQuestionsLower_loc, numOnmogelijkQuestionsAlternativesUpper_loc, numOnmogelijkQuestionsAlternativesMiddle_loc, numOnmogelijkQuestionsAlternativesLower_loc, numMogelijkQuestionsAlternativesUpper_loc, numMogelijkQuestionsAlternativesMiddle_loc, numMogelijkQuestionsAlternativesLower_loc, scoreQuestionsUpper_loc, scoreQuestionsMiddle_loc, scoreQuestionsLower_loc,numUpper_loc, numMiddle_loc, numLower_loc
     

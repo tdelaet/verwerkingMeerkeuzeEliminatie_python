@@ -85,8 +85,8 @@ scoreQuestionsIndicatedSeries= numpy.zeros((numParticipants,numQuestions))
 
 
 # write to excel_file
-outputbook = Workbook()
-outputStudentbook = Workbook()
+outputbook = Workbook(style_compression=2)
+outputStudentbook = Workbook(style_compression=2)
 
 
 name = "studentennummer"
@@ -116,7 +116,7 @@ matrixAnswers = supportFunctions.getMatrixAnswers(sheet,content,correctAnswers,p
 scoreQuestionsIndicatedSeries, averageScoreQuestions =  supportFunctions.getScoreQuestionsIndicatedSeries(scoreQuestionsAllPermutations,columnSeries)
 
 #get the overall statistics
-totalScore, averageScore, medianScore, percentagePass = supportFunctions.getOverallStatistics(scoreQuestionsIndicatedSeries,maxTotalScore)
+totalScore, averageScore, medianScore, standardDeviation, percentagePass = supportFunctions.getOverallStatistics(scoreQuestionsIndicatedSeries,maxTotalScore)
 #print totalScore
 #print averageScore
 #print medianScore
@@ -125,9 +125,11 @@ totalScore, averageScore, medianScore, percentagePass = supportFunctions.getOver
 totalScoreDifferentPermutations = supportFunctions.calculateTotalScoreDifferentPermutations(scoreQuestionsAllPermutations,maxTotalScore)
 #print totalScoreDifferentPermutations
 
-numParticipantsSeries, averageScoreSeries, medianScoreSeries, percentagePassSeries, averageScoreQuestionsDifferentSeries = supportFunctions.getOverallStatisticsDifferentSeries(totalScoreDifferentPermutations,scoreQuestionsIndicatedSeries,columnSeries,maxTotalScore)
+numParticipantsSeries, averageScoreSeries, medianScoreSeries, standardDeviationSeries, percentagePassSeries, averageScoreQuestionsDifferentSeries = supportFunctions.getOverallStatisticsDifferentSeries(totalScoreDifferentPermutations,scoreQuestionsIndicatedSeries,columnSeries,maxTotalScore)
 
-averageScoreUpper, averageScoreMiddle, averageScoreLower, averageScoreQuestionsUpper, averageScoreQuestionsMiddle, averageScoreQuestionsLower, numOnmogelijkQuestionsAlternativesUpper, numOnmogelijkQuestionsAlternativesMiddle, numOnmogelijkQuestionsAlternativesLower, numMogelijkQuestionsAlternativesUpper, numMogelijkQuestionsAlternativesMiddle, numMogelijkQuestionsAlternativesLower, numUpper, numMiddle, numLower = supportFunctions.calculateUpperLowerStatistics(sheet,content,columnSeries,totalScore,scoreQuestionsIndicatedSeries,correctAnswers,alternatives,twoOptions,content_colNrs,permutations)
+totalScoreUpper,totalScoreMiddle,totalScoreLower,averageScoreUpper, averageScoreMiddle, averageScoreLower, averageScoreQuestionsUpper, averageScoreQuestionsMiddle, averageScoreQuestionsLower, numOnmogelijkQuestionsAlternativesUpper, numOnmogelijkQuestionsAlternativesMiddle, numOnmogelijkQuestionsAlternativesLower, numMogelijkQuestionsAlternativesUpper, numMogelijkQuestionsAlternativesMiddle, numMogelijkQuestionsAlternativesLower, scoreQuestionsUpper, scoreQuestionsMiddle, scoreQuestionsLower, numUpper, numMiddle, numLower = supportFunctions.calculateUpperLowerStatistics(sheet,content,columnSeries,totalScore,scoreQuestionsIndicatedSeries,correctAnswers,alternatives,twoOptions,content_colNrs,permutations)
+#totalScoreUpper,totalScoreMiddle,totalScoreLower,averageScoreUpper, averageScoreMiddle, averageScoreLower, averageScoreQuestionsUpper, averageScoreQuestionsMiddle, averageScoreQuestionsLower,numQuestionsAlternativesUpper,numQuestionsAlternativesMiddle,numQuestionsAlternativesLower, scoreQuestionsUpper, scoreQuestionsMiddle, scoreQuestionsLower,numUpper, numMiddle, numLower= supportFunctions.calculateUpperLowerStatistics(sheet,content,columnSeries,totalScore,scoreQuestionsIndicatedSeries,correctAnswers,alternatives,blankAnswer,content_colNrs,permutations)
+ 
 
 
 ## WRITING THE OUTPUT TO A FILE
@@ -138,12 +140,13 @@ writeResults.write_results(outputbook,numQuestions,correctAnswers,alternatives,m
                   scoreQuestionsIndicatedSeries,
                   totalScoreDifferentPermutations,
                   medianScore,
+                  standardDeviation,
                   averageScore,averageScoreUpper,averageScoreMiddle,averageScoreLower,
                   averageScoreQuestions,averageScoreQuestionsUpper,averageScoreQuestionsMiddle,averageScoreQuestionsLower,
                   averageScoreQuestionsDifferentSeries,
                   numUpper,numMiddle,numLower,
                   numParticipantsSeries,
-                  averageScoreSeries,medianScoreSeries,percentagePassSeries,
+                  averageScoreSeries,medianScoreSeries,standardDeviationSeries,percentagePassSeries,                  
                   numOnmogelijkQuestionsAlternatives, numMogelijkQuestionsAlternatives,
                   numOnmogelijkQuestionsAlternativesUpper,numOnmogelijkQuestionsAlternativesMiddle,numOnmogelijkQuestionsAlternativesLower,                  
                   numMogelijkQuestionsAlternativesUpper,numMogelijkQuestionsAlternativesMiddle,numMogelijkQuestionsAlternativesLower
@@ -152,7 +155,7 @@ writeResults.write_results(outputbook,numQuestions,correctAnswers,alternatives,m
 ## WRITING A FILE TO UPLOAD TO TOLEDO WITH THE GRADES
 writeResults.write_scoreStudents(outputStudentbook,"punten",permutations,numParticipants,deelnemers, numQuestions,numAlternatives,content,content_colNrs,totalScore,scoreQuestionsIndicatedSeries,columnSeries,matrixAnswers)           
                   
-#plot statistics for each question
+
 # plot the histogram of the total score
 plt.figure()
 n, bins, patches = plt.hist(totalScore,bins=numpy.arange(0-0.5,maxTotalScore+1,1))
@@ -164,36 +167,48 @@ figManager = plt.get_current_fig_manager()
 figManager.window.showMaximized()
 plt.savefig('histogramGeheel.png', bbox_inches='tight')
 
-# plot the quintiles of the total score
-plt.figure()
-n, bins, patches = plt.hist(totalScore,bins=numpy.arange(0-0.5,maxTotalScore+1,maxTotalScore/5.0))
-plt.title("histogram total score")
-plt.xlabel("score (max " + str(maxTotalScore)+ ")")
-plt.xlim([0-0.5,maxTotalScore+0.5])
-plt.ylabel("number of students")
+#plot histogram for different questions
+numColsPict = int(numpy.ceil(numpy.sqrt(numQuestions)))
+#print numColsPict
+numRowsPict = int(numpy.ceil(numQuestions/numColsPict)) 
+#print numRowsPict
+fig, axes = plt.subplots(nrows=numRowsPict, ncols=numColsPict)
+fig.tight_layout() # Or equivalently,  "plt.tight_layout()"
+
+binsHist = numpy.arange(-1-1.0/6.0,1+1.0/3.0,1.0/3.0)
+
+for question in xrange(1,numQuestions+1):
+    ax = plt.subplot(numRowsPict,numColsPict,question)
+    n, bins, patches = plt.hist(scoreQuestionsIndicatedSeries[:,question-1],bins=binsHist)
+    plt.xticks([-1/(numAlternatives-1), 0,1])
+    plt.title("vraag " + str(question))
+    plt.xlabel("score")
+    plt.xlim([-2.0/(numAlternatives-1),1+1.0/(numAlternatives-1)])
+    plt.ylabel("aantal studenten")
 figManager = plt.get_current_fig_manager()
-figManager.window.showMaximized()
-plt.savefig('quintielenGeheel.png', bbox_inches='tight')
+figManager.window.showMaximized()    
+plt.savefig('histogramVragen.png', bbox_inches='tight')
 
 #plot histogram for different questions
 numColsPict = int(numpy.ceil(numpy.sqrt(numQuestions)))
 #print numColsPict
-numRowsPict = int(numpy.ceil(numQuestions/numColsPict)) +1
+numRowsPict = int(numpy.ceil(numQuestions/numColsPict)) 
 #print numRowsPict
 fig, axes = plt.subplots(nrows=numRowsPict, ncols=numColsPict)
 fig.tight_layout() # Or equivalently,  "plt.tight_layout()"
 
 for question in xrange(1,numQuestions+1):
     ax = plt.subplot(numRowsPict,numColsPict,question)
-    n, bins, patches = plt.hist(scoreQuestionsIndicatedSeries[:,question-1],bins=numpy.arange(-1-1.0/6.0,1+1.0/3.0,1.0/3.0))
-    plt.xticks(numpy.arange(-1, 1+1.0/3.0, 2*1.0/3.0))
+    n, bins, patches = plt.hist([scoreQuestionsUpper[:,question-1], scoreQuestionsMiddle[:,question-1], scoreQuestionsLower[:,question-1]],bins=binsHist, stacked=True,  label=['Upper', 'Middle', 'Lower'],color=['g','b','r'])
+    plt.xticks([-1/(numAlternatives-1), 0,1])
     plt.title("vraag " + str(question))
-    plt.xlabel("score (max " + str(maxTotalScore)+ ")")
-    plt.xlim([-1-1.0/3.0,1+1.0/3.0])
-    plt.ylabel("number of students")
+    plt.xlabel("score")
+    plt.xlim([-2.0/(numAlternatives-1),1+1.0/(numAlternatives-1)])
+    plt.ylabel("aantal studenten")
+    plt.legend(loc=2,prop={'size':6})
 figManager = plt.get_current_fig_manager()
 figManager.window.showMaximized()    
-plt.savefig('histogramVragen.png', bbox_inches='tight')
+plt.savefig('histogramVragenUML.png', bbox_inches='tight')
 
 
 outputbook.save('output.xls') 
