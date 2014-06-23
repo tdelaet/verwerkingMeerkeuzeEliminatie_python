@@ -344,6 +344,7 @@ def write_averageScoreQuestions(outputbook_loc,nameSheet_loc,numQuestions_loc,av
     for serie in xrange(1,numSeries+1):
         sheetC.write(rowCounter,columnCounter,round(averageScoreSeries_loc[serie-1],3),style=easyxf(border_top_medium))
         columnCounter+=1
+        
 def write_percentageImpossibleQuestions(outputbook_loc,nameSheet_loc,numQuestions_loc,correctAnswers_loc,alternatives_loc,numOnmogelijkQuestionsAlternatives_loc,numParticipants_loc):
     sheetC = outputbook_loc.add_sheet(nameSheet_loc)
     
@@ -759,7 +760,7 @@ def write_histogramQuestions(outputbook_loc,nameSheet_loc,numQuestions_loc,score
             sheetC.write(rowCounter,columnCounter,round(averageScoreQuestions_loc[question-1],2),style=easyxf(border_left_medium)) 
         rowCounter+=1
 
-def write_scoreStudents(outputbook_loc,nameSheet_loc,permutations_loc,numParticipants_loc,deelnemers_loc, numQuestions_loc,numAlternatives_loc,content_loc,content_colNrs_loc,totalScore_loc,scoreQuestionsIndicatedSeries_loc,columnSeries_loc,matrixAnswers):
+def write_scoreStudents(outputbook_loc,nameSheet_loc,permutations_loc,weightsQuestions_loc,numParticipants_loc,deelnemers_loc, numQuestions_loc,numAlternatives_loc,content_loc,content_colNrs_loc,totalScore_loc,scoreQuestionsIndicatedSeries_loc,columnSeries_loc,matrixAnswers):
     sheetC = outputbook_loc.add_sheet(nameSheet_loc)
 
     columnCounter = 0;
@@ -807,13 +808,22 @@ def write_scoreStudents(outputbook_loc,nameSheet_loc,permutations_loc,numPartici
     for participant in xrange(len(totalScore_loc)): # loop over participants
         columnCounter = columnCounterScoreQuestions;
         score = scoreQuestionsIndicatedSeries_loc[participant,:]
-        sorted_score = [score[i-1] for i in permutations_loc[int(columnSeries_loc[participant]-1)]]
+        serie = int(columnSeries_loc[participant]-1)
+        sorted_score = [score[i-1] for i in permutations_loc[serie]]
+        #find questions with weight zero
+        questionsZeroWeight = numpy.where(weightsQuestions_loc==0)
+                #find questions
+        #score[numpy.where(weightsQuestions_loc==0)[0]]=float('NaN')
+        
         for question in xrange(1,numQuestions_loc+1):
-            sheetC.write(rowCounter,columnCounter,sorted_score[question-1])
+            if (permutations_loc[serie][question-1]-1) in questionsZeroWeight:
+                sheetC.write(rowCounter,columnCounter,"X")
+            else:
+                sheetC.write(rowCounter,columnCounter,sorted_score[question-1])
             columnCounter+=1
         rowCounter+=1            
  
-    
+        
     #print matrixAnswers
     alternatives = list(string.ascii_uppercase)[0:numAlternatives_loc]   
     #answer for different questions and alternatives

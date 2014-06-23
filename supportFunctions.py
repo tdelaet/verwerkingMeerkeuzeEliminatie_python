@@ -11,12 +11,13 @@ def round2(x):
     """Numpy rounds x.5 to nearest even integer. To emulate SAS/SPSS, 
     which both round x.5 *up* to nearest integer, use this function.
     """
-    y = x - numpy.floor(x)
-    for i in numpy.arange(0,len(y)):
-        if (0 < y[i] < 0.5):
-            x[i] = numpy.floor(x[i])
-        else:
-            x[i] = numpy.ceil(x[i])
+#    y = x - numpy.floor(x)
+#    for i in numpy.arange(0,len(y)):
+#        if (0 < y[i] < 0.5):
+#            x[i] = numpy.floor(x[i])
+#        else:
+#            x[i] = numpy.ceil(x[i])
+    #x = numpy.floor(x+0.5)    
     return x
     
 def common_elements(list1, list2):

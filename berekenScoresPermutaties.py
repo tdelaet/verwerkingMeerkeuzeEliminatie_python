@@ -6,7 +6,7 @@ Created on Mon Mar 31 13:58:48 2014
 
 Dit neemt aan dat de gebruikte sheet van excel file de volgende kolommen heeft (met eerste rij de naam van de kolom):
 - studentennummer
-- vragenreeks
+- vragenreeksper
 - Vraag1A, Vraag1B, ... (komt overeen met aantal alternatieven - numAlternatives)
  en dit voor alle vragen (komt overeen met numQuestions)
 """
@@ -22,8 +22,8 @@ import supportFunctions
 import writeResults
 
 
-nameFile = "../OMR/OMRoutput.xlsx" #name of excel file with scanned forms
-nameSheet = "outputScan" #sheet name of excel file with scanned forms
+nameFile = "../OMR/review1_corr.xlsx" #name of excel file with scanned forms
+nameSheet = "output" #sheet name of excel file with scanned forms
 numQuestions = 25 # number of questions
 numAlternatives = 4 #number of alternatives
 maxTotalScore = 20 #maximum total score
@@ -156,7 +156,7 @@ writeResults.write_results(outputbook,numQuestions,correctAnswers,alternatives,m
                   )
                   
 ## WRITING A FILE TO UPLOAD TO TOLEDO WITH THE GRADES
-writeResults.write_scoreStudents(outputStudentbook,"punten",permutations,numParticipants,deelnemers, numQuestions,numAlternatives,content,content_colNrs,totalScore,scoreQuestionsIndicatedSeries,columnSeries,matrixAnswers)           
+writeResults.write_scoreStudents(outputStudentbook,"punten",permutations,weightsQuestions,numParticipants,deelnemers, numQuestions,numAlternatives,content,content_colNrs,totalScore,scoreQuestionsIndicatedSeries,columnSeries,matrixAnswers)           
                   
 
 # plot the histogram of the total score
