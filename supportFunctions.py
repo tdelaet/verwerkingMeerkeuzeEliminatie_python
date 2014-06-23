@@ -17,7 +17,7 @@ def round2(x):
 #            x[i] = numpy.floor(x[i])
 #        else:
 #            x[i] = numpy.ceil(x[i])
-    #x = numpy.floor(x+0.5)    
+    x = numpy.floor(numpy.round(x,6)+0.5)    
     return x
     
 def common_elements(list1, list2):
