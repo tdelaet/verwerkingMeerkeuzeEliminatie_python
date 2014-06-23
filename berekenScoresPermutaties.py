@@ -58,7 +58,7 @@ for question in xrange(1,numQuestions+1):
 #print content
 ###########################
         
-if not( checkInputVariables.checkInputVariables(nameFile,nameSheet,numQuestions,numAlternatives,numSeries,correctAnswers,permutations,twoOptions)):
+if not( checkInputVariables.checkInputVariables(nameFile,nameSheet,numQuestions,numAlternatives,numSeries,correctAnswers,permutations,weightsQuestions,twoOptions)):
      print "ERROR found in input variables"   
 
         

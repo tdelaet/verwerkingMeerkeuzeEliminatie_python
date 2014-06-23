@@ -314,6 +314,7 @@ def write_averageScoreQuestions(outputbook_loc,nameSheet_loc,numQuestions_loc,av
             sheetC.write(rowCounter,columnCounter,round(averageScoreQuestionsMiddle_loc[question-1],3),style=easyxf(style_specialAttention)) 
             columnCounter+=1
             sheetC.write(rowCounter,columnCounter,round(averageScoreQuestionsLower_loc[question-1],3),style=easyxf(style_specialAttention+ border_right_medium))    
+            columnCounter+=1
         else:
             sheetC.write(rowCounter,columnCounter,round(averageScoreQuestionsUpper_loc[question-1],3))
             columnCounter+=1
@@ -322,6 +323,8 @@ def write_averageScoreQuestions(outputbook_loc,nameSheet_loc,numQuestions_loc,av
             sheetC.write(rowCounter,columnCounter,round(averageScoreQuestionsLower_loc[question-1],3),style=easyxf(border_right_medium))
             columnCounter+=1
         for serie in xrange(1,numSeries+1):
+            #print "rowCounter" + str(rowCounter)
+            #print "columnCounter" + str(columnCounter)
             sheetC.write(rowCounter,columnCounter,round(averageScoreQuestionsDifferentSeries_loc[question-1,serie-1],3))
             columnCounter+=1
         rowCounter+=1

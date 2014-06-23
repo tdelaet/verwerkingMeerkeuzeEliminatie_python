@@ -7,6 +7,18 @@ Created on Wed May 21 14:54:46 2014
 
 import numpy
 
+def round2(x):
+    """Numpy rounds x.5 to nearest even integer. To emulate SAS/SPSS, 
+    which both round x.5 *up* to nearest integer, use this function.
+    """
+    y = x - numpy.floor(x)
+    for i in numpy.arange(0,len(y)):
+        if (0 < y[i] < 0.5):
+            x[i] = numpy.floor(x[i])
+        else:
+            x[i] = numpy.ceil(x[i])
+    return x
+    
 def common_elements(list1, list2):
     return list(set(list1) & set(list2))
         
@@ -126,63 +138,6 @@ def getNumberMogelijkOnmogelijk(sheet_loc,content_loc,permutations_loc,columnSer
             counter_alternative+=1
 
     return numOnmogelijkQuestionsAlternatives_loc, numMogelijkQuestionsAlternatives_loc
-   
-    
-                
-#def calculateScoreAllPermutations(contentBook_loc,correctAnswers_loc,permutations_loc,alternatives_loc,numParticipants_loc):
-#    # Calculate the score for each permutation and for each question 
-#    numSeries_loc = len(permutations_loc)
-#    numQuestions_loc = len(correctAnswers_loc)
-#    numAlternatives_loc = len(alternatives_loc)
-#    scoreQuestionsAllPermutations_loc= numpy.zeros((numSeries_loc,numParticipants_loc,numQuestions_loc))
-#    numOnmogelijkQuestionsAlternatives_loc= numpy.zeros(numQuestions_loc*numAlternatives_loc)
-#    numMogelijkQuestionsAlternatives_loc= numpy.zeros(numQuestions_loc*numAlternatives_loc)
-#    
-#    #Calculate score for all permutations
-#    #loop over question
-#    counter = 0;
-#    for question in xrange(1,numQuestions_loc+1):
-#        #print "vraag" + str(question)
-#        #loop over alternatives
-#        for alternative in alternatives_loc:
-#            name = "vraag" + str(question) + alternative
-#            #print name
-#            #find column number in which question alternatives are given
-#            colNr = content_colNrs[contentBook_loc.index(name)]
-#            #get the answers for the participants (so skip for row with name of first row)
-#            columnAlternative=sheet.col_values(colNr,1,numParticipants_loc+1)
-#            indicesNotMogelijkOnmogelijk = [x for x in range(0,len(columnAlternative)) if not(columnAlternative[x] in twoOptions)]
-#            if len(indicesNotMogelijkOnmogelijk): #there are entries that do not correspond to the options
-#                row_withErrors = [x+1 for x in indicesNotMogelijkOnmogelijk]
-#                print "ERROR FOUND " + "row index " + str(row_withErrors) + " column index: " + colname(colNr)       
-#                ##TODO:STOP PROGRAM
-#            #get the indices of the particpants that answered onmogelijk
-#            indicesOnmogelijk_loc = [x for x in range(0,len(columnAlternative)) if columnAlternative[x]==twoOptions[0]]
-#            
-#            numOnmogelijkQuestionsAlternatives_loc[counter]=len(indicesOnmogelijk_loc)
-#            
-#            indicesMogelijk_loc = [x for x in range(0,len(columnAlternative)) if columnAlternative[x]==twoOptions[1]]  
-#            
-#            numMogelijkQuestionsAlternatives_loc[counter]=len(indicesMogelijk_loc)        
-#            counter+=1
-#            #only needed to calculate score for different series
-#            #loop over series
-#            for permutation in xrange(1,len(permutations)+1):
-#                #print "permutation " + str(permutation)
-#                #print permutations[permutation-1]            
-#                #print len(permutations[permutation-1])
-#                #print question-1            
-#                #print permutations[permutation-1][question-1]
-#                numQuestionPermutations_loc = permutations[permutation-1][question-1]
-#                correctAnswer = correctAnswers_loc[numQuestionPermutations_loc-1]
-#                #print "vraag " + str(question) + " of permutation " + str(permutation) + " corresponds to question " + str(permutations[permutation-1][question-1]) + " in the first serie"
-#                #print "correct answer is " + correctAnswer
-#                if  correctAnswer == alternative:         # if the alternative is the correct answer => wrongly excluded so -1
-#                    scoreQuestionsAllPermutations_loc[permutation-1,indicesOnmogelijk_loc,numQuestionPermutations_loc-1]-=1.0
-#                else: # if the alternative is NOT the correct answer => correctly excluded so +1/(numAlternatives-1)
-#                    scoreQuestionsAllPermutations_loc[permutation-1,indicesOnmogelijk_loc,numQuestionPermutations_loc-1]+= 1.0/(float(numAlternatives_loc)-1.0)  
-#                #print scoreQuestionsAllPermutations_loc[permutation-1,indicesOnmogelijk_loc,question-1]    
-#    return scoreQuestionsAllPermutations_loc
 
 def getScoreQuestionsIndicatedSeries(scoreQuestionsAllPermutations_loc,columnSeries_loc):
     #print "entered getScoreQuestionsIndicatedSeries"    
@@ -203,14 +158,14 @@ def getScoreQuestionsIndicatedSeries(scoreQuestionsAllPermutations_loc,columnSer
 def getOverallStatistics(scoreQuestionsIndicatedSeries_loc,maxTotalScore_loc,weightsQuestions_loc): 
     #print "entered getOverallStatistics" 
     numParticipants_loc = len(scoreQuestionsIndicatedSeries_loc)
-    numQuestions_loc = len(scoreQuestionsIndicatedSeries_loc[0])       
+    #numQuestions_loc = len(scoreQuestionsIndicatedSeries_loc[0])       
     #To calculate the total score only use the score for the series indicated by the student
     #totalScore_loc = scoreQuestionsIndicatedSeries_loc.sum(axis=1)/numQuestions_loc*maxTotalScore_loc
-    totalScore_loc = scoreQuestionsIndicatedSeries_loc.sum(axis=1)*weightsQuestions_loc/numQuestions_loc*maxTotalScore_loc
+    totalScore_loc = (scoreQuestionsIndicatedSeries_loc*weightsQuestions_loc).sum(axis=1)/float(weightsQuestions_loc.sum(axis=0))*maxTotalScore_loc
     #print totalScore_loc
     # set negative scores to 0
     totalScore_loc[totalScore_loc < 0]=0
-    totalScore_loc = numpy.round(totalScore_loc)
+    totalScore_loc = round2(totalScore_loc)
     #print totalScore
     averageScore_loc = sum(totalScore_loc)/float(numParticipants_loc)
     medianScore_loc = numpy.median(totalScore_loc)
@@ -247,12 +202,12 @@ def getOverallStatisticsDifferentSeries(totalScoreDifferentPermutations_loc,scor
 def calculateTotalScoreDifferentPermutations(scoreQuestionsAllPermutations_loc,maxTotalScore_loc,weightsQuestions_loc):
     numSeries_loc = len(scoreQuestionsAllPermutations_loc)
     numParticipants_loc = len(scoreQuestionsAllPermutations_loc[0])
-    numQuestions_loc = len(scoreQuestionsAllPermutations_loc[0][0])
+    #numQuestions_loc = len(scoreQuestionsAllPermutations_loc[0][0])
     totalScorePermutations_loc = numpy.zeros((numParticipants_loc,numSeries_loc))    
     for serie in xrange(1,numSeries_loc+1):
-        totalScore_temp = (scoreQuestionsAllPermutations_loc[serie-1]*weightsQuestions_loc).sum(axis=1)/numQuestions_loc*maxTotalScore_loc
+        totalScore_temp = (scoreQuestionsAllPermutations_loc[serie-1]*weightsQuestions_loc).sum(axis=1)/float(weightsQuestions_loc.sum(axis=0) )*maxTotalScore_loc
         totalScore_temp[totalScore_temp < 0]=0
-        totalScore_temp = numpy.round(totalScore_temp)
+        totalScore_temp = round2(totalScore_temp)
         totalScorePermutations_loc[:,serie-1] = totalScore_temp
     return totalScorePermutations_loc
 
