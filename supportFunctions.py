@@ -200,12 +200,13 @@ def getScoreQuestionsIndicatedSeries(scoreQuestionsAllPermutations_loc,columnSer
     averageScoreQuestions_loc = scoreQuestionsIndicatedSeries_loc.sum(axis=0)/float(numParticipants_loc)    
     return scoreQuestionsIndicatedSeries_loc, averageScoreQuestions_loc
 
-def getOverallStatistics(scoreQuestionsIndicatedSeries_loc,maxTotalScore_loc): 
+def getOverallStatistics(scoreQuestionsIndicatedSeries_loc,maxTotalScore_loc,weightsQuestions_loc): 
     #print "entered getOverallStatistics" 
     numParticipants_loc = len(scoreQuestionsIndicatedSeries_loc)
     numQuestions_loc = len(scoreQuestionsIndicatedSeries_loc[0])       
     #To calculate the total score only use the score for the series indicated by the student
-    totalScore_loc = scoreQuestionsIndicatedSeries_loc.sum(axis=1)/numQuestions_loc*maxTotalScore_loc
+    #totalScore_loc = scoreQuestionsIndicatedSeries_loc.sum(axis=1)/numQuestions_loc*maxTotalScore_loc
+    totalScore_loc = scoreQuestionsIndicatedSeries_loc.sum(axis=1)*weightsQuestions_loc/numQuestions_loc*maxTotalScore_loc
     #print totalScore_loc
     # set negative scores to 0
     totalScore_loc[totalScore_loc < 0]=0
@@ -243,13 +244,13 @@ def getOverallStatisticsDifferentSeries(totalScoreDifferentPermutations_loc,scor
         averageScoreQuestionsDifferentSeries_loc[:,serie-1] =  numpy.average(scoreQuestionsIndicatedSeries_loc[indicesSerie_loc,:],0)
     return numParticipantsSeries_loc, averageScore_loc, medianScore_loc, standardDeviation_loc, percentagePass_loc, averageScoreQuestionsDifferentSeries_loc
 
-def calculateTotalScoreDifferentPermutations(scoreQuestionsAllPermutations_loc,maxTotalScore_loc):
+def calculateTotalScoreDifferentPermutations(scoreQuestionsAllPermutations_loc,maxTotalScore_loc,weightsQuestions_loc):
     numSeries_loc = len(scoreQuestionsAllPermutations_loc)
     numParticipants_loc = len(scoreQuestionsAllPermutations_loc[0])
     numQuestions_loc = len(scoreQuestionsAllPermutations_loc[0][0])
     totalScorePermutations_loc = numpy.zeros((numParticipants_loc,numSeries_loc))    
     for serie in xrange(1,numSeries_loc+1):
-        totalScore_temp = scoreQuestionsAllPermutations_loc[serie-1].sum(axis=1)/numQuestions_loc*maxTotalScore_loc
+        totalScore_temp = (scoreQuestionsAllPermutations_loc[serie-1]*weightsQuestions_loc).sum(axis=1)/numQuestions_loc*maxTotalScore_loc
         totalScore_temp[totalScore_temp < 0]=0
         totalScore_temp = numpy.round(totalScore_temp)
         totalScorePermutations_loc[:,serie-1] = totalScore_temp

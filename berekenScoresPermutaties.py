@@ -39,6 +39,8 @@ permutations = numpy.loadtxt("../permutatie.txt",delimiter=',',dtype=numpy.int32
 #                [3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,1,2],
 #                [4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,1,2,3]] #permutations of the different series
 
+weightsQuestions = numpy.loadtxt("../gewichten.txt",delimiter=',',dtype=numpy.int32)
+
 twoOptions=["onmogelijk","mogelijk"] #elimination options should be first
 
 plt.close("all")
@@ -106,6 +108,7 @@ columnSeries=sheet.col_values(colNrSerie,1,num_rows)
 
 #get the score for all permutations for each of the questions
 scoreQuestionsAllPermutations= supportFunctions.calculateScoreAllPermutations(sheet,content,correctAnswers,permutations,alternatives,numParticipants,columnSeries,content_colNrs,twoOptions)     
+
 numOnmogelijkQuestionsAlternatives, numMogelijkQuestionsAlternatives = supportFunctions.getNumberMogelijkOnmogelijk(sheet,content,permutations,columnSeries,scoreQuestionsIndicatedSeries,alternatives,twoOptions,content_colNrs)
 #print scoreQuestionsAllPermutations
 
@@ -116,13 +119,13 @@ matrixAnswers = supportFunctions.getMatrixAnswers(sheet,content,correctAnswers,p
 scoreQuestionsIndicatedSeries, averageScoreQuestions =  supportFunctions.getScoreQuestionsIndicatedSeries(scoreQuestionsAllPermutations,columnSeries)
 
 #get the overall statistics
-totalScore, averageScore, medianScore, standardDeviation, percentagePass = supportFunctions.getOverallStatistics(scoreQuestionsIndicatedSeries,maxTotalScore)
+totalScore, averageScore, medianScore, standardDeviation, percentagePass = supportFunctions.getOverallStatistics(scoreQuestionsIndicatedSeries,maxTotalScore,weightsQuestions)
 #print totalScore
 #print averageScore
 #print medianScore
 #print percentagePass
 
-totalScoreDifferentPermutations = supportFunctions.calculateTotalScoreDifferentPermutations(scoreQuestionsAllPermutations,maxTotalScore)
+totalScoreDifferentPermutations = supportFunctions.calculateTotalScoreDifferentPermutations(scoreQuestionsAllPermutations,maxTotalScore,weightsQuestions)
 #print totalScoreDifferentPermutations
 
 numParticipantsSeries, averageScoreSeries, medianScoreSeries, standardDeviationSeries, percentagePassSeries, averageScoreQuestionsDifferentSeries = supportFunctions.getOverallStatisticsDifferentSeries(totalScoreDifferentPermutations,scoreQuestionsIndicatedSeries,columnSeries,maxTotalScore)
