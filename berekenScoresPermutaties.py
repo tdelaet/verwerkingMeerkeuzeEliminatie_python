@@ -136,7 +136,7 @@ totalScoreUpper,totalScoreMiddle,totalScoreLower,averageScoreUpper, averageScore
 
 
 ## WRITING THE OUTPUT TO A FILE
-writeResults.write_results(outputbook,numQuestions,correctAnswers,alternatives,maxTotalScore,content,content_colNrs,
+writeResults.write_results(outputbook,weightsQuestions,numQuestions,correctAnswers,alternatives,maxTotalScore,content,content_colNrs,
                   columnSeries,deelnemers,
                   numParticipants,
                   totalScore,percentagePass,
@@ -165,6 +165,7 @@ n, bins, patches = plt.hist(totalScore,bins=numpy.arange(0-0.5,maxTotalScore+1,1
 plt.title("histogram total score")
 plt.xlabel("score (max " + str(maxTotalScore)+ ")")
 plt.xlim([0-0.5,maxTotalScore+0.5])
+plt.xticks(numpy.arange(0,maxTotalScore+1,1))
 plt.ylabel("number of students")
 figManager = plt.get_current_fig_manager()
 figManager.window.showMaximized()

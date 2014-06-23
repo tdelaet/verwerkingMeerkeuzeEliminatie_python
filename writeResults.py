@@ -29,7 +29,7 @@ style_header_borderRight = style_header + border_right_medium
 style_correctAnswer = pattern_solid_grey + font_italic
 style_specialAttention = font_red
 
-def write_results(outputbook,numQuestions,correctAnswers,alternatives,maxTotalScore,content,content_colNrs,
+def write_results(outputbook,weightsQuestions,numQuestions,correctAnswers,alternatives,maxTotalScore,content,content_colNrs,
                   columnSeries,deelnemers,
                   numParticipants,
                   totalScore,percentagePass,
@@ -54,16 +54,16 @@ def write_results(outputbook,numQuestions,correctAnswers,alternatives,maxTotalSc
     #write_overallStatistics(outputbook,'GlobaleParameters',totalScore,averageScore,medianScore,percentagePass,maxTotalScore)
     #write_overallStatisticsDifferentPermutations(outputbook,'GlobaleParametersSeries',numParticipantsSeries,averageScoreSeries,medianScoreSeries,percentagePassSeries,maxTotalScore)
     #write_averageScoreQuestions(outputbook,'GemiddeldeScoreVraag',numQuestions,averageScore,averageScoreUpper,averageScoreMiddle,averageScoreLower,averageScoreQuestions,averageScoreQuestionsUpper,averageScoreQuestionsMiddle,averageScoreQuestionsLower,averageScoreQuestionsDifferentSeries)   
-    write_averageScoreQuestions(outputbook,'GemiddeldeScoreVraag',numQuestions,averageScore,averageScoreUpper,averageScoreMiddle,averageScoreLower,averageScoreQuestions,averageScoreQuestionsUpper,averageScoreQuestionsMiddle,averageScoreQuestionsLower,averageScoreSeries,averageScoreQuestionsDifferentSeries)       
-    write_percentageImpossibleQuestions(outputbook,"PercentageOnmogelijk",numQuestions,correctAnswers,alternatives,numOnmogelijkQuestionsAlternatives,numParticipants)
-    write_numberImpossibleQuestions(outputbook,"AantalOnmogelijk",numQuestions,correctAnswers,alternatives,numOnmogelijkQuestionsAlternatives,numParticipants)
-    write_percentagePossibleQuestions(outputbook,"PercentageMogelijk",numQuestions,correctAnswers,alternatives,numMogelijkQuestionsAlternatives,numParticipants)
-    write_numberPossibleQuestions(outputbook,"AantalMogelijk",numQuestions,correctAnswers,alternatives,numMogelijkQuestionsAlternatives,numParticipants)
-    write_percentageImpossibleQuestionsUML(outputbook,"PercentageOnmogelijkUML",numQuestions,correctAnswers,alternatives,numOnmogelijkQuestionsAlternativesUpper,numOnmogelijkQuestionsAlternativesMiddle,numOnmogelijkQuestionsAlternativesLower,numUpper,numMiddle,numLower)
-    write_numberImpossibleQuestionsUML(outputbook,"AantalOnmogelijkUML",numQuestions,correctAnswers,alternatives,numOnmogelijkQuestionsAlternativesUpper,numOnmogelijkQuestionsAlternativesMiddle,numOnmogelijkQuestionsAlternativesLower)
-    write_percentagePossibleQuestionsUML(outputbook,"PercentageMogelijkUML",numQuestions,correctAnswers,alternatives,numMogelijkQuestionsAlternativesUpper,numMogelijkQuestionsAlternativesMiddle,numMogelijkQuestionsAlternativesLower,numUpper,numMiddle,numLower)
-    write_numberPossibleQuestionsUML(outputbook,"AantalMogelijkUML",numQuestions,correctAnswers,alternatives,numMogelijkQuestionsAlternativesUpper,numMogelijkQuestionsAlternativesMiddle,numMogelijkQuestionsAlternativesLower)
-    write_histogramQuestions(outputbook,"HistogramVragen",numQuestions,scoreQuestionsIndicatedSeries,averageScoreQuestions)
+    write_averageScoreQuestions(outputbook,'GemiddeldeScoreVraag',weightsQuestions,numQuestions,averageScore,averageScoreUpper,averageScoreMiddle,averageScoreLower,averageScoreQuestions,averageScoreQuestionsUpper,averageScoreQuestionsMiddle,averageScoreQuestionsLower,averageScoreSeries,averageScoreQuestionsDifferentSeries)       
+    write_percentageImpossibleQuestions(outputbook,"PercentageOnmogelijk",weightsQuestions,numQuestions,correctAnswers,alternatives,numOnmogelijkQuestionsAlternatives,numParticipants)
+    write_numberImpossibleQuestions(outputbook,"AantalOnmogelijk",weightsQuestions,numQuestions,correctAnswers,alternatives,numOnmogelijkQuestionsAlternatives,numParticipants)
+    write_percentagePossibleQuestions(outputbook,"PercentageMogelijk",weightsQuestions,numQuestions,correctAnswers,alternatives,numMogelijkQuestionsAlternatives,numParticipants)
+    write_numberPossibleQuestions(outputbook,"AantalMogelijk",weightsQuestions,numQuestions,correctAnswers,alternatives,numMogelijkQuestionsAlternatives,numParticipants)
+    write_percentageImpossibleQuestionsUML(outputbook,"PercentageOnmogelijkUML",weightsQuestions,numQuestions,correctAnswers,alternatives,numOnmogelijkQuestionsAlternativesUpper,numOnmogelijkQuestionsAlternativesMiddle,numOnmogelijkQuestionsAlternativesLower,numUpper,numMiddle,numLower)
+    write_numberImpossibleQuestionsUML(outputbook,"AantalOnmogelijkUML",weightsQuestions,numQuestions,correctAnswers,alternatives,numOnmogelijkQuestionsAlternativesUpper,numOnmogelijkQuestionsAlternativesMiddle,numOnmogelijkQuestionsAlternativesLower)
+    write_percentagePossibleQuestionsUML(outputbook,"PercentageMogelijkUML",weightsQuestions,numQuestions,correctAnswers,alternatives,numMogelijkQuestionsAlternativesUpper,numMogelijkQuestionsAlternativesMiddle,numMogelijkQuestionsAlternativesLower,numUpper,numMiddle,numLower)
+    write_numberPossibleQuestionsUML(outputbook,"AantalMogelijkUML",weightsQuestions,numQuestions,correctAnswers,alternatives,numMogelijkQuestionsAlternativesUpper,numMogelijkQuestionsAlternativesMiddle,numMogelijkQuestionsAlternativesLower)
+    write_histogramQuestions(outputbook,"HistogramVragen",weightsQuestions,numQuestions,scoreQuestionsIndicatedSeries,averageScoreQuestions)
 
 
 
@@ -265,7 +265,8 @@ def write_overallStatistics(outputbook_loc,nameSheet_loc,totalScore_loc,averageS
 #    columnCounter+=1
 #    sheetC.write(rowCounter,columnCounter,round(averageScoreLower_loc,3))  
 #    columnCounter+=1
-def write_averageScoreQuestions(outputbook_loc,nameSheet_loc,numQuestions_loc,averageScore_loc,averageScoreUpper_loc,averageScoreMiddle_loc,averageScoreLower_loc,averageScoreQuestions_loc,averageScoreQuestionsUpper_loc,averageScoreQuestionsMiddle_loc,averageScoreQuestionsLower_loc,averageScoreSeries_loc,averageScoreQuestionsDifferentSeries_loc):
+      
+def write_averageScoreQuestions(outputbook_loc,nameSheet_loc,weightsQuestions_loc,numQuestions_loc,averageScore_loc,averageScoreUpper_loc,averageScoreMiddle_loc,averageScoreLower_loc,averageScoreQuestions_loc,averageScoreQuestionsUpper_loc,averageScoreQuestionsMiddle_loc,averageScoreQuestionsLower_loc,averageScoreSeries_loc,averageScoreQuestionsDifferentSeries_loc):
     numSeries = len(averageScoreQuestionsDifferentSeries_loc[0])  
     sheetC = outputbook_loc.add_sheet('GemScorePerVraag')
     columnCounter = 0;
@@ -297,6 +298,9 @@ def write_averageScoreQuestions(outputbook_loc,nameSheet_loc,numQuestions_loc,av
         sheetC.write(rowCounter,columnCounter,"reeks " + str(serie+1) ,style=easyxf(style_header))
         columnCounter+=1
     
+    sheetC.write(rowCounter,columnCounter,"gewicht vraag",style=easyxf(style_header+ border_left_medium)) 
+    columnCounter+=1
+    
     rowCounter+=1    
     columnCounter=0
     
@@ -327,6 +331,8 @@ def write_averageScoreQuestions(outputbook_loc,nameSheet_loc,numQuestions_loc,av
             #print "columnCounter" + str(columnCounter)
             sheetC.write(rowCounter,columnCounter,round(averageScoreQuestionsDifferentSeries_loc[question-1,serie-1],3))
             columnCounter+=1
+        sheetC.write(rowCounter,columnCounter,weightsQuestions_loc[question-1],style=easyxf(border_left_medium + align_horizcenter))  
+        columnCounter+=1           
         rowCounter+=1
         columnCounter = 0;
         
@@ -344,8 +350,9 @@ def write_averageScoreQuestions(outputbook_loc,nameSheet_loc,numQuestions_loc,av
     for serie in xrange(1,numSeries+1):
         sheetC.write(rowCounter,columnCounter,round(averageScoreSeries_loc[serie-1],3),style=easyxf(border_top_medium))
         columnCounter+=1
+    
         
-def write_percentageImpossibleQuestions(outputbook_loc,nameSheet_loc,numQuestions_loc,correctAnswers_loc,alternatives_loc,numOnmogelijkQuestionsAlternatives_loc,numParticipants_loc):
+def write_percentageImpossibleQuestions(outputbook_loc,nameSheet_loc,weightsQuestions_loc,numQuestions_loc,correctAnswers_loc,alternatives_loc,numOnmogelijkQuestionsAlternatives_loc,numParticipants_loc):
     sheetC = outputbook_loc.add_sheet(nameSheet_loc)
     
     columnCounter = 0;
@@ -359,6 +366,9 @@ def write_percentageImpossibleQuestions(outputbook_loc,nameSheet_loc,numQuestion
     for alternative in alternatives_loc:
         sheetC.write(rowCounter,columnCounter,alternative,style=easyxf(style_header)  )  
         columnCounter+=1
+            
+    sheetC.write(rowCounter,columnCounter,"gewicht vraag",style=easyxf(style_header+ border_left_medium)) 
+    columnCounter+=1
     rowCounter+=1
         
     for question in xrange(1,numQuestions_loc+1):
@@ -380,9 +390,12 @@ def write_percentageImpossibleQuestions(outputbook_loc,nameSheet_loc,numQuestion
                     sheetC.write(rowCounter,columnCounter,round(numOnmogelijkQuestionsAlternatives_loc[counter]/numParticipants_loc,2))
             columnCounter+=1
             counter+=1  
+        sheetC.write(rowCounter,columnCounter,weightsQuestions_loc[question-1],style=easyxf(border_left_medium + align_horizcenter))  
+        columnCounter+=1     
         rowCounter+=1
+        
 
-def write_numberImpossibleQuestions(outputbook_loc,nameSheet_loc,numQuestions_loc,correctAnswers_loc,alternatives_loc,numOnmogelijkQuestionsAlternatives_loc,numParticipants_loc):
+def write_numberImpossibleQuestions(outputbook_loc,nameSheet_loc,weightsQuestions_loc,numQuestions_loc,correctAnswers_loc,alternatives_loc,numOnmogelijkQuestionsAlternatives_loc,numParticipants_loc):
     sheetC = outputbook_loc.add_sheet(nameSheet_loc)
     
     columnCounter = 0;
@@ -396,6 +409,9 @@ def write_numberImpossibleQuestions(outputbook_loc,nameSheet_loc,numQuestions_lo
     for alternative in alternatives_loc:
         sheetC.write(rowCounter,columnCounter,alternative,style=easyxf(style_header)  )  
         columnCounter+=1
+            
+    sheetC.write(rowCounter,columnCounter,"gewicht vraag",style=easyxf(style_header+ border_left_medium)) 
+    columnCounter+=1
     rowCounter+=1
         
     for question in xrange(1,numQuestions_loc+1):
@@ -416,10 +432,12 @@ def write_numberImpossibleQuestions(outputbook_loc,nameSheet_loc,numQuestions_lo
                 else:
                     sheetC.write(rowCounter,columnCounter,numOnmogelijkQuestionsAlternatives_loc[counter])
             columnCounter+=1
-            counter+=1    
+            counter+=1  
+        sheetC.write(rowCounter,columnCounter,weightsQuestions_loc[question-1],style=easyxf(border_left_medium + align_horizcenter))  
+        columnCounter+=1         
         rowCounter+=1
 
-def write_percentagePossibleQuestions(outputbook_loc,nameSheet_loc,numQuestions_loc,correctAnswers_loc,alternatives_loc,numMogelijkQuestionsAlternatives_loc,numParticipants_loc):
+def write_percentagePossibleQuestions(outputbook_loc,nameSheet_loc,weightsQuestions_loc,numQuestions_loc,correctAnswers_loc,alternatives_loc,numMogelijkQuestionsAlternatives_loc,numParticipants_loc):
     sheetC = outputbook_loc.add_sheet(nameSheet_loc)
     
     columnCounter = 0;
@@ -433,6 +451,9 @@ def write_percentagePossibleQuestions(outputbook_loc,nameSheet_loc,numQuestions_
     for alternative in alternatives_loc:
         sheetC.write(rowCounter,columnCounter,alternative,style=easyxf(style_header)    )
         columnCounter+=1
+            
+    sheetC.write(rowCounter,columnCounter,"gewicht vraag",style=easyxf(style_header+ border_left_medium)) 
+    columnCounter+=1
     rowCounter+=1
         
     for question in xrange(1,numQuestions_loc+1):
@@ -454,9 +475,11 @@ def write_percentagePossibleQuestions(outputbook_loc,nameSheet_loc,numQuestions_
                     sheetC.write(rowCounter,columnCounter,round(numMogelijkQuestionsAlternatives_loc[counter]/numParticipants_loc,2))
             columnCounter+=1
             counter+=1    
+        sheetC.write(rowCounter,columnCounter,weightsQuestions_loc[question-1],style=easyxf(border_left_medium + align_horizcenter))  
+        columnCounter+=1             
         rowCounter+=1
         
-def write_numberPossibleQuestions(outputbook_loc,nameSheet_loc,numQuestions_loc,correctAnswers_loc,alternatives_loc,numMogelijkQuestionsAlternatives_loc,numParticipants_loc):
+def write_numberPossibleQuestions(outputbook_loc,nameSheet_loc,weightsQuestions_loc,numQuestions_loc,correctAnswers_loc,alternatives_loc,numMogelijkQuestionsAlternatives_loc,numParticipants_loc):
     sheetC = outputbook_loc.add_sheet(nameSheet_loc)
     
     columnCounter = 0;
@@ -470,6 +493,9 @@ def write_numberPossibleQuestions(outputbook_loc,nameSheet_loc,numQuestions_loc,
     for alternative in alternatives_loc:
         sheetC.write(rowCounter,columnCounter,alternative,style=easyxf(style_header)    )
         columnCounter+=1
+            
+    sheetC.write(rowCounter,columnCounter,"gewicht vraag",style=easyxf(style_header+ border_left_medium)) 
+    columnCounter+=1
     rowCounter+=1
         
     for question in xrange(1,numQuestions_loc+1):
@@ -491,9 +517,11 @@ def write_numberPossibleQuestions(outputbook_loc,nameSheet_loc,numQuestions_loc,
                     sheetC.write(rowCounter,columnCounter,numMogelijkQuestionsAlternatives_loc[counter])
             columnCounter+=1
             counter+=1    
+        sheetC.write(rowCounter,columnCounter,weightsQuestions_loc[question-1],style=easyxf(border_left_medium + align_horizcenter))  
+        columnCounter+=1                 
         rowCounter+=1
             
-def write_percentageImpossibleQuestionsUML(outputbook_loc,nameSheet_loc,numQuestions_loc,correctAnswers_loc,alternatives_loc,numOnmogelijkQuestionsAlternativesUpper_loc,numOnmogelijkQuestionsAlternativesMiddle_loc,numOnmogelijkQuestionsAlternativesLower_loc,numUpper_loc,numMiddle_loc,numLower_loc):
+def write_percentageImpossibleQuestionsUML(outputbook_loc,nameSheet_loc,weightsQuestions_loc,numQuestions_loc,correctAnswers_loc,alternatives_loc,numOnmogelijkQuestionsAlternativesUpper_loc,numOnmogelijkQuestionsAlternativesMiddle_loc,numOnmogelijkQuestionsAlternativesLower_loc,numUpper_loc,numMiddle_loc,numLower_loc):
     sheetC = outputbook_loc.add_sheet(nameSheet_loc)
     
     columnCounter = 0;
@@ -511,6 +539,9 @@ def write_percentageImpossibleQuestionsUML(outputbook_loc,nameSheet_loc,numQuest
         sheetC.write(rowCounter+1,columnCounter+1,"middle",style=easyxf(style_header))
         sheetC.write(rowCounter+1,columnCounter+2,"lower",style=easyxf(style_header+border_right_medium) )   
         columnCounter+=3   
+            
+    sheetC.write(rowCounter,columnCounter,"gewicht vraag",style=easyxf(style_header+ border_left_medium)) 
+    columnCounter+=1
     rowCounter+=2
         
     for question in xrange(1,numQuestions_loc+1):
@@ -551,9 +582,11 @@ def write_percentageImpossibleQuestionsUML(outputbook_loc,nameSheet_loc,numQuest
                     sheetC.write(rowCounter,columnCounter+2,round(numOnmogelijkQuestionsAlternativesLower_loc[counter]/numLower_loc,2),style=easyxf(border_right_medium))
             columnCounter+=3
             counter+=1  
+        sheetC.write(rowCounter,columnCounter,weightsQuestions_loc[question-1],style=easyxf(border_left_medium + align_horizcenter))  
+        columnCounter+=1             
         rowCounter+=1
  
-def write_percentagePossibleQuestionsUML(outputbook_loc,nameSheet_loc,numQuestions_loc,correctAnswers_loc,alternatives_loc,numMogelijkQuestionsAlternativesUpper_loc,numMogelijkQuestionsAlternativesMiddle_loc,numMogelijkQuestionsAlternativesLower_loc,numUpper_loc,numMiddle_loc,numLower_loc):
+def write_percentagePossibleQuestionsUML(outputbook_loc,nameSheet_loc,weightsQuestions_loc,numQuestions_loc,correctAnswers_loc,alternatives_loc,numMogelijkQuestionsAlternativesUpper_loc,numMogelijkQuestionsAlternativesMiddle_loc,numMogelijkQuestionsAlternativesLower_loc,numUpper_loc,numMiddle_loc,numLower_loc):
     sheetC = outputbook_loc.add_sheet(nameSheet_loc)
     
     columnCounter = 0;
@@ -571,6 +604,9 @@ def write_percentagePossibleQuestionsUML(outputbook_loc,nameSheet_loc,numQuestio
         sheetC.write(rowCounter+1,columnCounter+1,"middle",style=easyxf(style_header))
         sheetC.write(rowCounter+1,columnCounter+2,"lower",style=easyxf(style_header+border_right_medium)    )
         columnCounter+=3
+            
+    sheetC.write(rowCounter,columnCounter,"gewicht vraag",style=easyxf(style_header+ border_left_medium)) 
+    columnCounter+=1
     rowCounter+=2
     
         
@@ -610,9 +646,11 @@ def write_percentagePossibleQuestionsUML(outputbook_loc,nameSheet_loc,numQuestio
                     sheetC.write(rowCounter,columnCounter+2,round(numMogelijkQuestionsAlternativesLower_loc[counter]/numLower_loc,2),style=easyxf(border_right_medium))
             columnCounter+=3
             counter+=1 
+        sheetC.write(rowCounter,columnCounter,weightsQuestions_loc[question-1],style=easyxf(border_left_medium + align_horizcenter))  
+        columnCounter+=1            
         rowCounter+=1
         
-def write_numberImpossibleQuestionsUML(outputbook_loc,nameSheet_loc,numQuestions_loc,correctAnswers_loc,alternatives_loc,numOnmogelijkQuestionsAlternativesUpper_loc,numOnmogelijkQuestionsAlternativesMiddle_loc,numOnmogelijkQuestionsAlternativesLower_loc):
+def write_numberImpossibleQuestionsUML(outputbook_loc,nameSheet_loc,weightsQuestions_loc,numQuestions_loc,correctAnswers_loc,alternatives_loc,numOnmogelijkQuestionsAlternativesUpper_loc,numOnmogelijkQuestionsAlternativesMiddle_loc,numOnmogelijkQuestionsAlternativesLower_loc):
     sheetC = outputbook_loc.add_sheet(nameSheet_loc)
     counter=0
     #write alternative names on top
@@ -629,6 +667,9 @@ def write_numberImpossibleQuestionsUML(outputbook_loc,nameSheet_loc,numQuestions
         sheetC.write(rowCounter+1,columnCounter+1,"middle",style=easyxf(style_header))
         sheetC.write(rowCounter+1,columnCounter+2,"lower",style=easyxf(style_header+border_right_medium)  )  
         columnCounter+=3
+            
+    sheetC.write(rowCounter,columnCounter,"gewicht vraag",style=easyxf(style_header+ border_left_medium)) 
+    columnCounter+=1
     rowCounter+=2
     
         
@@ -665,9 +706,11 @@ def write_numberImpossibleQuestionsUML(outputbook_loc,nameSheet_loc,numQuestions
                     sheetC.write(rowCounter,columnCounter+2,numOnmogelijkQuestionsAlternativesLower_loc[counter],style=easyxf(border_right_medium))
             columnCounter+=3
             counter+=1    
+        sheetC.write(rowCounter,columnCounter,weightsQuestions_loc[question-1],style=easyxf(border_left_medium + align_horizcenter))  
+        columnCounter+=1         
         rowCounter+=1
  
-def write_numberPossibleQuestionsUML(outputbook_loc,nameSheet_loc,numQuestions_loc,correctAnswers_loc,alternatives_loc,numMogelijkQuestionsAlternativesUpper_loc,numMogelijkQuestionsAlternativesMiddle_loc,numMogelijkQuestionsAlternativesLower_loc):
+def write_numberPossibleQuestionsUML(outputbook_loc,nameSheet_loc,weightsQuestions_loc,numQuestions_loc,correctAnswers_loc,alternatives_loc,numMogelijkQuestionsAlternativesUpper_loc,numMogelijkQuestionsAlternativesMiddle_loc,numMogelijkQuestionsAlternativesLower_loc):
     sheetC = outputbook_loc.add_sheet(nameSheet_loc)
     counter=0
     
@@ -683,6 +726,9 @@ def write_numberPossibleQuestionsUML(outputbook_loc,nameSheet_loc,numQuestions_l
         sheetC.write(rowCounter+1,columnCounter+1,"middle",style=easyxf(style_header))
         sheetC.write(rowCounter+1,columnCounter+2,"lower",style=easyxf(style_header+border_right_medium)    )
         columnCounter+=3
+            
+    sheetC.write(rowCounter,columnCounter,"gewicht vraag",style=easyxf(style_header+ border_left_medium)) 
+    columnCounter+=1
     rowCounter+=2
     
         
@@ -719,9 +765,11 @@ def write_numberPossibleQuestionsUML(outputbook_loc,nameSheet_loc,numQuestions_l
                     sheetC.write(rowCounter,columnCounter+2,numMogelijkQuestionsAlternativesLower_loc[counter],style=easyxf(border_right_medium))
             columnCounter+=3
             counter+=1 
+        sheetC.write(rowCounter,columnCounter,weightsQuestions_loc[question-1],style=easyxf(border_left_medium + align_horizcenter))  
+        columnCounter+=1    
         rowCounter+=1
      
-def write_histogramQuestions(outputbook_loc,nameSheet_loc,numQuestions_loc,scoreQuestionsIndicatedSeries_loc,averageScoreQuestions_loc):
+def write_histogramQuestions(outputbook_loc,nameSheet_loc,weightsQuestions_loc,numQuestions_loc,scoreQuestionsIndicatedSeries_loc,averageScoreQuestions_loc):
     sheetC = outputbook_loc.add_sheet(nameSheet_loc)
     
         
@@ -741,6 +789,10 @@ def write_histogramQuestions(outputbook_loc,nameSheet_loc,numQuestions_loc,score
         sheetC.write(rowCounter,columnCounter,possibleScore,style=easyxf(style_header))
         columnCounter+=1
     sheetC.write(rowCounter,columnCounter,"gemiddelde",style=easyxf(style_header+border_left_medium))
+    columnCounter+=1
+    
+    sheetC.write(rowCounter,columnCounter,"gewicht vraag",style=easyxf(style_header+ border_left_medium)) 
+    columnCounter+=1
     rowCounter+=1    
     
     for question in xrange(1,numQuestions_loc+1):
@@ -758,6 +810,9 @@ def write_histogramQuestions(outputbook_loc,nameSheet_loc,numQuestions_loc,score
             sheetC.write(rowCounter,columnCounter,round(averageScoreQuestions_loc[question-1],2),style=easyxf(style_specialAttention+border_left_medium))        
         else:
             sheetC.write(rowCounter,columnCounter,round(averageScoreQuestions_loc[question-1],2),style=easyxf(border_left_medium)) 
+        columnCounter+=1  
+        sheetC.write(rowCounter,columnCounter,weightsQuestions_loc[question-1],style=easyxf(border_left_medium + align_horizcenter))  
+        columnCounter+=1            
         rowCounter+=1
 
 def write_scoreStudents(outputbook_loc,nameSheet_loc,permutations_loc,weightsQuestions_loc,numParticipants_loc,deelnemers_loc, numQuestions_loc,numAlternatives_loc,content_loc,content_colNrs_loc,totalScore_loc,scoreQuestionsIndicatedSeries_loc,columnSeries_loc,matrixAnswers):
