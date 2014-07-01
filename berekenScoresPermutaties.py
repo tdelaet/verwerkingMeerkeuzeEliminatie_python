@@ -39,7 +39,12 @@ permutations = numpy.loadtxt("../permutatie.txt",delimiter=',',dtype=numpy.int32
 #                [3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,1,2],
 #                [4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,1,2,3]] #permutations of the different series
 
+correctAnswersDifferentPermutations = []
+for i in xrange(len(permutations)):
+    numpy.savetxt('sleutel'+ '_reeks' + str(i+1)+'.txt',  [correctAnswers[x-1] for x in permutations[i]], delimiter=" ", fmt="%s")
+
 weightsQuestions = numpy.loadtxt("../gewichten.txt",delimiter=',',dtype=numpy.int32)
+
 
 twoOptions=["onmogelijk","mogelijk"] #elimination options should be first
 
