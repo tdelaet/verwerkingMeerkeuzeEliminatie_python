@@ -22,7 +22,7 @@ import supportFunctions
 import writeResults
 
 
-nameFile = "../OMR/review1_corr.xlsx" #name of excel file with scanned forms
+nameFile = "../OMR/review_2014_sept_bis.xlsx" #name of excel file with scanned forms
 nameSheet = "output" #sheet name of excel file with scanned forms
 numQuestions = 25 # number of questions
 numAlternatives = 4 #number of alternatives
@@ -164,6 +164,9 @@ writeResults.write_results(outputbook,weightsQuestions,numQuestions,correctAnswe
 writeResults.write_scoreStudents(outputStudentbook,"punten",permutations,weightsQuestions,numParticipants,deelnemers, numQuestions,numAlternatives,content,content_colNrs,totalScore,scoreQuestionsIndicatedSeries,columnSeries,matrixAnswers)           
                   
 
+writeResults.write_scoreStudentsNonPermutated(outputStudentbook,"verwerking",permutations,weightsQuestions,numParticipants,deelnemers, numQuestions,numAlternatives,alternatives,content,content_colNrs,totalScore,scoreQuestionsIndicatedSeries,columnSeries,matrixAnswers)           
+                  
+                  
 # plot the histogram of the total score
 plt.figure()
 n, bins, patches = plt.hist(totalScore,bins=numpy.arange(0-0.5,maxTotalScore+1,1))
