@@ -127,8 +127,7 @@ def calculateScoreAllPermutations(sheet_loc,contentBook_loc,correctAnswers_loc,p
 #            scoresQuestion[indicesOnmogelijk_loc]+= 1.0/(float(numAlternatives_loc)-1.0)  
 #        counter_alternative+=1
 #    return scoresQuestion
-    
-# voor alternatief Rummens
+
 def calculateScoreQuestions(matrixAnswersQuestions_loc, correctAnswerIndex_loc):
     #print matrixAnswersQuestions_loc
     #print correctAnswerIndex_loc
@@ -137,28 +136,23 @@ def calculateScoreQuestions(matrixAnswersQuestions_loc, correctAnswerIndex_loc):
     scoresQuestion = numpy.zeros(numParticipants_loc)    
     
     scoreWrongAnswer_ET_rummens = -1.0/(numAlternatives_loc-1)
-    scoreCorrectAnswer_ET_rummens1EL = 1.0/numpy.power(numAlternatives_loc-1,numAlternatives_loc-1-1)
-    scoreCorrectAnswer_ET_rummens2EL = 1.0/numpy.power(numAlternatives_loc-1,numAlternatives_loc-1-2)
-    scoreCorrectAnswer_ET_rummens3EL = 1.0/numpy.power(numAlternatives_loc-1,numAlternatives_loc-1-3)
-
+    
+    # scores for y correctly eliminated answers
+    scoreCorrectAnswer_ET_rummensyEL = [(1.0*y)/((numAlternatives_loc-y)*(numAlternatives_loc-1)) for y in numpy.arange(0,numAlternatives_loc)]
     
     # find students that indicated correct answer as impossible
     indicesCorrectAnswerEliminated_loc = [x for x in xrange(numParticipants_loc) if matrixAnswersQuestions_loc[x,correctAnswerIndex_loc]==0]
-    
     scoresQuestion[indicesCorrectAnswerEliminated_loc] = scoreWrongAnswer_ET_rummens
-    remaining=  [x for x in xrange(numParticipants_loc) if matrixAnswersQuestions_loc[x,correctAnswerIndex_loc]!=0]
     
-    #TODO NOT ADAPTED TO MORE ALTERNATIVES
-    # count number of correctly eliminated answers
+    # the remaining questions where the correct answer is not indicated as impossible    
+    remaining=  [x for x in xrange(numParticipants_loc) if matrixAnswersQuestions_loc[x,correctAnswerIndex_loc]!=0]
+    # count number of correctly eliminated answers (y)
     numberCorrectlyEliminated = sum(numpy.concatenate((matrixAnswersQuestions_loc[:,0:correctAnswerIndex_loc],matrixAnswersQuestions_loc[:,correctAnswerIndex_loc+1:numAlternatives_loc]),axis=1).T ,0)*-1+numAlternatives_loc-1;
    
-    indicesOneCorrectlyEliminated = [x for x in remaining if numberCorrectlyEliminated[x]==1]
-    indicesTwoCorrectlyEliminated = [x for x in remaining if numberCorrectlyEliminated[x]==2]
-    indicesThreeCorrectlyEliminated = [x for x in remaining if numberCorrectlyEliminated[x]==3]
-    scoresQuestion[indicesOneCorrectlyEliminated] = scoreCorrectAnswer_ET_rummens1EL
-    scoresQuestion[indicesTwoCorrectlyEliminated] = scoreCorrectAnswer_ET_rummens2EL
-    scoresQuestion[indicesThreeCorrectlyEliminated] = scoreCorrectAnswer_ET_rummens3EL
-    #print scoresQuestion
+    for y in numpy.arange(0,numAlternatives_loc):
+        indicesyCorrectlyEliminated = [x for x in remaining if numberCorrectlyEliminated[x]==y]
+        scoresQuestion[indicesyCorrectlyEliminated] = scoreCorrectAnswer_ET_rummensyEL[y]
+        
     return scoresQuestion
     
  

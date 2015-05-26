@@ -80,8 +80,6 @@ firstRowValues = sheet.row_values(0)
 
 content_colNrs = supportFunctions_reworked.giveContentColNrs(content, sheet);
 
-            
-#print columnSeries
 scoreQuestionsIndicatedSeries= numpy.zeros((numParticipants,numQuestions))
 
 
@@ -94,6 +92,7 @@ name = "studentennummer"
 studentenNrCol= content_colNrs[content.index(name)]
 deelnemers=sheet.col_values(studentenNrCol,1,num_rows)
 
+# check for double participants
 if not supportFunctions_reworked.checkForUniqueParticipants(deelnemers):
     print "ERROR: Duplicate participants found"
 
