@@ -1,0 +1,35 @@
+1. Het downloaden van een lijst
+* ga naar grade center > volledige grade center
+* klik rechtsboven op het menu "offline werken" en selecteer downloaden
+* kies alleen 
+	1. gebruikerinformatie
+	2. Tab / nee
+	3. Deze computer
+* sla lokaal op
+
+2. Openen van de lijst in excel
+* open in excel
+* je krijgt de text import wizard
+* bij tweede stap kies bij Delimiters "Tab"
+* Finish
+* sla op als txt
+
+3. Editeren van de lijst in excel
+* voeg kolommen toe met de gegevens die je wil toevoegen per student
+* opslaan als txt!
+Procedure
+* vertrek van puntenfile daarin staan studentennummers en qnummers
+* voeg daaraan gegevens toe van punten.xls uit tabblad punten dmv vlookup(vb Result-2013-H01Z2A-September_toledo.xls)
+* voeg aan txt file uit Toledo (vb toledo_sept2014.txt) punten dmv vlookup extra gegevens toe vanuit puntenfile (vb Result-2013-H01Z2A-September_toledo.xls)
+
+4. Opladen van aangepaste lijst 
+* ga naar grade center > volledige grade center
+* klik rechtsboven op het menu "offline werken" en selecteer upladen
+* selecteer de txt file met de nieuwe gegevens
+* druk op verzenden
+* controleer de kolommen die toegevoegd worden
+
+5. Verberg de kolommen met total en weighted total
+* ga naar grade center > volledige grade center
+* rechts klikken op kolom met weighted total -> verberg;
+* idem voor total

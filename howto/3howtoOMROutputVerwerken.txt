@@ -1,0 +1,37 @@
+1. Maak folder aan met de naam van de test (nameTest) bvb 2014-juni op hetzelfde niveau als verwerkingMeerkeuzeEliminatie_python
+2. Plaats de nodige gegevens in de folder
+	a. folder genaamd OMR met daarin de output van OMR (OMRoutput.xlsx)
+	b. sleutel.txt met de sleutel (juiste antwoorden voor reeks 1 (in de vorm A,B,C,A )
+	c. permutatie.txt met daarin de permutatie voor de verschillende reeksen. Eén lijn per reeks.
+		de eerste lijn is steeds 1,2,3,4. De volgende lijn geeft voor reeks 2 de volgorde van de vragen aan (bvb 2,3,4, ..., 1 als vraag 1 naar achter is geplaatst tov reeks 1)
+	d. gewichten.txt met daarin de gewichten per vraag (op 0 zetten resulteert in het schrappen van de vraag): TODO: uitspraak van rechter alle studenten moeten 1 punt krijgen op de geschrapte vraag => controleer bij Chloé
+3. Open berekenScoresPermutaties_reworked
+	a. Pas gegevens aan
+		- naam van de test (nameTest) dit is ook de naam van de folder met alle gegevens in van de toets (OMR output, sleutel, permutatie, gewichten)
+		- filenaam (nameFile) + sheetnaam (nameSheet)
+		- aantal vragen aan (numQuestions)
+		- aantal alternatieven aan (numAlternatives)
+		- maximum totale score aan (numTotalScore)
+		- pas aantal reeksen aan (numSeries)
+		- pas de opties aan die studenten konden kiezen (twoOptions)
+	b. Druk op uitvoeren
+	c. Gegenereerde output wordt opgeslagen in de map met de gekozen testnaam (nameTest)
+		- output.xls met rapporten ivm het examen
+		- punten.xls met daarin de output voor de studenten
+		- sleutel0_reeksX.txt voor elke reeks
+		- histogramGeheel.png
+		- histogramVragen.png
+		- histogramVragenUML.png
+
+4. Open output.xls en controleer op fouten
+	a. ScoreVerschillendeSeries: controleer of er studenten een hogere score hebben voor een andere reeks (aangeduid in rood). Bekijk het formulier opnieuw (in OMR of in de pdf). Indien je een andere reeks wil kiezen, pas dit dan manueel aan in de OMRoutput.xlsx in de OMR folder.
+	b. GlobaleParameters: bekijk de globale statistieken en de statistieken per reeks. Indien er grote verschillen zijn tussen de reeksen is het aangewezen om o.a. de permutatie na te kijken.
+	c. GemScorePerVraag: statistieken per vraag. Als er zeer slecht wordt gescoord op een vraag of bvb de upper lager dan de lower is er extra aandacht nodig voor die vraag: de sleutel kan bvb verkeerd zijn
+	d. PercentageOnmogelijk, AantalOnmogelijk, PercentageMogelijk, AantalMogelijk,PercentageOnmogelijkUML, AantalOnmogelijkUML, PercentageMogelijkUML, AantalMogelijkUML kan je gebruiken om de afleiders te analyseren (bvb juiste antwoord veel aangeduid als onmogelijk kan op problemen wijzen).
+	e. HistogramVragen: geeft per vraag het histogram over de verschillende scores en het gemiddelde. Extra aandacht voor vragen met een laag (of negatief) gemiddelde.
+
+5. punten.xls
+	a. Het tabblad punten bevat de uitkomst per student in de volgorde van de vragen zoals de student die gekregen heeft
+`	b. Het tabblad verwerking bevat de uitkomst per student in de volgorde zoals reeks 1 => dit is eerder voor de interne verwerking
+
+6. Plaatsen van resultaten op Toledo zie howtoWorkFlowToledo.txt

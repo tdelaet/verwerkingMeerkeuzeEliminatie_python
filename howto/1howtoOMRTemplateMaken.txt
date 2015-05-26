@@ -1,0 +1,12 @@
+
+* scan een voorbeeld bolletjesformulier in
+* open templateExamenEN2014
+* Kies edit form template
+* Druk Reset images en kies de genomen scan
+* heralligneer indien nodig (bvb via rechtermuisknop auto allign page) ! Doe dit voor de verschillende pagina's 
+
+
+Verdere aanname: volgende kolommen moeten aanwezig zijn
+* studentennummer
+* vragenreeks
+* vraag1A,vraag1B, .....

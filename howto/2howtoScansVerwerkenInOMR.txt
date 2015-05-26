@@ -1,0 +1,9 @@
+* Open templateExamen
+* druk file> open form template
+* selecteer read wizard
+	- read from image files: selecteer de gemaakte scans
+	- Review exceptions
+* Sla de resultaten op als excel file: noem de file OMRoutput; noem de sheet output
+
+
+=> ga nu naar de verwerking van de resultaten met Python
