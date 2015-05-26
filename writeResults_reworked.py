@@ -48,7 +48,7 @@ def write_results(outputbook,weightsQuestions,numQuestions,correctAnswers,altern
                   numMogelijkQuestionsAlternativesUpper,numMogelijkQuestionsAlternativesMiddle,numMogelijkQuestionsAlternativesLower
                   ):
                       
-                      
+    numAlternatives_loc = len(alternatives)                
     write_scoreAllPermutations(outputbook,'ScoreVerschillendeSeries',numParticipants,deelnemers,numQuestions,content,content_colNrs,totalScore,totalScoreDifferentPermutations,columnSeries)
     write_overallStatistics(outputbook,'GlobaleParameters',totalScore,averageScore,medianScore,standardDeviation,percentagePass,numParticipantsSeries,averageScoreSeries,medianScoreSeries,standardDeviationSeries,percentagePassSeries,maxTotalScore)
     #write_overallStatistics(outputbook,'GlobaleParameters',totalScore,averageScore,medianScore,percentagePass,maxTotalScore)
@@ -63,7 +63,7 @@ def write_results(outputbook,weightsQuestions,numQuestions,correctAnswers,altern
     write_numberImpossibleQuestionsUML(outputbook,"AantalOnmogelijkUML",weightsQuestions,numQuestions,correctAnswers,alternatives,numOnmogelijkQuestionsAlternativesUpper,numOnmogelijkQuestionsAlternativesMiddle,numOnmogelijkQuestionsAlternativesLower)
     write_percentagePossibleQuestionsUML(outputbook,"PercentageMogelijkUML",weightsQuestions,numQuestions,correctAnswers,alternatives,numMogelijkQuestionsAlternativesUpper,numMogelijkQuestionsAlternativesMiddle,numMogelijkQuestionsAlternativesLower,numUpper,numMiddle,numLower)
     write_numberPossibleQuestionsUML(outputbook,"AantalMogelijkUML",weightsQuestions,numQuestions,correctAnswers,alternatives,numMogelijkQuestionsAlternativesUpper,numMogelijkQuestionsAlternativesMiddle,numMogelijkQuestionsAlternativesLower)
-    write_histogramQuestions(outputbook,"HistogramVragen",weightsQuestions,numQuestions,scoreQuestionsIndicatedSeries,averageScoreQuestions)
+    write_histogramQuestions(outputbook,"HistogramVragen",weightsQuestions,numQuestions,scoreQuestionsIndicatedSeries,averageScoreQuestions,numAlternatives_loc)
 
 
 
@@ -769,10 +769,9 @@ def write_numberPossibleQuestionsUML(outputbook_loc,nameSheet_loc,weightsQuestio
         columnCounter+=1    
         rowCounter+=1
      
-def write_histogramQuestions(outputbook_loc,nameSheet_loc,weightsQuestions_loc,numQuestions_loc,scoreQuestionsIndicatedSeries_loc,averageScoreQuestions_loc):
+def write_histogramQuestions(outputbook_loc,nameSheet_loc,weightsQuestions_loc,numQuestions_loc,scoreQuestionsIndicatedSeries_loc,averageScoreQuestions_loc,numAlternatives_loc):
     sheetC = outputbook_loc.add_sheet(nameSheet_loc)
-    
-        
+          
     columnCounter = 0;
     rowCounter = 0;
     sheetC.write_merge(rowCounter,rowCounter,columnCounter,columnCounter+8,"Histogram score vragen",style=easyxf(style_title))
@@ -782,7 +781,11 @@ def write_histogramQuestions(outputbook_loc,nameSheet_loc,weightsQuestions_loc,n
     columnCounter = 0;
     #gemiddelde verdeling scores per vraag
     #counter=0
-    possibleScores=numpy.array([-1.0/3.0,0.0,1.0/9.0,1.0/3.0,1.0])
+
+    scoreWrongAnswer_ET_rummens = -1.0/(numAlternatives_loc-1)
+    # scores for y correctly eliminated answers
+    scoreCorrectAnswer_ET_rummensyEL = [(1.0*y)/((numAlternatives_loc-y)*(numAlternatives_loc-1)) for y in numpy.arange(0,numAlternatives_loc)]
+    possibleScores=numpy.concatenate(([scoreWrongAnswer_ET_rummens],scoreCorrectAnswer_ET_rummensyEL))
     #print possibleScores
     columnCounter = 1
     for possibleScore in possibleScores[0:len(possibleScores)]:

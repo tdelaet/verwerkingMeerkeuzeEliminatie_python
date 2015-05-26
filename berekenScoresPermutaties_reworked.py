@@ -179,16 +179,19 @@ numRowsPict = int(numpy.ceil(numQuestions/numColsPict))
 fig, axes = plt.subplots(nrows=numRowsPict, ncols=numColsPict)
 fig.tight_layout() # Or equivalently,  "plt.tight_layout()"
 
-cat =numpy.array([-1.0/3.0,0.0,1.0/9.0,1.0/3.0,1.0])
-catLow = cat - 1.0/10.0
-catHigh = cat + 1.0/10.0
+scoreWrongAnswer_ET_rummens = -1.0/(numAlternatives-1)
+# scores for y correctly eliminated answers
+scoreCorrectAnswer_ET_rummensyEL = [(1.0*y)/((numAlternatives-y)*(numAlternatives-1)) for y in numpy.arange(0,numAlternatives)]
+possibleScores=numpy.concatenate(([scoreWrongAnswer_ET_rummens],scoreCorrectAnswer_ET_rummensyEL))
+catLow = possibleScores - 1.0/10.0
+catHigh = possibleScores + 1.0/10.0
 binsHist = numpy.sort(numpy.concatenate((catLow,catHigh)))
 
 
 for question in xrange(1,numQuestions+1):
     ax = plt.subplot(numRowsPict,numColsPict,question)
     n, bins, patches = plt.hist(scoreQuestionsIndicatedSeries[:,question-1],bins=binsHist)
-    plt.xticks([-1/(numAlternatives-1), 0,1])
+    plt.xticks(possibleScores)
     plt.title("vraag " + str(question))
     plt.xlabel("score")
     plt.xlim([-2.0/(numAlternatives-1),1+1.0/(numAlternatives-1)])
@@ -208,7 +211,7 @@ fig.tight_layout() # Or equivalently,  "plt.tight_layout()"
 for question in xrange(1,numQuestions+1):
     ax = plt.subplot(numRowsPict,numColsPict,question)
     n, bins, patches = plt.hist([scoreQuestionsUpper[:,question-1], scoreQuestionsMiddle[:,question-1], scoreQuestionsLower[:,question-1]],bins=binsHist, stacked=True,  label=['Upper', 'Middle', 'Lower'],color=['g','b','r'])
-    plt.xticks([-1/(numAlternatives-1), 0,1])
+    plt.xticks(possibleScores)
     plt.title("vraag " + str(question))
     plt.xlabel("score")
     plt.xlim([-2.0/(numAlternatives-1),1+1.0/(numAlternatives-1)])
