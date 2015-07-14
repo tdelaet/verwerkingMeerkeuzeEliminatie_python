@@ -21,17 +21,17 @@ import checkInputVariables
 import supportFunctions_reworked
 import writeResults_reworked
 
-nameTest = '2015-mei-test'
+nameTest = '2015-juni'
 
 nameFile = "../"+ nameTest + "/OMR/OMRoutput.xlsx" #name of excel file with scanned forms
-nameSheet = "output" #sheet name of excel file with scanned forms
+nameSheet = "outputScan" #sheet name of excel file with scanned forms
 
 ############################
 
-numQuestions = 6# 25 # number of questions
+numQuestions = 26# 25 # number of questions
 numAlternatives = 4 #number of alternatives
 maxTotalScore = 20 #maximum total score
-numSeries= 2#4 # number of series
+numSeries= 4 # number of series
 twoOptions=["onmogelijk","mogelijk"] #elimination options should be first
 
 ############################
@@ -172,9 +172,9 @@ figManager.window.showMaximized()
 plt.savefig("../"+ nameTest + "/histogramGeheel.png", bbox_inches='tight')
 
 #plot histogram for different questions
-numColsPict = int(numpy.ceil(numpy.sqrt(numQuestions)))
+numColsPict = int(numpy.ceil(numpy.sqrt(numQuestions)))+1
 #print numColsPict
-numRowsPict = int(numpy.ceil(numQuestions/numColsPict)) 
+numRowsPict = int(numpy.ceil(numQuestions/numColsPict)) +1
 #print numRowsPict
 fig, axes = plt.subplots(nrows=numRowsPict, ncols=numColsPict)
 fig.tight_layout() # Or equivalently,  "plt.tight_layout()"
@@ -201,9 +201,9 @@ figManager.window.showMaximized()
 plt.savefig("../"+ nameTest + "/histogramVragen.png", bbox_inches='tight')
 
 #plot histogram for different questions
-numColsPict = int(numpy.ceil(numpy.sqrt(numQuestions)))
+numColsPict = int(numpy.ceil(numpy.sqrt(numQuestions)))+1
 #print numColsPict
-numRowsPict = int(numpy.ceil(numQuestions/numColsPict)) 
+numRowsPict = int(numpy.ceil(numQuestions/numColsPict)) +1
 #print numRowsPict
 fig, axes = plt.subplots(nrows=numRowsPict, ncols=numColsPict)
 fig.tight_layout() # Or equivalently,  "plt.tight_layout()"
