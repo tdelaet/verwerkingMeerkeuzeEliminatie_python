@@ -17,12 +17,18 @@ import numpy
 import matplotlib.pyplot as plt
 from xlwt import Workbook
 
+#Create directories
 import os
 import checkInputVariables
 import supportFunctions_reworked
 import writeResults_reworked
 
-nameTest = '2015-juni'
+#set up GUI
+import StartGUI
+
+nameTest = StartGUI.StartGUI(1)
+
+#nameTest = '2015-juni'
 
 nameFile = "../"+ nameTest + "/OMR/OMRoutput.xlsx" #name of excel file with scanned forms
 nameSheet = "outputScan" #sheet name of excel file with scanned forms
