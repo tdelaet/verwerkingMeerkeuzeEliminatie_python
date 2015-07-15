@@ -17,6 +17,7 @@ import numpy
 import matplotlib.pyplot as plt
 from xlwt import Workbook
 
+import os
 import checkInputVariables
 import supportFunctions_reworked
 import writeResults_reworked
@@ -40,9 +41,14 @@ correctAnswers = numpy.loadtxt("../"+ nameTest + "/sleutel.txt",delimiter=',',dt
 permutations = numpy.loadtxt("../"+ nameTest + "/permutatie.txt",delimiter=',',dtype=numpy.int32)
 weightsQuestions = numpy.loadtxt("../"+ nameTest + "/gewichten.txt",delimiter=',',dtype=numpy.int32)
 
+if not os.path.exists("../"+ nameTest + "/Results/Sleutels"):
+    os.makedirs("../"+ nameTest + "/Results/Sleutels")
+if not os.path.exists("../"+ nameTest + "/Results/Histogram"):
+    os.makedirs("../"+ nameTest + "/Results/Histogram")
+    
 correctAnswersDifferentPermutations = []
 for i in xrange(len(permutations)):
-    numpy.savetxt("../"+ nameTest + "/sleutel"+ "_reeks" + str(i+1)+".txt",  [correctAnswers[x-1] for x in permutations[i]], delimiter=" ", fmt="%s")
+    numpy.savetxt("../"+ nameTest + "/Results/Sleutels" + "/sleutel"+ "_reeks" + str(i+1)+".txt",  [correctAnswers[x-1] for x in permutations[i]], delimiter=" ", fmt="%s")
 
 plt.close("all")
 
@@ -169,7 +175,7 @@ plt.xticks(numpy.arange(0,maxTotalScore+1,1))
 plt.ylabel("number of students")
 figManager = plt.get_current_fig_manager()
 figManager.window.showMaximized()
-plt.savefig("../"+ nameTest + "/histogramGeheel.png", bbox_inches='tight')
+plt.savefig("../"+ nameTest + "/Results/Histogram" + "/histogramGeheel.png", bbox_inches='tight')
 
 #plot histogram for different questions
 numColsPict = int(numpy.ceil(numpy.sqrt(numQuestions)))+1
@@ -198,7 +204,7 @@ for question in xrange(1,numQuestions+1):
     plt.ylabel("aantal studenten")
 figManager = plt.get_current_fig_manager()
 figManager.window.showMaximized()    
-plt.savefig("../"+ nameTest + "/histogramVragen.png", bbox_inches='tight')
+plt.savefig("../"+ nameTest + "/Results/Histogram" + "/histogramVragen.png", bbox_inches='tight')
 
 #plot histogram for different questions
 numColsPict = int(numpy.ceil(numpy.sqrt(numQuestions)))+1
@@ -219,8 +225,8 @@ for question in xrange(1,numQuestions+1):
     plt.legend(loc=2,prop={'size':6})
 figManager = plt.get_current_fig_manager()
 figManager.window.showMaximized()    
-plt.savefig("../"+ nameTest + "/histogramVragenUML.png", bbox_inches='tight')
+plt.savefig("../"+ nameTest + "/Results/Histogram" + "/histogramVragenUML.png", bbox_inches='tight')
 
 
-outputbook.save("../"+ nameTest + "/output.xls") 
-outputStudentbook.save("../"+ nameTest + "/punten.xls")
+outputbook.save("../"+ nameTest + "/Results/output.xls") 
+outputStudentbook.save("../"+ nameTest + "/Results/punten.xls")
