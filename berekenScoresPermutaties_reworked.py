@@ -22,22 +22,20 @@ import os
 import checkInputVariables
 import supportFunctions_reworked
 import writeResults_reworked
+import GUI
 
-#set up GUI
-import StartGUI
-
-nameTest = StartGUI.StartGUI(1)
-
-#nameTest = '2015-juni'
+nameTest = GUI.InputGUI()
 
 nameFile = "../"+ nameTest + "/OMR/OMRoutput.xlsx" #name of excel file with scanned forms
 nameSheet = "outputScan" #sheet name of excel file with scanned forms
 
 ############################
 
-numQuestions = 26# 25 # number of questions
-numAlternatives = 4 #number of alternatives
-maxTotalScore = 20 #maximum total score
+output = GUI.VragenGUI()
+
+numQuestions = output['questions']
+numAlternatives = output['alternatives']
+maxTotalScore = output['totalscore']
 numSeries= 4 # number of series
 twoOptions=["onmogelijk","mogelijk"] #elimination options should be first
 
