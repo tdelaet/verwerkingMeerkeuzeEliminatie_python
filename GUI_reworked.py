@@ -33,9 +33,10 @@ def InputGUI ():
         return nameTest.get()
 
 Vragen = 0
-Alternatieven = 0
+Alternatieven = dict()
+Permutaties = 0
 TotaleScore = 0
-output = {'questions':Vragen, 'alternatives':Alternatieven, 'totalscore':TotaleScore}
+output = {'questions':Vragen, 'alternatives':Alternatieven, 'permutations':Permutaties, 'totalscore':TotaleScore}
 
 def VragenGUI():
         myGUI = Tk()
@@ -47,18 +48,23 @@ def VragenGUI():
         AlternativesInput = dict()                                          
         maxTotalScore = IntVar()
         maxTotalScore.set(20)
+        permutations = IntVar()
+        permutations.set(4)
         title = "Multiple Choice with Elimination"
         QuestionsLabel=Label(myGUI, text = "Submit the total number of questions below.")
         AlternativesLabel1=Label(myGUI, text = "Submit the number of alternatives per question. The default value is set to 4.")
         AlternativesLabel2=Label(myGUI, text = "Change the default by changing the value for Question 1, then press 'Copy Question 1'.")
         TotalScoreLabel=Label(myGUI, text = "Submit the total score students can obtain from this test.")
+        PermutationsLabel=Label(myGUI, text = "Submit the total number of permutations in your test.")
         OverviewLabel = Label(myGUI, text ="Overview of your input:")
         QuestionValueLabel = Label(myGUI, text = "")
         AlternativesValueLabel = dict()
+        PermutationsValueLabel = Label(myGUI, text ="")
         TotalScoreValueLabel = Label (myGUI, text = "")
         QuestionsNegativeLabel = Label (myGUI, text = "The number of questions must be positive.")
         QuestionsInput = Entry(myGUI, textvariable=numQuestions)
         TotalScoreInput = Entry(myGUI, textvariable=maxTotalScore)
+        PermutationsInput = Entry(myGUI, textvariable=permutations)
         def getQuestions(): #Submit total number of questions. Default value is 26.
                 global Vragen
                 QuestionsNegativeLabel.pack_forget()
@@ -77,19 +83,24 @@ def VragenGUI():
                                 questionAlternatives.append(Label(myGUI,text='Question ' + str(x+1)))
                                 numAlternatives[x]=IntVar()
                                 numAlternatives[x].set(4)
-                                AlternativesInput[x]=Entry(myGUI, textvariable=numAlternatives[x]) 
-                        myGUI.geometry('500x'+str(70+22*((numQuestions.get()+1)/2))+'+300+150')
-                        for x in range(0, int(round((numQuestions.get()+1)/2))):
-                                questionAlternatives[x].place(x=0,y=22*(x+2))
-                                AlternativesInput[x].place(x=100,y=22*(x+2))
-                        for x in range(int(round((numQuestions.get()+1)/2)),numQuestions.get()):
-                                questionAlternatives[x].place(x=250,y=22*(x-round((numQuestions.get()+1)/2)+2))
-                                AlternativesInput[x].place(x=350,y=22*(x-round((numQuestions.get()+1)/2)+2))
-                        copyButton.place(x=100,y=22*(round((numQuestions.get()+1)/2)+2))
-                        submitButton.place(x=350,y=22*(round((numQuestions.get()+1)/2)+2))
+                                AlternativesInput[x]=Entry(myGUI, textvariable=numAlternatives[x])
+                        myGUI.geometry('750x'+str(70+22*((numQuestions.get()-1)/3+1))+'+300+150')
+                        counterCol = 0
+                        counterRow = 0
+                        for x in range(0,numQuestions.get()):
+                                questionAlternatives[x].place(x=counterCol*250, y = 22*(counterRow+2))
+                                AlternativesInput[x].place(x=100+250*counterCol, y = 22*(counterRow+2))
+                                if counterCol == 2:
+                                        counterRow +=1
+                                        counterCol = 0
+                                else:
+                                        counterCol +=1
+                        copyButton.place(x=100,y=22*(round((numQuestions.get()-1)/3)+3))
+                        submitButton.place(x=600,y=22*(round((numQuestions.get()-1)/3)+3))
         def getAlternatives(): #Submit alternatives for each questions. Default value is 4.
                 global Alternatieven
-                Alternatieven = numAlternatives[0].get()
+                for x in range (0,numQuestions.get()):
+                        Alternatieven[x+1] = numAlternatives[x].get()
                 submitButton.place_forget()
                 copyButton.place_forget()
                 AlternativesInput[0].pack_forget()
@@ -99,14 +110,24 @@ def VragenGUI():
                 for x in range(0, numQuestions.get()):
                         questionAlternatives[x].place_forget()
                         AlternativesInput[x].place_forget()
-                submitButton.config(command = getTotalScore)
-                TotalScoreLabel.pack()
-                TotalScoreInput.pack()
+                submitButton.config(command = getPermutations)
+                PermutationsLabel.pack()
+                PermutationsInput.pack()
                 submitButton.pack()
         def changeAlternatives(): #Change default value of number of alternatives for all questions.
                 alternatives = numAlternatives[0].get()
                 for x in range(1, numQuestions.get()):
                         numAlternatives[x].set(alternatives)
+        def getPermutations():
+                global Permutaties
+                Permutaties = permutations.get()
+                submitButton.pack_forget()
+                PermutationsLabel.pack_forget()
+                PermutationsInput.pack_forget()
+                submitButton.config(command = getTotalScore)
+                TotalScoreLabel.pack()
+                TotalScoreInput.pack()
+                submitButton.pack()
         def getTotalScore(): #Submit total score the test is on.
                 global TotaleScore
                 TotaleScore = maxTotalScore.get()
@@ -114,23 +135,29 @@ def VragenGUI():
                 TotalScoreInput.pack_forget()
                 TotalScoreLabel.pack_forget()
                 submitButton.config(command = finishQuestionInput)
-                myGUI.geometry('430x'+str(90+((numQuestions.get()+1)/2)*20)+'+300+150')
                 OverviewLabel.place(x=0,y=0)
                 QuestionValueLabel.config(text ="Your test has " + str(numQuestions.get()) + " questions.")
                 QuestionValueLabel.place(x=0,y=20)
-                for x in range(0, int(round((numQuestions.get()+1)/2))):
+                myGUI.geometry('600x'+str(130+((numQuestions.get()-1)/3)*20)+'+300+150')
+                counterCol = 0
+                counterRow = 0
+                for x in range(0,numQuestions.get()):
                         AlternativesValueLabel[x]=Label(myGUI, text =questionAlternatives[x].cget("text") + " has " + str(numAlternatives[x].get()) + " alternatives.")
-                        AlternativesValueLabel[x].place(x=0,y=(40+20*x))
-                for x in range(int(round((numQuestions.get()+1)/2)),numQuestions.get()):
-                        AlternativesValueLabel[x]=Label(myGUI, text =questionAlternatives[x].cget("text") + " has " + str(numAlternatives[x].get()) + " alternatives.")
-                        AlternativesValueLabel[x].place(x=200,y=(40+20*(x-round((numQuestions.get()+1)/2))))
+                        AlternativesValueLabel[x].place(x=200*counterCol,y=(40+20*counterRow))
+                        if counterCol == 2:
+                                counterRow +=1
+                                counterCol = 0
+                        else:
+                                counterCol +=1
+                PermutationsValueLabel.config(text="The number of permutations in your test is " + str(permutations.get())+".")
+                PermutationsValueLabel.place(x=0,y=40+20*(round((numQuestions.get()-1)/3+1)))
                 TotalScoreValueLabel.config(text ="The maximum total score is " + str(maxTotalScore.get()) + ".")
-                TotalScoreValueLabel.place(x=0,y=40+20*(round((numQuestions.get()+1)/2)))
-                OkButton.place(x=0,y=60+20*(round((numQuestions.get()+1)/2)))
-                AgainButton.place(x=100,y=60+20*(round((numQuestions.get()+1)/2)))
+                TotalScoreValueLabel.place(x=0,y=40+20*(round((numQuestions.get()-1)/3+2)))
+                OkButton.place(x=0,y=60+20*(round((numQuestions.get()-1)/3+2)))
+                AgainButton.place(x=100,y=60+20*(round((numQuestions.get()-1)/3+2)))
         def finishQuestionInput(): #Return number of questions, alternatives and score
                 global output
-                output = {'questions':Vragen, 'alternatives':Alternatieven, 'totalscore':TotaleScore}
+                output = {'questions':Vragen, 'alternatives':Alternatieven, 'permutations':Permutaties, 'totalscore':TotaleScore}
                 myGUI.destroy()
         def adjustInput(): #Recursively restart entering data
                 global output
