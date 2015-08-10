@@ -1011,3 +1011,24 @@ def write_CronbachsAlpha(outputbook_loc,nameSheet_loc,numQuestions_loc,TotalVari
     alpha = round(1.0*numQuestions_loc/(numQuestions_loc-1)*(1-sum(Variance_loc)/TotalVariance_loc),3)
     sheetC.write(2, 4, alpha, style = easyxf(font_bold+font_red+border_right_medium+border_top_medium+border_bottom_medium))
           
+def write_itemToetsCorrelatie(outputbook_loc,nameSheet_loc,numQuestions_loc,correlation_loc):
+    sheetC = outputbook_loc.add_sheet(nameSheet_loc)
+    
+    
+    columnCounter = 0
+    rowCounter = 0
+    sheetC.write_merge(rowCounter, rowCounter, columnCounter, columnCounter+6,"Item-toets correlatie", style=easyxf(style_title))
+    rowCounter+=1
+    sheetC.write_merge(rowCounter,rowCounter, 0, 1, "Correlatie", style=easyxf(font_bold+border_right_medium+border_bottom_medium))
+    rowCounter+=1
+    for x in range (numQuestions_loc):
+        if correlation_loc[x]<0:
+            stijl = pattern_solid_grey+font_red
+        elif correlation_loc[x]<0.29:
+            stijl = font_red
+        else:
+            stijl = "font: bold off"
+        sheetC.write(rowCounter, 0, "Vraag "+str(x+1),style=easyxf(border_right_medium))
+        sheetC.write(rowCounter, 1, correlation_loc[x],style=easyxf(stijl))
+        rowCounter+=1
+    

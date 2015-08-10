@@ -144,6 +144,7 @@ totalScoreUpper,totalScoreMiddle,totalScoreLower,averageScoreUpper, averageScore
  
 totalVariance, Variance = supportFunctions_reworked.calculateVariances(totalScore,scoreQuestionsIndicatedSeries,numQuestions)
 
+itemToetsCorrelatie = supportFunctions_reworked.calculateItemToetsCorrelatie(totalScore,scoreQuestionsIndicatedSeries,numQuestions)
 ## WRITING THE OUTPUT TO A FILE
 writeResults_reworked.write_results(outputbook,weightsQuestions,numQuestions,correctAnswers,alternatives,maxTotalScore,content,content_colNrs,
                   columnSeries,deelnemers,
@@ -171,6 +172,7 @@ writeResults_reworked.write_scoreStudentsNonPermutated(outputStudentbook,"verwer
                   
 writeResults_reworked.write_CronbachsAlpha(outputbook,"Cronbach's alpha", numQuestions, totalVariance, Variance)
 
+writeResults_reworked.write_itemToetsCorrelatie(outputbook,"Item-toets correlatie", numQuestions, itemToetsCorrelatie)
 # plot the histogram of the total score
 plt.figure()
 n, bins, patches = plt.hist(totalScore,bins=numpy.arange(0-0.5,maxTotalScore+1,1))
