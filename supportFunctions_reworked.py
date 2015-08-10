@@ -338,3 +338,11 @@ def calculateUpperLowerStatistics(sheet_loc,content_loc,columnSeries_loc,totalSc
 
     return totalScoreUpper_loc,totalScoreMiddle_loc,totalScoreLower_loc,averageScoreUpper_loc, averageScoreMiddle_loc, averageScoreLower_loc, averageScoreQuestionsUpper_loc, averageScoreQuestionsMiddle_loc, averageScoreQuestionsLower_loc, numOnmogelijkQuestionsAlternativesUpper_loc, numOnmogelijkQuestionsAlternativesMiddle_loc, numOnmogelijkQuestionsAlternativesLower_loc, numMogelijkQuestionsAlternativesUpper_loc, numMogelijkQuestionsAlternativesMiddle_loc, numMogelijkQuestionsAlternativesLower_loc, scoreQuestionsUpper_loc, scoreQuestionsMiddle_loc, scoreQuestionsLower_loc,numUpper_loc, numMiddle_loc, numLower_loc
     
+def calculateVariances(totalScore_loc, scoreQuestionsIndicatedSeries_loc,numQuestions_loc):
+    totalVariance = numpy.var(totalScore_loc)
+    Variance = []
+    for x in range(numQuestions_loc):
+        nextVariance=numpy.var(scoreQuestionsIndicatedSeries_loc[:,x])
+        Variance.append(nextVariance)
+#    Variance=[0.32, 0.2, 0.4, 0.21, 0.21, 0.31, 0.17, 0.38, 0.34, 0.32, 0.28, 0.33, 0.25, 0.33, 0.22, 0.23, 0.31, 0.2, 0.23, 0.35, 0.31, 0.1, 0.21, 0.24, 0.16, 0.39]
+    return totalVariance, Variance

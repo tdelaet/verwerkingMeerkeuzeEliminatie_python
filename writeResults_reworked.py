@@ -989,4 +989,25 @@ def write_scoreStudentsNonPermutated(outputbook_loc,nameSheet_loc,permutations_l
                 sheetC.write(rowCounter,columnCounter,answersQuestion[counterAlternative])
                 columnCounter+=1
         rowCounter+=1                
-        
+
+def write_CronbachsAlpha(outputbook_loc,nameSheet_loc,numQuestions_loc,TotalVariance_loc, Variance_loc):
+    sheetC = outputbook_loc.add_sheet(nameSheet_loc)
+
+
+    columnCounter = 0;
+    rowCounter = 0;
+    sheetC.write_merge(rowCounter,rowCounter,columnCounter,columnCounter+6,"Scale reliability measure: Cronbach's alpha",style=easyxf(style_title))
+    rowCounter+=1
+    sheetC.write_merge(rowCounter,rowCounter, 0, 1, "Variantie", style=easyxf(font_bold+border_right_medium+border_bottom_medium))
+    rowCounter+=1
+    sheetC.write(rowCounter, 0, "Totaal", style = easyxf(border_right_medium,border_top_medium))    
+    sheetC.write(rowCounter, 1, TotalVariance_loc)
+    sheetC.write(rowCounter, 3, "Alpha", style=easyxf(font_bold+border_left_medium+border_top_medium+border_bottom_medium))
+    rowCounter+=1
+    for x in range (numQuestions_loc):
+        sheetC.write(rowCounter, 0, "Vraag "+str(x+1),style=easyxf(border_right_medium))
+        sheetC.write(rowCounter, 1, Variance_loc[x])
+        rowCounter+=1    
+    alpha = round(1.0*numQuestions_loc/(numQuestions_loc-1)*(1-sum(Variance_loc)/TotalVariance_loc),3)
+    sheetC.write(2, 4, alpha, style = easyxf(font_bold+font_red+border_right_medium+border_top_medium+border_bottom_medium))
+          

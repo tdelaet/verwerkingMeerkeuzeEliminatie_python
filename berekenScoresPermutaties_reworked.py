@@ -24,6 +24,7 @@ import supportFunctions_reworked
 import writeResults_reworked
 import GUI_reworked
 
+print "Use the Graphical User Interface to continue"
 nameTest = GUI_reworked.InputGUI()
 
 nameFile = "../"+ nameTest + "/OMR/OMRoutput.xlsx" #name of excel file with scanned forms
@@ -141,7 +142,7 @@ numParticipantsSeries, averageScoreSeries, medianScoreSeries, standardDeviationS
 totalScoreUpper,totalScoreMiddle,totalScoreLower,averageScoreUpper, averageScoreMiddle, averageScoreLower, averageScoreQuestionsUpper, averageScoreQuestionsMiddle, averageScoreQuestionsLower, numOnmogelijkQuestionsAlternativesUpper, numOnmogelijkQuestionsAlternativesMiddle, numOnmogelijkQuestionsAlternativesLower, numMogelijkQuestionsAlternativesUpper, numMogelijkQuestionsAlternativesMiddle, numMogelijkQuestionsAlternativesLower, scoreQuestionsUpper, scoreQuestionsMiddle, scoreQuestionsLower, numUpper, numMiddle, numLower = supportFunctions_reworked.calculateUpperLowerStatistics(sheet,content,columnSeries,totalScore,scoreQuestionsIndicatedSeries,correctAnswers,alternatives,twoOptions,content_colNrs,permutations)
 #totalScoreUpper,totalScoreMiddle,totalScoreLower,averageScoreUpper, averageScoreMiddle, averageScoreLower, averageScoreQuestionsUpper, averageScoreQuestionsMiddle, averageScoreQuestionsLower,numQuestionsAlternativesUpper,numQuestionsAlternativesMiddle,numQuestionsAlternativesLower, scoreQuestionsUpper, scoreQuestionsMiddle, scoreQuestionsLower,numUpper, numMiddle, numLower= supportFunctions.calculateUpperLowerStatistics(sheet,content,columnSeries,totalScore,scoreQuestionsIndicatedSeries,correctAnswers,alternatives,blankAnswer,content_colNrs,permutations)
  
-
+totalVariance, Variance = supportFunctions_reworked.calculateVariances(totalScore,scoreQuestionsIndicatedSeries,numQuestions)
 
 ## WRITING THE OUTPUT TO A FILE
 writeResults_reworked.write_results(outputbook,weightsQuestions,numQuestions,correctAnswers,alternatives,maxTotalScore,content,content_colNrs,
@@ -168,7 +169,8 @@ writeResults_reworked.write_scoreStudents(outputStudentbook,"punten",permutation
 
 writeResults_reworked.write_scoreStudentsNonPermutated(outputStudentbook,"verwerking",permutations,weightsQuestions,numParticipants,deelnemers, numQuestions,numAlternatives,alternatives,content,content_colNrs,totalScore,scoreQuestionsIndicatedSeries,columnSeries,matrixAnswers)           
                   
-                  
+writeResults_reworked.write_CronbachsAlpha(outputbook,"Cronbach's alpha", numQuestions, totalVariance, Variance)
+
 # plot the histogram of the total score
 plt.figure()
 n, bins, patches = plt.hist(totalScore,bins=numpy.arange(0-0.5,maxTotalScore+1,1))
