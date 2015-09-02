@@ -22,7 +22,7 @@ import checkInputVariables
 import supportFunctions_reworked
 import writeResults_reworked
 
-nameTest = '2015-juni'
+nameTest = '2015-sept'
 
 nameFile = "../"+ nameTest + "/OMR/OMRoutput.xlsx" #name of excel file with scanned forms
 nameSheet = "outputScan" #sheet name of excel file with scanned forms
