@@ -941,7 +941,10 @@ def write_scoreStudents(outputbook_loc,nameSheet_loc,permutations_loc,weightsQue
         serie = int(columnSeries_loc[participant]-1)
         sorted_score = [score[i-1] for i in permutations_loc[serie]]
         #find questions with weight zero
-        questionsZeroWeight = numpy.where(weightsQuestions_loc==0)
+        questionsZeroWeight = []
+        for x in range(0,len(weightsQuestions_loc)):
+            if weightsQuestions_loc[x]==0:
+                questionsZeroWeight.append(x)
                 #find questions
         #score[numpy.where(weightsQuestions_loc==0)[0]]=float('NaN')
         
@@ -1021,7 +1024,10 @@ def write_scoreStudentsNonPermutated(outputbook_loc,nameSheet_loc,permutations_l
         #serie = int(columnSeries_loc[participant]-1)
         #sorted_score = [score[i-1] for i in permutations_loc[serie]]
         #find questions with weight zero
-        questionsZeroWeight = numpy.where(weightsQuestions_loc==0)
+        questionsZeroWeight = []
+        for x in range(0,len(weightsQuestions_loc)):
+            if weightsQuestions_loc[x]==0:
+                questionsZeroWeight.append(x)
                 #find questions
         #score[numpy.where(weightsQuestions_loc==0)[0]]=float('NaN')
         
@@ -1087,7 +1093,10 @@ def write_CronbachsAlpha(outputbook_loc,nameSheet_loc,numQuestions_loc,TotalVari
         sheetC.write(rowCounter, 2, weightsQuestions_loc[x])
         rowCounter+=1
     numQuestionsCounted=sum(weightsQuestions_loc)
-    alpha = round(1.0*numQuestionsCounted/(numQuestionsCounted-1)*(1-sum(Variance_loc)/TotalVariance_loc),3)
+    if not numQuestionsCounted <=1:
+        alpha = round(1.0*numQuestionsCounted/(numQuestionsCounted-1)*(1-sum(Variance_loc)/TotalVariance_loc),3)
+    else:
+        alpha = "X"
     sheetC.write(2, 4, alpha, style = easyxf(font_bold+font_red+border_right_medium+border_top_medium+border_bottom_medium))
           
 def write_itemToetsCorrelatie(outputbook_loc,nameSheet_loc,numQuestions_loc,correlation_loc,weightsQuestions_loc):
