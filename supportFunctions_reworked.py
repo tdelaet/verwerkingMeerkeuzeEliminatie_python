@@ -73,7 +73,7 @@ def getMatrixAnswers(sheet_loc,contentBook_loc,correctAnswers_loc,permutations_l
     return answers_loc
             
     
-def calculateScoreAllPermutations(sheet_loc,contentBook_loc,numSeries_loc,correctAnswers_loc,permutations_loc,alternatives_loc,numParticipants_loc,columnSeries_loc,content_colNrs_loc,twoOptions_loc):
+def calculateScoreAllPermutations(sheet_loc,contentBook_loc,numSeries_loc,correctAnswers_loc,permutations_loc,alternatives_loc,numParticipants_loc,columnSeries_loc,content_colNrs_loc,twoOptions_loc,badQuestions_loc):
     # Calculate the score for each permutation and for each question 
     #numSeries_loc = len(permutations_loc)
     numQuestions_loc = len(correctAnswers_loc)
@@ -115,7 +115,11 @@ def calculateScoreAllPermutations(sheet_loc,contentBook_loc,numSeries_loc,correc
                 counter_alternative+=1
             #print correctAnswer
             #print correctAnswerIndex
-            scoreQuestionsAllPermutations_loc[permutation-1,:,numQuestionPermutations_loc-1] = calculateScoreQuestions(matrixAnswersQuestions_loc,correctAnswerIndex)
+            #check if question is in list of BAD_Questions
+            if badQuestions_loc[numQuestionPermutations_loc-1]==1:
+                scoreQuestionsAllPermutations_loc[permutation-1,:,numQuestionPermutations_loc-1] = 1.0
+            else:    
+                scoreQuestionsAllPermutations_loc[permutation-1,:,numQuestionPermutations_loc-1] = calculateScoreQuestions(matrixAnswersQuestions_loc,correctAnswerIndex)
     return scoreQuestionsAllPermutations_loc
 #    
 #def calculateScoreQuestions(matrixAnswersQuestions_loc, correctAnswerIndex_loc):

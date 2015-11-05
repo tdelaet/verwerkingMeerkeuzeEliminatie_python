@@ -8,12 +8,13 @@ Created on Wed May 21 14:37:18 2014
 from xlrd import open_workbook, biffh
 
 
-def checkInputVariables(nameFile_loc,nameSheet_loc,numQuestions_loc,numAlternatives_loc,numSeries_loc,correctAnswers_loc,permutations_loc,weighsQuestions_loc,twoOptions_loc):
+def checkInputVariables(nameFile_loc,nameSheet_loc,numQuestions_loc,numAlternatives_loc,numSeries_loc,correctAnswers_loc,permutations_loc,weighsQuestions_loc,badQuestions_loc,twoOptions_loc):
     return (
     checkFileAndSheet(nameFile_loc,nameSheet_loc) &
     checkCorrectAnswers(numQuestions_loc, numAlternatives_loc, correctAnswers_loc) & 
     checkPermutations(numSeries_loc,numQuestions_loc, permutations_loc) &
     checkWeightsQuestions(numQuestions_loc, weighsQuestions_loc) &
+    checkBadQuestions(numQuestions_loc, badQuestions_loc) &
     checkTwoOptions(twoOptions_loc) 
     )
             
@@ -57,7 +58,13 @@ def checkWeightsQuestions(numQuestions_loc, weightsQuestions_loc):
     if (len(weightsQuestions_loc) != numQuestions_loc):
         print "ERROR: The length of the questions weights " + str(len(weightsQuestions_loc)) +  " is not equal to the number of questions " + str(numQuestions_loc)
         return False
-    return True     
+    return True    
+
+def checkBadQuestions(numQuestions_loc, badQuestions_loc):
+    if (len(badQuestions_loc) != numQuestions_loc):
+        print "ERROR: The length of the bad question list " + str(len(badQuestions_loc)) +  " is not equal to the number of questions " + str(numQuestions_loc)
+        return False
+    return True        
     
 def checkTwoOptions(twoOptions_loc ):
     if (len(twoOptions_loc) != 2):

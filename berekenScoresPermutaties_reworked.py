@@ -46,6 +46,7 @@ twoOptions=["onmogelijk","mogelijk"] #elimination options should be first
 correctAnswers = numpy.loadtxt("../"+ nameTest + "/sleutel.txt",delimiter=',',dtype=numpy.str)
 permutations = numpy.loadtxt("../"+ nameTest + "/permutatie.txt",delimiter=',',dtype=numpy.int32)
 weightsQuestions = numpy.loadtxt("../"+ nameTest + "/gewichten.txt",delimiter=',',dtype=numpy.int32)
+badQuestions = numpy.loadtxt("../"+ nameTest + "/slechteVragen.txt",delimiter=',',dtype=numpy.int32)
 
 if not os.path.exists("../"+ nameTest + "/Results/Sleutels"):
     os.makedirs("../"+ nameTest + "/Results/Sleutels")
@@ -75,7 +76,7 @@ for question in xrange(1,numQuestions+1):
 #print content
 ###########################
         
-if not( checkInputVariables.checkInputVariables(nameFile,nameSheet,numQuestions,numAlternatives,numSeries,correctAnswers,permutations,weightsQuestions,twoOptions)):
+if not( checkInputVariables.checkInputVariables(nameFile,nameSheet,numQuestions,numAlternatives,numSeries,correctAnswers,permutations,weightsQuestions,badQuestions, twoOptions)):
      print "ERROR found in input variables"     
   
 # read file and get sheet
@@ -121,7 +122,7 @@ columnSeries=sheet.col_values(colNrSerie,1,num_rows)
 
 
 #get the score for all permutations for each of the questions
-scoreQuestionsAllPermutations= supportFunctions_reworked.calculateScoreAllPermutations(sheet,content,numSeries,correctAnswers,permutations,alternatives,numParticipants,columnSeries,content_colNrs,twoOptions)     
+scoreQuestionsAllPermutations= supportFunctions_reworked.calculateScoreAllPermutations(sheet,content,numSeries,correctAnswers,permutations,alternatives,numParticipants,columnSeries,content_colNrs,twoOptions,badQuestions)     
 
 numOnmogelijkQuestionsAlternatives, numMogelijkQuestionsAlternatives = supportFunctions_reworked.getNumberMogelijkOnmogelijk(sheet,content,numSeries,permutations,columnSeries,scoreQuestionsIndicatedSeries,alternatives,twoOptions,content_colNrs)
 #print scoreQuestionsAllPermutations
