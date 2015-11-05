@@ -41,15 +41,16 @@ def checkCorrectAnswers(numQuestions_loc, numAlternatives_loc, correctAnswers_lo
         
 def checkPermutations(numSeries_loc,numQuestions_loc, permutations_loc):             
     # check that for all the permutations all questions are present  
-    if (len(permutations_loc) == numSeries_loc):
-        # check if all questions are present
-        for permutationNumber_loc in xrange(1,numSeries_loc+1):
-            if (set(xrange(1,numQuestions_loc+1)) != set(permutations_loc[permutationNumber_loc-1])):
-                print "ERROR: Not all " + str(numQuestions_loc) +  " questions are present in permutation " + str(permutationNumber_loc) + ": " + str(permutations_loc[permutationNumber_loc-1])
-                return False
-    else:
-        print "ERROR: The number of indicated series " + str(numSeries_loc) +  " is not equal to the number of permutations listed in the permutation list " + str(permutations_loc)
-        return False
+    if numSeries_loc !=1:      
+        if (len(permutations_loc) == numSeries_loc):
+            # check if all questions are present
+            for permutationNumber_loc in xrange(1,numSeries_loc+1):
+                if (set(xrange(1,numQuestions_loc+1)) != set(permutations_loc[permutationNumber_loc-1])):
+                    print "ERROR: Not all " + str(numQuestions_loc) +  " questions are present in permutation " + str(permutationNumber_loc) + ": " + str(permutations_loc[permutationNumber_loc-1])
+                    return False
+        else:
+            print "ERROR: The number of indicated series " + str(numSeries_loc) +  " is not equal to the number of permutations listed in the permutation list " + str(permutations_loc)
+            return False
     return True     
  
 def checkWeightsQuestions(numQuestions_loc, weightsQuestions_loc):

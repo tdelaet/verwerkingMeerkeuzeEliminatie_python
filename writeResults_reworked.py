@@ -32,7 +32,8 @@ style_specialAttention = font_red
 def write_results(outputbook,weightsQuestions,numQuestions,correctAnswers,alternatives,maxTotalScore,content,content_colNrs,
                   columnSeries,deelnemers,
                   numParticipants,
-                  totalScore,percentagePass,
+                  totalScore,
+                  percentagePass,
                   scoreQuestionsIndicatedSeries,
                   totalScoreDifferentPermutations,
                   medianScore,
@@ -56,14 +57,14 @@ def write_results(outputbook,weightsQuestions,numQuestions,correctAnswers,altern
     #write_averageScoreQuestions(outputbook,'GemiddeldeScoreVraag',numQuestions,averageScore,averageScoreUpper,averageScoreMiddle,averageScoreLower,averageScoreQuestions,averageScoreQuestionsUpper,averageScoreQuestionsMiddle,averageScoreQuestionsLower,averageScoreQuestionsDifferentSeries)   
     write_averageScoreQuestions(outputbook,'GemiddeldeScoreVraag',weightsQuestions,numQuestions,averageScore,averageScoreUpper,averageScoreMiddle,averageScoreLower,averageScoreQuestions,averageScoreQuestionsUpper,averageScoreQuestionsMiddle,averageScoreQuestionsLower,averageScoreSeries,averageScoreQuestionsDifferentSeries)       
     write_percentageImpossibleQuestions(outputbook,"PercentageOnmogelijk",weightsQuestions,numQuestions,correctAnswers,alternatives,numOnmogelijkQuestionsAlternatives,numParticipants)
-    write_numberImpossibleQuestions(outputbook,"AantalOnmogelijk",weightsQuestions,numQuestions,correctAnswers,alternatives,numOnmogelijkQuestionsAlternatives,numParticipants)
+    #write_numberImpossibleQuestions(outputbook,"AantalOnmogelijk",weightsQuestions,numQuestions,correctAnswers,alternatives,numOnmogelijkQuestionsAlternatives,numParticipants)
     write_percentagePossibleQuestions(outputbook,"PercentageMogelijk",weightsQuestions,numQuestions,correctAnswers,alternatives,numMogelijkQuestionsAlternatives,numParticipants)
-    write_numberPossibleQuestions(outputbook,"AantalMogelijk",weightsQuestions,numQuestions,correctAnswers,alternatives,numMogelijkQuestionsAlternatives,numParticipants)
+    #write_numberPossibleQuestions(outputbook,"AantalMogelijk",weightsQuestions,numQuestions,correctAnswers,alternatives,numMogelijkQuestionsAlternatives,numParticipants)
     write_percentageImpossibleQuestionsUML(outputbook,"PercentageOnmogelijkUML",weightsQuestions,numQuestions,correctAnswers,alternatives,numOnmogelijkQuestionsAlternativesUpper,numOnmogelijkQuestionsAlternativesMiddle,numOnmogelijkQuestionsAlternativesLower,numUpper,numMiddle,numLower)
-    write_numberImpossibleQuestionsUML(outputbook,"AantalOnmogelijkUML",weightsQuestions,numQuestions,correctAnswers,alternatives,numOnmogelijkQuestionsAlternativesUpper,numOnmogelijkQuestionsAlternativesMiddle,numOnmogelijkQuestionsAlternativesLower)
+    #write_numberImpossibleQuestionsUML(outputbook,"AantalOnmogelijkUML",weightsQuestions,numQuestions,correctAnswers,alternatives,numOnmogelijkQuestionsAlternativesUpper,numOnmogelijkQuestionsAlternativesMiddle,numOnmogelijkQuestionsAlternativesLower)
     write_percentagePossibleQuestionsUML(outputbook,"PercentageMogelijkUML",weightsQuestions,numQuestions,correctAnswers,alternatives,numMogelijkQuestionsAlternativesUpper,numMogelijkQuestionsAlternativesMiddle,numMogelijkQuestionsAlternativesLower,numUpper,numMiddle,numLower)
-    write_numberPossibleQuestionsUML(outputbook,"AantalMogelijkUML",weightsQuestions,numQuestions,correctAnswers,alternatives,numMogelijkQuestionsAlternativesUpper,numMogelijkQuestionsAlternativesMiddle,numMogelijkQuestionsAlternativesLower)
-    write_histogramQuestions(outputbook,"HistogramVragen",weightsQuestions,numQuestions,scoreQuestionsIndicatedSeries,averageScoreQuestions,numAlternatives_loc)
+    #write_numberPossibleQuestionsUML(outputbook,"AantalMogelijkUML",weightsQuestions,numQuestions,correctAnswers,alternatives,numMogelijkQuestionsAlternativesUpper,numMogelijkQuestionsAlternativesMiddle,numMogelijkQuestionsAlternativesLower)
+    write_histogramQuestions(outputbook,"HistogramVragen",numParticipants,weightsQuestions,numQuestions,scoreQuestionsIndicatedSeries,averageScoreQuestions,numAlternatives_loc)
 
 
 
@@ -206,65 +207,7 @@ def write_overallStatistics(outputbook_loc,nameSheet_loc,totalScore_loc,averageS
         rowCounter+=1
         rowCounter+=1
       
-#def write_averageScoreQuestions(outputbook_loc,nameSheet_loc,numQuestions_loc,averageScore_loc,averageScoreUpper_loc,averageScoreMiddle_loc,averageScoreLower_loc,averageScoreQuestions_loc,averageScoreQuestionsUpper_loc,averageScoreQuestionsMiddle_loc,averageScoreQuestionsLower_loc):
-#    sheetC = outputbook_loc.add_sheet('GemScorePerVraag')
-#    
-#    columnCounter = 0;
-#    rowCounter = 0;
-#    sheetC.write_merge(rowCounter,rowCounter,columnCounter,columnCounter+8," Gemiddelde score per vraag",style=easyxf(style_title))
-#    rowCounter+=1
-#    
-#    #column counter
-#    columnCounter = 0; 
-#
-#    #write all/upper/middle/lower on top
-#    columnCounter = 1
-#    sheetC.write(rowCounter,columnCounter,"all",style=easyxf(style_header))
-#    columnCounter+=1
-#    sheetC.write(rowCounter,columnCounter,"upper",style=easyxf(style_header))
-#    columnCounter+=1
-#    sheetC.write(rowCounter,columnCounter,"middle",style=easyxf(style_header))
-#    columnCounter+=1
-#    sheetC.write(rowCounter,columnCounter,"lower",style=easyxf(style_header))
-#    columnCounter+=1
-#    rowCounter+=1
-#    columnCounter=0
-#    
-#    for question in xrange(1,numQuestions_loc+1):
-#
-#        sheetC.write(rowCounter,columnCounter,"vraag"+str(question),style=easyxf(style_header_borderRight))
-#        columnCounter+=1        
-#        if averageScoreQuestions_loc[question-1]<0:
-#            sheetC.write(rowCounter,columnCounter,round(averageScoreQuestions_loc[question-1],3),style=easyxf(style_specialAttention))        
-#        else:
-#            sheetC.write(rowCounter,columnCounter,round(averageScoreQuestions_loc[question-1],3))                
-#        columnCounter+=1 
-#        if averageScoreQuestionsUpper_loc[question-1]<=averageScoreQuestionsLower_loc[question-1] or averageScoreQuestionsUpper_loc[question-1]<=averageScoreQuestionsMiddle_loc[question-1]:
-#            sheetC.write(rowCounter,columnCounter,round(averageScoreQuestionsUpper_loc[question-1],3),style=easyxf(style_specialAttention))
-#            columnCounter+=1
-#            sheetC.write(rowCounter,columnCounter,round(averageScoreQuestionsMiddle_loc[question-1],3),style=easyxf(style_specialAttention))
-#            columnCounter+=1
-#            sheetC.write(rowCounter,columnCounter,round(averageScoreQuestionsLower_loc[question-1],3),style=easyxf(style_specialAttention))    
-#        else:
-#            sheetC.write(rowCounter,columnCounter,round(averageScoreQuestionsUpper_loc[question-1],3))
-#            columnCounter+=1
-#            sheetC.write(rowCounter,columnCounter,round(averageScoreQuestionsMiddle_loc[question-1],3))
-#            columnCounter+=1
-#            sheetC.write(rowCounter,columnCounter,round(averageScoreQuestionsLower_loc[question-1],3))
-#        rowCounter+=1
-#        columnCounter = 0;
-#        
-#    columnCounter=0
-#    sheetC.write(rowCounter,columnCounter,"total",style=easyxf(style_header_borderRight))
-#    columnCounter+=1
-#    sheetC.write(rowCounter,columnCounter,round(averageScore_loc,3))   
-#    columnCounter+=1
-#    sheetC.write(rowCounter,columnCounter,round(averageScoreUpper_loc,3))
-#    columnCounter+=1
-#    sheetC.write(rowCounter,columnCounter,round(averageScoreMiddle_loc,3))
-#    columnCounter+=1
-#    sheetC.write(rowCounter,columnCounter,round(averageScoreLower_loc,3))  
-#    columnCounter+=1
+
       
 def write_averageScoreQuestions(outputbook_loc,nameSheet_loc,weightsQuestions_loc,numQuestions_loc,averageScore_loc,averageScoreUpper_loc,averageScoreMiddle_loc,averageScoreLower_loc,averageScoreQuestions_loc,averageScoreQuestionsUpper_loc,averageScoreQuestionsMiddle_loc,averageScoreQuestionsLower_loc,averageScoreSeries_loc,averageScoreQuestionsDifferentSeries_loc):
     numSeries = len(averageScoreQuestionsDifferentSeries_loc[0])  
@@ -380,14 +323,14 @@ def write_percentageImpossibleQuestions(outputbook_loc,nameSheet_loc,weightsQues
         for alternative in alternatives_loc:
             if alternative == correctAnswer:
                 if (numOnmogelijkQuestionsAlternatives_loc[counter]/numParticipants_loc > 0.35):#TODO: make parameter
-                    sheetC.write(rowCounter,columnCounter,round(numOnmogelijkQuestionsAlternatives_loc[counter]/numParticipants_loc,2),style=easyxf(style_correctAnswer+style_specialAttention))
+                    sheetC.write(rowCounter,columnCounter,round(numOnmogelijkQuestionsAlternatives_loc[counter]/numParticipants_loc*100,0),style=easyxf(style_correctAnswer+style_specialAttention))
                 else:
-                    sheetC.write(rowCounter,columnCounter,round(numOnmogelijkQuestionsAlternatives_loc[counter]/numParticipants_loc,2),style=easyxf(style_correctAnswer))                    
+                    sheetC.write(rowCounter,columnCounter,round(numOnmogelijkQuestionsAlternatives_loc[counter]/numParticipants_loc*100,0),style=easyxf(style_correctAnswer))                    
             else:
                 if (numOnmogelijkQuestionsAlternatives_loc[counter]/numParticipants_loc < 0.35):#TODO: make parameter
-                    sheetC.write(rowCounter,columnCounter,round(numOnmogelijkQuestionsAlternatives_loc[counter]/numParticipants_loc,2),style=easyxf(style_specialAttention))
+                    sheetC.write(rowCounter,columnCounter,round(numOnmogelijkQuestionsAlternatives_loc[counter]/numParticipants_loc*100,0),style=easyxf(style_specialAttention))
                 else:
-                    sheetC.write(rowCounter,columnCounter,round(numOnmogelijkQuestionsAlternatives_loc[counter]/numParticipants_loc,2))
+                    sheetC.write(rowCounter,columnCounter,round(numOnmogelijkQuestionsAlternatives_loc[counter]/numParticipants_loc*100,0))
             columnCounter+=1
             counter+=1  
         sheetC.write(rowCounter,columnCounter,weightsQuestions_loc[question-1],style=easyxf(border_left_medium + align_horizcenter))  
@@ -465,14 +408,14 @@ def write_percentagePossibleQuestions(outputbook_loc,nameSheet_loc,weightsQuesti
         for alternative in alternatives_loc:
             if alternative == correctAnswer:
                 if (numMogelijkQuestionsAlternatives_loc[counter]/numParticipants_loc < 0.65): #TODO: make parameter
-                    sheetC.write(rowCounter,columnCounter,round(numMogelijkQuestionsAlternatives_loc[counter]/numParticipants_loc,2),style=easyxf(style_correctAnswer+style_specialAttention))
+                    sheetC.write(rowCounter,columnCounter,round(numMogelijkQuestionsAlternatives_loc[counter]/numParticipants_loc*100,0),style=easyxf(style_correctAnswer+style_specialAttention))
                 else:
-                    sheetC.write(rowCounter,columnCounter,round(numMogelijkQuestionsAlternatives_loc[counter]/numParticipants_loc,2),style=easyxf(style_correctAnswer))
+                    sheetC.write(rowCounter,columnCounter,round(numMogelijkQuestionsAlternatives_loc[counter]/numParticipants_loc*100,0),style=easyxf(style_correctAnswer))
             else:
                 if (numMogelijkQuestionsAlternatives_loc[counter]/numParticipants_loc > 0.65): #TODO: make parameter
-                    sheetC.write(rowCounter,columnCounter,round(numMogelijkQuestionsAlternatives_loc[counter]/numParticipants_loc,2),style=easyxf(style_specialAttention))
+                    sheetC.write(rowCounter,columnCounter,round(numMogelijkQuestionsAlternatives_loc[counter]/numParticipants_loc*100,0),style=easyxf(style_specialAttention))
                 else:
-                    sheetC.write(rowCounter,columnCounter,round(numMogelijkQuestionsAlternatives_loc[counter]/numParticipants_loc,2))
+                    sheetC.write(rowCounter,columnCounter,round(numMogelijkQuestionsAlternatives_loc[counter]/numParticipants_loc*100,0))
             columnCounter+=1
             counter+=1    
         sheetC.write(rowCounter,columnCounter,weightsQuestions_loc[question-1],style=easyxf(border_left_medium + align_horizcenter))  
@@ -555,31 +498,31 @@ def write_percentageImpossibleQuestionsUML(outputbook_loc,nameSheet_loc,weightsQ
                 # test of uppergroep het correcte antwoord meer onmogelijk aanduidt dan lower groep
                 if ( (numOnmogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc > numOnmogelijkQuestionsAlternativesLower_loc[counter]/numLower_loc) ):
                     #TODO make 20 parameter
-                    sheetC.write(rowCounter,columnCounter  ,round(numOnmogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc,2),style=easyxf(style_correctAnswer+style_specialAttention))
-                    sheetC.write(rowCounter,columnCounter+1,round(numOnmogelijkQuestionsAlternativesMiddle_loc[counter]/numMiddle_loc,2),style=easyxf(style_correctAnswer+style_specialAttention))
-                    sheetC.write(rowCounter,columnCounter+2,round(numOnmogelijkQuestionsAlternativesLower_loc[counter]/numLower_loc,2),style=easyxf(style_correctAnswer+style_specialAttention+border_right_medium))
+                    sheetC.write(rowCounter,columnCounter  ,round(numOnmogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc*100,0),style=easyxf(style_correctAnswer+style_specialAttention))
+                    sheetC.write(rowCounter,columnCounter+1,round(numOnmogelijkQuestionsAlternativesMiddle_loc[counter]/numMiddle_loc*100,0),style=easyxf(style_correctAnswer+style_specialAttention))
+                    sheetC.write(rowCounter,columnCounter+2,round(numOnmogelijkQuestionsAlternativesLower_loc[counter]/numLower_loc*100,0),style=easyxf(style_correctAnswer+style_specialAttention+border_right_medium))
                 else:
                     #TODO make 20 parameter
                     if(numOnmogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc>0.25):                   
-                        sheetC.write(rowCounter,columnCounter,round(numOnmogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc,2),style=easyxf(style_correctAnswer+style_specialAttention))
+                        sheetC.write(rowCounter,columnCounter,round(numOnmogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc*100,0),style=easyxf(style_correctAnswer+style_specialAttention))
                     else:
-                        sheetC.write(rowCounter,columnCounter,round(numOnmogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc,2),style=easyxf(style_correctAnswer))
-                    sheetC.write(rowCounter,columnCounter+1,round(numOnmogelijkQuestionsAlternativesMiddle_loc[counter]/numMiddle_loc,2),style=easyxf(style_correctAnswer))
-                    sheetC.write(rowCounter,columnCounter+2,round(numOnmogelijkQuestionsAlternativesLower_loc[counter]/numLower_loc,2),style=easyxf(style_correctAnswer+border_right_medium))                
+                        sheetC.write(rowCounter,columnCounter,round(numOnmogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc*100,0),style=easyxf(style_correctAnswer))
+                    sheetC.write(rowCounter,columnCounter+1,round(numOnmogelijkQuestionsAlternativesMiddle_loc[counter]/numMiddle_loc*100,0),style=easyxf(style_correctAnswer))
+                    sheetC.write(rowCounter,columnCounter+2,round(numOnmogelijkQuestionsAlternativesLower_loc[counter]/numLower_loc*100,0),style=easyxf(style_correctAnswer+border_right_medium))                
             else:
                 # test of uppergroep een fout antwoord minder onmogelijk aanduidt dan lower groep or if upper group percentage is lower than fixed number
                 if (numOnmogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc < numOnmogelijkQuestionsAlternativesLower_loc[counter]/numLower_loc):
-                    sheetC.write(rowCounter,columnCounter,round(numOnmogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc,2),style=easyxf(style_specialAttention))
-                    sheetC.write(rowCounter,columnCounter+1,round(numOnmogelijkQuestionsAlternativesMiddle_loc[counter]/numMiddle_loc,2),style=easyxf(style_specialAttention))
-                    sheetC.write(rowCounter,columnCounter+2,round(numOnmogelijkQuestionsAlternativesLower_loc[counter]/numLower_loc,2),style=easyxf(style_specialAttention+border_right_medium))
+                    sheetC.write(rowCounter,columnCounter,round(numOnmogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc*100,0),style=easyxf(style_specialAttention))
+                    sheetC.write(rowCounter,columnCounter+1,round(numOnmogelijkQuestionsAlternativesMiddle_loc[counter]/numMiddle_loc*100,0),style=easyxf(style_specialAttention))
+                    sheetC.write(rowCounter,columnCounter+2,round(numOnmogelijkQuestionsAlternativesLower_loc[counter]/numLower_loc*100,0),style=easyxf(style_specialAttention+border_right_medium))
                 else:
                     # test of uppergroep een fout antwoord minder ommogelijk aanduidt dan goed antwoord
                     if (numOnmogelijkQuestionsAlternativesUpper_loc[counter] < numOnmogelijkQuestionsAlternativesUpper_loc[(question-1)*len(alternatives_loc)+alternatives_loc.index(correctAnswer)] ):
-                        sheetC.write(rowCounter,columnCounter,round(numOnmogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc,2),style=easyxf(style_specialAttention))
+                        sheetC.write(rowCounter,columnCounter,round(numOnmogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc*100,0),style=easyxf(style_specialAttention))
                     else:
-                        sheetC.write(rowCounter,columnCounter,round(numOnmogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc,2))
-                    sheetC.write(rowCounter,columnCounter+1,round(numOnmogelijkQuestionsAlternativesMiddle_loc[counter]/numMiddle_loc,2))
-                    sheetC.write(rowCounter,columnCounter+2,round(numOnmogelijkQuestionsAlternativesLower_loc[counter]/numLower_loc,2),style=easyxf(border_right_medium))
+                        sheetC.write(rowCounter,columnCounter,round(numOnmogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc*100,0))
+                    sheetC.write(rowCounter,columnCounter+1,round(numOnmogelijkQuestionsAlternativesMiddle_loc[counter]/numMiddle_loc*100,0))
+                    sheetC.write(rowCounter,columnCounter+2,round(numOnmogelijkQuestionsAlternativesLower_loc[counter]/numLower_loc*100,0),style=easyxf(border_right_medium))
             columnCounter+=3
             counter+=1  
         sheetC.write(rowCounter,columnCounter,weightsQuestions_loc[question-1],style=easyxf(border_left_medium + align_horizcenter))  
@@ -620,30 +563,30 @@ def write_percentagePossibleQuestionsUML(outputbook_loc,nameSheet_loc,weightsQue
             if alternative == correctAnswer:
                 # test of uppergroep het correcte antwoord minder mogelijk aanduidt dan lower groep
                 if (numMogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc < numMogelijkQuestionsAlternativesLower_loc[counter]/numLower_loc):
-                    sheetC.write(rowCounter,columnCounter  ,round(numMogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc,2),style=easyxf(style_correctAnswer+style_specialAttention))
-                    sheetC.write(rowCounter,columnCounter+1,round(numMogelijkQuestionsAlternativesMiddle_loc[counter]/numMiddle_loc,2),style=easyxf(style_correctAnswer+style_specialAttention))
-                    sheetC.write(rowCounter,columnCounter+2,round(numMogelijkQuestionsAlternativesLower_loc[counter]/numLower_loc,2),style=easyxf(style_correctAnswer+style_specialAttention+border_right_medium))
+                    sheetC.write(rowCounter,columnCounter  ,round(numMogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc*100,0),style=easyxf(style_correctAnswer+style_specialAttention))
+                    sheetC.write(rowCounter,columnCounter+1,round(numMogelijkQuestionsAlternativesMiddle_loc[counter]/numMiddle_loc*100,0),style=easyxf(style_correctAnswer+style_specialAttention))
+                    sheetC.write(rowCounter,columnCounter+2,round(numMogelijkQuestionsAlternativesLower_loc[counter]/numLower_loc*100,0),style=easyxf(style_correctAnswer+style_specialAttention+border_right_medium))
                 else:
                     if(numMogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc<0.75):  
-                        sheetC.write(rowCounter,columnCounter  ,round(numMogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc,2),style=easyxf(style_correctAnswer+style_specialAttention))
+                        sheetC.write(rowCounter,columnCounter  ,round(numMogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc*100,0),style=easyxf(style_correctAnswer+style_specialAttention))
                     else:
-                        sheetC.write(rowCounter,columnCounter  ,round(numMogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc,2),style=easyxf(style_correctAnswer))
-                    sheetC.write(rowCounter,columnCounter+1,round(numMogelijkQuestionsAlternativesMiddle_loc[counter]/numMiddle_loc,2),style=easyxf(style_correctAnswer))
-                    sheetC.write(rowCounter,columnCounter+2,round(numMogelijkQuestionsAlternativesLower_loc[counter]/numLower_loc,2),style=easyxf(style_correctAnswer+border_right_medium))                
+                        sheetC.write(rowCounter,columnCounter  ,round(numMogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc*100,0),style=easyxf(style_correctAnswer))
+                    sheetC.write(rowCounter,columnCounter+1,round(numMogelijkQuestionsAlternativesMiddle_loc[counter]/numMiddle_loc*100,0),style=easyxf(style_correctAnswer))
+                    sheetC.write(rowCounter,columnCounter+2,round(numMogelijkQuestionsAlternativesLower_loc[counter]/numLower_loc*100,0),style=easyxf(style_correctAnswer+border_right_medium))                
             else:
                 # test of uppergroep een fout antwoord meer mogelijk aanduidt dan lower groep
                 if (numMogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc > numMogelijkQuestionsAlternativesLower_loc[counter]/numLower_loc):
-                    sheetC.write(rowCounter,columnCounter,round(numMogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc,2),style=easyxf(style_specialAttention))
-                    sheetC.write(rowCounter,columnCounter+1,round(numMogelijkQuestionsAlternativesMiddle_loc[counter]/numMiddle_loc,2),style=easyxf(style_specialAttention))
-                    sheetC.write(rowCounter,columnCounter+2,round(numMogelijkQuestionsAlternativesLower_loc[counter]/numLower_loc,2),style=easyxf(style_specialAttention+border_right_medium))
+                    sheetC.write(rowCounter,columnCounter,round(numMogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc*100,0),style=easyxf(style_specialAttention))
+                    sheetC.write(rowCounter,columnCounter+1,round(numMogelijkQuestionsAlternativesMiddle_loc[counter]/numMiddle_loc*100,0),style=easyxf(style_specialAttention))
+                    sheetC.write(rowCounter,columnCounter+2,round(numMogelijkQuestionsAlternativesLower_loc[counter]/numLower_loc*100,0),style=easyxf(style_specialAttention+border_right_medium))
                 else:
                     # test of uppergroep een fout antwoord meer mogelijk aanduidt dan goed antwoord
                     if (numMogelijkQuestionsAlternativesUpper_loc[counter] > numMogelijkQuestionsAlternativesUpper_loc[(question-1)*len(alternatives_loc)+alternatives_loc.index(correctAnswer)] ):
-                        sheetC.write(rowCounter,columnCounter,round(numMogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc,2),style=easyxf(style_specialAttention))
+                        sheetC.write(rowCounter,columnCounter,round(numMogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc*100,0),style=easyxf(style_specialAttention))
                     else:
-                        sheetC.write(rowCounter,columnCounter,round(numMogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc,2))
-                    sheetC.write(rowCounter,columnCounter+1,round(numMogelijkQuestionsAlternativesMiddle_loc[counter]/numMiddle_loc,2))
-                    sheetC.write(rowCounter,columnCounter+2,round(numMogelijkQuestionsAlternativesLower_loc[counter]/numLower_loc,2),style=easyxf(border_right_medium))
+                        sheetC.write(rowCounter,columnCounter,round(numMogelijkQuestionsAlternativesUpper_loc[counter]/numUpper_loc*100,0))
+                    sheetC.write(rowCounter,columnCounter+1,round(numMogelijkQuestionsAlternativesMiddle_loc[counter]/numMiddle_loc*100,0))
+                    sheetC.write(rowCounter,columnCounter+2,round(numMogelijkQuestionsAlternativesLower_loc[counter]/numLower_loc*100,0),style=easyxf(border_right_medium))
             columnCounter+=3
             counter+=1 
         sheetC.write(rowCounter,columnCounter,weightsQuestions_loc[question-1],style=easyxf(border_left_medium + align_horizcenter))  
@@ -769,7 +712,7 @@ def write_numberPossibleQuestionsUML(outputbook_loc,nameSheet_loc,weightsQuestio
         columnCounter+=1    
         rowCounter+=1
      
-def write_histogramQuestions(outputbook_loc,nameSheet_loc,weightsQuestions_loc,numQuestions_loc,scoreQuestionsIndicatedSeries_loc,averageScoreQuestions_loc,numAlternatives_loc):
+def write_histogramQuestions(outputbook_loc,nameSheet_loc,numParticipants_loc,weightsQuestions_loc,numQuestions_loc,scoreQuestionsIndicatedSeries_loc,averageScoreQuestions_loc,numAlternatives_loc):
     sheetC = outputbook_loc.add_sheet(nameSheet_loc)
           
     columnCounter = 0;
@@ -805,9 +748,9 @@ def write_histogramQuestions(outputbook_loc,nameSheet_loc,weightsQuestions_loc,n
         columnCounter+=1    
         for n in hist:        
             if (hist[0]>hist[len(hist)-1] or hist[0]+hist[1]>hist[len(hist)-1]+hist[len(hist)-2]): #more confident in wrong answer than confident in correct answer
-                sheetC.write(rowCounter,columnCounter,n,style=easyxf(style_specialAttention))
+                sheetC.write(rowCounter,columnCounter,round(n*1.0/numParticipants_loc*100,0),style=easyxf(style_specialAttention))
             else:
-                sheetC.write(rowCounter,columnCounter,n)
+                sheetC.write(rowCounter,columnCounter,round(n*1.0/numParticipants_loc*100,0))
             columnCounter+=1
         if averageScoreQuestions_loc[question-1]<0:
             sheetC.write(rowCounter,columnCounter,round(averageScoreQuestions_loc[question-1],2),style=easyxf(style_specialAttention+border_left_medium))        
@@ -818,7 +761,7 @@ def write_histogramQuestions(outputbook_loc,nameSheet_loc,weightsQuestions_loc,n
         columnCounter+=1            
         rowCounter+=1
 
-def write_scoreStudents(outputbook_loc,nameSheet_loc,permutations_loc,weightsQuestions_loc,numParticipants_loc,deelnemers_loc, numQuestions_loc,numAlternatives_loc,content_loc,content_colNrs_loc,totalScore_loc,scoreQuestionsIndicatedSeries_loc,columnSeries_loc,matrixAnswers):
+def write_scoreStudents(outputbook_loc,nameSheet_loc,numSeries_loc,permutations_loc,weightsQuestions_loc,numParticipants_loc,deelnemers_loc, numQuestions_loc,numAlternatives_loc,content_loc,content_colNrs_loc,totalScore_loc,totalScore_nonRounded_loc,scoreQuestionsIndicatedSeries_loc,columnSeries_loc,matrixAnswers):
     sheetC = outputbook_loc.add_sheet(nameSheet_loc)
 
     columnCounter = 0;
@@ -838,6 +781,15 @@ def write_scoreStudents(outputbook_loc,nameSheet_loc,permutations_loc,weightsQue
     rowCounter+=1
     for i in xrange(len(totalScore_loc)):
         sheetC.write(rowCounter,columnCounter,totalScore_loc[i])
+        rowCounter+=1
+    columnCounter+=1;
+    
+    rowCounter = 0;
+    #total score for indicated series non rounded
+    sheetC.write(rowCounter,columnCounter,"totale score niet afgerond",style=easyxf(style_header))
+    rowCounter+=1
+    for i in xrange(len(totalScore_loc)):
+        sheetC.write(rowCounter,columnCounter,totalScore_nonRounded_loc[i])
         rowCounter+=1
     columnCounter+=1;
     
@@ -867,17 +819,26 @@ def write_scoreStudents(outputbook_loc,nameSheet_loc,permutations_loc,weightsQue
         columnCounter = columnCounterScoreQuestions;
         score = scoreQuestionsIndicatedSeries_loc[participant,:]
         serie = int(columnSeries_loc[participant]-1)
-        sorted_score = [score[i-1] for i in permutations_loc[serie]]
+        if numSeries_loc ==1:
+            sorted_score = score
+        else:
+            sorted_score = [score[i-1] for i in permutations_loc[serie]]
         #find questions with weight zero
         questionsZeroWeight = numpy.where(weightsQuestions_loc==0)
                 #find questions
         #score[numpy.where(weightsQuestions_loc==0)[0]]=float('NaN')
         
         for question in xrange(1,numQuestions_loc+1):
-            if (permutations_loc[serie][question-1]-1) in questionsZeroWeight:
-                sheetC.write(rowCounter,columnCounter,"X")
+            if numSeries_loc == 1:
+                if (permutations_loc[question-1]-1) in questionsZeroWeight:
+                    sheetC.write(rowCounter,columnCounter,"X")
+                else:
+                    sheetC.write(rowCounter,columnCounter,sorted_score[question-1])
             else:
-                sheetC.write(rowCounter,columnCounter,sorted_score[question-1])
+                if (permutations_loc[serie][question-1]-1) in questionsZeroWeight:
+                    sheetC.write(rowCounter,columnCounter,"X")
+                else:
+                    sheetC.write(rowCounter,columnCounter,sorted_score[question-1])
             columnCounter+=1
         rowCounter+=1            
  
@@ -900,7 +861,7 @@ def write_scoreStudents(outputbook_loc,nameSheet_loc,permutations_loc,weightsQue
                 rowCounter+=1                    
             columnCounter+=1;    
             
-def write_scoreStudentsNonPermutated(outputbook_loc,nameSheet_loc,permutations_loc,weightsQuestions_loc,numParticipants_loc,deelnemers_loc, numQuestions_loc,numAlternatives_loc,alternatives_loc,content_loc,content_colNrs_loc,totalScore_loc,scoreQuestionsIndicatedSeries_loc,columnSeries_loc,matrixAnswers):
+def write_scoreStudentsNonPermutated(outputbook_loc,nameSheet_loc,numSeries_loc,permutations_loc,weightsQuestions_loc,numParticipants_loc,deelnemers_loc, numQuestions_loc,numAlternatives_loc,alternatives_loc,content_loc,content_colNrs_loc,totalScore_loc,scoreQuestionsIndicatedSeries_loc,columnSeries_loc,matrixAnswers):
     sheetC = outputbook_loc.add_sheet(nameSheet_loc)
 
     columnCounter = 0;
@@ -983,7 +944,10 @@ def write_scoreStudentsNonPermutated(outputbook_loc,nameSheet_loc,permutations_l
         #score[numpy.where(weightsQuestions_loc==0)[0]]=float('NaN')
         
         for question in xrange(1,numQuestions_loc+1):
-            questionInSerie = numpy.where(permutations_loc[serie]==question)[0][0]+1
+            if numSeries_loc==1:
+                questionInSerie = numpy.where(permutations_loc==question)[0][0]+1
+            else:
+                questionInSerie = numpy.where(permutations_loc[serie]==question)[0][0]+1
             answersQuestion = answers[numAlternatives_loc*(questionInSerie-1):numAlternatives_loc*(questionInSerie-1)+numAlternatives_loc] 
             for counterAlternative in xrange(0,numAlternatives_loc):
                 sheetC.write(rowCounter,columnCounter,answersQuestion[counterAlternative])

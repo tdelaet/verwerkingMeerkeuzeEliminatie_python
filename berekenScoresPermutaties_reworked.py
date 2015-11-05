@@ -53,8 +53,12 @@ if not os.path.exists("../"+ nameTest + "/Results/Histogram"):
     os.makedirs("../"+ nameTest + "/Results/Histogram")
     
 correctAnswersDifferentPermutations = []
-for i in xrange(len(permutations)):
-    numpy.savetxt("../"+ nameTest + "/Results/Sleutels" + "/sleutel"+ "_reeks" + str(i+1)+".txt",  [correctAnswers[x-1] for x in permutations[i]], delimiter=" ", fmt="%s")
+# maar 1 reeks
+if numSeries ==1:
+    numpy.savetxt("../"+ nameTest + "/Results/Sleutels" + "/sleutel"+ "_reeks1" +".txt",  [correctAnswers[x-1] for x in permutations], delimiter=" ", fmt="%s")
+else:
+    for i in xrange(len(permutations)):
+        numpy.savetxt("../"+ nameTest + "/Results/Sleutels" + "/sleutel"+ "_reeks" + str(i+1)+".txt",  [correctAnswers[x-1] for x in permutations[i]], delimiter=" ", fmt="%s")
 
 plt.close("all")
 
@@ -117,9 +121,9 @@ columnSeries=sheet.col_values(colNrSerie,1,num_rows)
 
 
 #get the score for all permutations for each of the questions
-scoreQuestionsAllPermutations= supportFunctions_reworked.calculateScoreAllPermutations(sheet,content,correctAnswers,permutations,alternatives,numParticipants,columnSeries,content_colNrs,twoOptions)     
+scoreQuestionsAllPermutations= supportFunctions_reworked.calculateScoreAllPermutations(sheet,content,numSeries,correctAnswers,permutations,alternatives,numParticipants,columnSeries,content_colNrs,twoOptions)     
 
-numOnmogelijkQuestionsAlternatives, numMogelijkQuestionsAlternatives = supportFunctions_reworked.getNumberMogelijkOnmogelijk(sheet,content,permutations,columnSeries,scoreQuestionsIndicatedSeries,alternatives,twoOptions,content_colNrs)
+numOnmogelijkQuestionsAlternatives, numMogelijkQuestionsAlternatives = supportFunctions_reworked.getNumberMogelijkOnmogelijk(sheet,content,numSeries,permutations,columnSeries,scoreQuestionsIndicatedSeries,alternatives,twoOptions,content_colNrs)
 #print scoreQuestionsAllPermutations
 
 matrixAnswers = supportFunctions_reworked.getMatrixAnswers(sheet,content,correctAnswers,permutations,alternatives,numParticipants,columnSeries,content_colNrs,twoOptions)     
@@ -129,7 +133,7 @@ matrixAnswers = supportFunctions_reworked.getMatrixAnswers(sheet,content,correct
 scoreQuestionsIndicatedSeries, averageScoreQuestions =  supportFunctions_reworked.getScoreQuestionsIndicatedSeries(scoreQuestionsAllPermutations,columnSeries)
 
 #get the overall statistics
-totalScore, averageScore, medianScore, standardDeviation, percentagePass = supportFunctions_reworked.getOverallStatistics(scoreQuestionsIndicatedSeries,maxTotalScore,weightsQuestions)
+totalScore, totalScore_nonRounded, averageScore, medianScore, standardDeviation, percentagePass = supportFunctions_reworked.getOverallStatistics(scoreQuestionsIndicatedSeries,maxTotalScore,weightsQuestions)
 #print totalScore
 #print averageScore
 #print medianScore
@@ -140,7 +144,7 @@ totalScoreDifferentPermutations = supportFunctions_reworked.calculateTotalScoreD
 
 numParticipantsSeries, averageScoreSeries, medianScoreSeries, standardDeviationSeries, percentagePassSeries, averageScoreQuestionsDifferentSeries = supportFunctions_reworked.getOverallStatisticsDifferentSeries(totalScoreDifferentPermutations,scoreQuestionsIndicatedSeries,columnSeries,maxTotalScore)
 
-totalScoreUpper,totalScoreMiddle,totalScoreLower,averageScoreUpper, averageScoreMiddle, averageScoreLower, averageScoreQuestionsUpper, averageScoreQuestionsMiddle, averageScoreQuestionsLower, numOnmogelijkQuestionsAlternativesUpper, numOnmogelijkQuestionsAlternativesMiddle, numOnmogelijkQuestionsAlternativesLower, numMogelijkQuestionsAlternativesUpper, numMogelijkQuestionsAlternativesMiddle, numMogelijkQuestionsAlternativesLower, scoreQuestionsUpper, scoreQuestionsMiddle, scoreQuestionsLower, numUpper, numMiddle, numLower = supportFunctions_reworked.calculateUpperLowerStatistics(sheet,content,columnSeries,totalScore,scoreQuestionsIndicatedSeries,correctAnswers,alternatives,twoOptions,content_colNrs,permutations)
+totalScoreUpper,totalScoreMiddle,totalScoreLower,averageScoreUpper, averageScoreMiddle, averageScoreLower, averageScoreQuestionsUpper, averageScoreQuestionsMiddle, averageScoreQuestionsLower, numOnmogelijkQuestionsAlternativesUpper, numOnmogelijkQuestionsAlternativesMiddle, numOnmogelijkQuestionsAlternativesLower, numMogelijkQuestionsAlternativesUpper, numMogelijkQuestionsAlternativesMiddle, numMogelijkQuestionsAlternativesLower, scoreQuestionsUpper, scoreQuestionsMiddle, scoreQuestionsLower, numUpper, numMiddle, numLower = supportFunctions_reworked.calculateUpperLowerStatistics(sheet,content,numSeries,columnSeries,totalScore,scoreQuestionsIndicatedSeries,correctAnswers,alternatives,twoOptions,content_colNrs,permutations)
 #totalScoreUpper,totalScoreMiddle,totalScoreLower,averageScoreUpper, averageScoreMiddle, averageScoreLower, averageScoreQuestionsUpper, averageScoreQuestionsMiddle, averageScoreQuestionsLower,numQuestionsAlternativesUpper,numQuestionsAlternativesMiddle,numQuestionsAlternativesLower, scoreQuestionsUpper, scoreQuestionsMiddle, scoreQuestionsLower,numUpper, numMiddle, numLower= supportFunctions.calculateUpperLowerStatistics(sheet,content,columnSeries,totalScore,scoreQuestionsIndicatedSeries,correctAnswers,alternatives,blankAnswer,content_colNrs,permutations)
  
 totalVariance, Variance = supportFunctions_reworked.calculateVariances(totalScore,scoreQuestionsIndicatedSeries,numQuestions)
@@ -167,9 +171,9 @@ writeResults_reworked.write_results(outputbook,weightsQuestions,numQuestions,cor
                   )
                   
 ## WRITING A FILE TO UPLOAD TO TOLEDO WITH THE GRADES
-writeResults_reworked.write_scoreStudents(outputStudentbook,"punten",permutations,weightsQuestions,numParticipants,deelnemers, numQuestions,numAlternatives,content,content_colNrs,totalScore,scoreQuestionsIndicatedSeries,columnSeries,matrixAnswers)          
+writeResults_reworked.write_scoreStudents(outputStudentbook,"punten",numSeries,permutations,weightsQuestions,numParticipants,deelnemers, numQuestions,numAlternatives,content,content_colNrs,totalScore,totalScore_nonRounded,scoreQuestionsIndicatedSeries,columnSeries,matrixAnswers)          
 
-writeResults_reworked.write_scoreStudentsNonPermutated(outputStudentbook,"verwerking",permutations,weightsQuestions,numParticipants,deelnemers, numQuestions,numAlternatives,alternatives,content,content_colNrs,totalScore,scoreQuestionsIndicatedSeries,columnSeries,matrixAnswers)           
+writeResults_reworked.write_scoreStudentsNonPermutated(outputStudentbook,"verwerking",numSeries,permutations,weightsQuestions,numParticipants,deelnemers, numQuestions,numAlternatives,alternatives,content,content_colNrs,totalScore,scoreQuestionsIndicatedSeries,columnSeries,matrixAnswers)           
                   
 writeResults_reworked.write_CronbachsAlpha(outputbook,"Cronbach's alpha", numQuestions, totalVariance, Variance)
 
