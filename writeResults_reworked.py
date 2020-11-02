@@ -85,7 +85,7 @@ def write_scoreAllPermutations(outputbook_loc,nameSheet_loc,numParticipants_loc,
         #print deelnemers
     sheetC.write(rowCounter, 0,"studentennummer", style=easyxf(style_header_borderRight))
     rowCounter+=1
-    for i in xrange(0,len(deelnemers_loc)):
+    for i in range(0,len(deelnemers_loc)):
         sheetC.write(rowCounter,columnCounter,deelnemers_loc[i], style=easyxf(font_bold+border_right_medium))
         rowCounter+=1
     columnCounter+=1;
@@ -94,18 +94,18 @@ def write_scoreAllPermutations(outputbook_loc,nameSheet_loc,numParticipants_loc,
     #total score for indicated series
     sheetC.write(rowCounter,columnCounter,"totale score aangeduide serie ",style=easyxf(font_bold+border_all_medium))
     rowCounter+=1
-    for i in xrange(len(totalScore_loc)):
+    for i in range(len(totalScore_loc)):
         sheetC.write(rowCounter,columnCounter,totalScore_loc[i],style=easyxf(border_right_medium))
         rowCounter+=1
     columnCounter+=1;
     
     #total score for different series
-    for serie in xrange(1,numSeries_loc+1):
+    for serie in range(1,numSeries_loc+1):
         rowCounter = 1;
         sheetC.write(rowCounter,columnCounter,"totale score serie " + str(serie),style=easyxf(style_header))
         rowCounter+=1
         totalScoreSerie = totalScoreDifferentPermutations_loc[:,serie-1]
-        for i in xrange(len(totalScore_loc)):
+        for i in range(len(totalScore_loc)):
             # if the series is the same as the one indicated 
             if (serie == columnSeries_loc[i]):
                 sheetC.write(rowCounter,columnCounter,totalScoreSerie[i],style=easyxf(style_correctAnswer))
@@ -170,7 +170,7 @@ def write_overallStatistics(outputbook_loc,nameSheet_loc,totalScore_loc,averageS
     #print numParticipants_loc
     #column counter
     
-    for serie in xrange(numSeries):
+    for serie in range(numSeries):
         columnCounter = 0;        
         sheetC.write_merge(rowCounter,rowCounter,columnCounter,columnCounter+1,"serie " + str(serie+1),style=easyxf(font_bold+border_bottom_medium))
         rowCounter+=1
@@ -237,7 +237,7 @@ def write_averageScoreQuestions(outputbook_loc,nameSheet_loc,weightsQuestions_lo
     sheetC.write(rowCounter,columnCounter,"lower",style=easyxf(style_header+ border_right_medium)) 
     columnCounter+=1
 
-    for serie in xrange(0,numSeries): #TODO: numseries
+    for serie in range(0,numSeries): #TODO: numseries
         sheetC.write(rowCounter,columnCounter,"reeks " + str(serie+1) ,style=easyxf(style_header))
         columnCounter+=1
     
@@ -247,7 +247,7 @@ def write_averageScoreQuestions(outputbook_loc,nameSheet_loc,weightsQuestions_lo
     rowCounter+=1    
     columnCounter=0
     
-    for question in xrange(1,numQuestions_loc+1):
+    for question in range(1,numQuestions_loc+1):
         sheetC.write(rowCounter,columnCounter,"vraag"+str(question),style=easyxf( font_bold+border_right_medium))
         columnCounter+=1        
         if averageScoreQuestions_loc[question-1]<0:
@@ -269,12 +269,15 @@ def write_averageScoreQuestions(outputbook_loc,nameSheet_loc,weightsQuestions_lo
             columnCounter+=1
             sheetC.write(rowCounter,columnCounter,round(averageScoreQuestionsLower_loc[question-1],3),style=easyxf(border_right_medium))
             columnCounter+=1
-        for serie in xrange(1,numSeries+1):
+        for serie in range(1,numSeries+1):
             #print "rowCounter" + str(rowCounter)
             #print "columnCounter" + str(columnCounter)
             sheetC.write(rowCounter,columnCounter,round(averageScoreQuestionsDifferentSeries_loc[question-1,serie-1],3))
             columnCounter+=1
-        sheetC.write(rowCounter,columnCounter,weightsQuestions_loc[question-1],style=easyxf(border_left_medium + align_horizcenter))  
+        #print(rowCounter)
+        #print(columnCounter)
+        #print(weightsQuestions_loc[question-1])
+        sheetC.write(rowCounter,columnCounter,float(weightsQuestions_loc[question-1]),style=easyxf(border_left_medium + align_horizcenter))  
         columnCounter+=1           
         rowCounter+=1
         columnCounter = 0;
@@ -290,7 +293,7 @@ def write_averageScoreQuestions(outputbook_loc,nameSheet_loc,weightsQuestions_lo
     columnCounter+=1
     sheetC.write(rowCounter,columnCounter,round(averageScoreLower_loc,3),style=easyxf(border_righttop_medium))  
     columnCounter+=1
-    for serie in xrange(1,numSeries+1):
+    for serie in range(1,numSeries+1):
         sheetC.write(rowCounter,columnCounter,round(averageScoreSeries_loc[serie-1],3),style=easyxf(border_top_medium))
         columnCounter+=1
     
@@ -314,7 +317,7 @@ def write_percentageImpossibleQuestions(outputbook_loc,nameSheet_loc,weightsQues
     columnCounter+=1
     rowCounter+=1
         
-    for question in xrange(1,numQuestions_loc+1):
+    for question in range(1,numQuestions_loc+1):
         columnCounter=0
         correctAnswer = correctAnswers_loc[question-1]
         #loop over alternatives
@@ -333,7 +336,7 @@ def write_percentageImpossibleQuestions(outputbook_loc,nameSheet_loc,weightsQues
                     sheetC.write(rowCounter,columnCounter,round(numOnmogelijkQuestionsAlternatives_loc[counter]/numParticipants_loc*100,0))
             columnCounter+=1
             counter+=1  
-        sheetC.write(rowCounter,columnCounter,weightsQuestions_loc[question-1],style=easyxf(border_left_medium + align_horizcenter))  
+        sheetC.write(rowCounter,columnCounter,float(weightsQuestions_loc[question-1]),style=easyxf(border_left_medium + align_horizcenter))  
         columnCounter+=1     
         rowCounter+=1
         
@@ -357,7 +360,7 @@ def write_numberImpossibleQuestions(outputbook_loc,nameSheet_loc,weightsQuestion
     columnCounter+=1
     rowCounter+=1
         
-    for question in xrange(1,numQuestions_loc+1):
+    for question in range(1,numQuestions_loc+1):
         columnCounter=0
         correctAnswer = correctAnswers_loc[question-1]
         #loop over alternatives
@@ -399,7 +402,7 @@ def write_percentagePossibleQuestions(outputbook_loc,nameSheet_loc,weightsQuesti
     columnCounter+=1
     rowCounter+=1
         
-    for question in xrange(1,numQuestions_loc+1):
+    for question in range(1,numQuestions_loc+1):
         columnCounter=0
         correctAnswer = correctAnswers_loc[question-1]
         #loop over alternatives
@@ -418,7 +421,7 @@ def write_percentagePossibleQuestions(outputbook_loc,nameSheet_loc,weightsQuesti
                     sheetC.write(rowCounter,columnCounter,round(numMogelijkQuestionsAlternatives_loc[counter]/numParticipants_loc*100,0))
             columnCounter+=1
             counter+=1    
-        sheetC.write(rowCounter,columnCounter,weightsQuestions_loc[question-1],style=easyxf(border_left_medium + align_horizcenter))  
+        sheetC.write(rowCounter,columnCounter,float(weightsQuestions_loc[question-1]),style=easyxf(border_left_medium + align_horizcenter))  
         columnCounter+=1             
         rowCounter+=1
         
@@ -441,7 +444,7 @@ def write_numberPossibleQuestions(outputbook_loc,nameSheet_loc,weightsQuestions_
     columnCounter+=1
     rowCounter+=1
         
-    for question in xrange(1,numQuestions_loc+1):
+    for question in range(1,numQuestions_loc+1):
         columnCounter=0
         correctAnswer = correctAnswers_loc[question-1]
         #loop over alternatives
@@ -487,7 +490,7 @@ def write_percentageImpossibleQuestionsUML(outputbook_loc,nameSheet_loc,weightsQ
     columnCounter+=1
     rowCounter+=2
         
-    for question in xrange(1,numQuestions_loc+1):
+    for question in range(1,numQuestions_loc+1):
         columnCounter=0
         correctAnswer = correctAnswers_loc[question-1]
         #loop over alternatives
@@ -525,7 +528,7 @@ def write_percentageImpossibleQuestionsUML(outputbook_loc,nameSheet_loc,weightsQ
                     sheetC.write(rowCounter,columnCounter+2,round(numOnmogelijkQuestionsAlternativesLower_loc[counter]/numLower_loc*100,0),style=easyxf(border_right_medium))
             columnCounter+=3
             counter+=1  
-        sheetC.write(rowCounter,columnCounter,weightsQuestions_loc[question-1],style=easyxf(border_left_medium + align_horizcenter))  
+        sheetC.write(rowCounter,columnCounter,float(weightsQuestions_loc[question-1]),style=easyxf(border_left_medium + align_horizcenter))  
         columnCounter+=1             
         rowCounter+=1
  
@@ -553,7 +556,7 @@ def write_percentagePossibleQuestionsUML(outputbook_loc,nameSheet_loc,weightsQue
     rowCounter+=2
     
         
-    for question in xrange(1,numQuestions_loc+1):
+    for question in range(1,numQuestions_loc+1):
         columnCounter=0
         correctAnswer = correctAnswers_loc[question-1]
         #loop over alternatives
@@ -589,7 +592,7 @@ def write_percentagePossibleQuestionsUML(outputbook_loc,nameSheet_loc,weightsQue
                     sheetC.write(rowCounter,columnCounter+2,round(numMogelijkQuestionsAlternativesLower_loc[counter]/numLower_loc*100,0),style=easyxf(border_right_medium))
             columnCounter+=3
             counter+=1 
-        sheetC.write(rowCounter,columnCounter,weightsQuestions_loc[question-1],style=easyxf(border_left_medium + align_horizcenter))  
+        sheetC.write(rowCounter,columnCounter,float(weightsQuestions_loc[question-1]),style=easyxf(border_left_medium + align_horizcenter))  
         columnCounter+=1            
         rowCounter+=1
         
@@ -616,7 +619,7 @@ def write_numberImpossibleQuestionsUML(outputbook_loc,nameSheet_loc,weightsQuest
     rowCounter+=2
     
         
-    for question in xrange(1,numQuestions_loc+1):
+    for question in range(1,numQuestions_loc+1):
         columnCounter=0
         correctAnswer = correctAnswers_loc[question-1]
         #loop over alternatives
@@ -649,7 +652,7 @@ def write_numberImpossibleQuestionsUML(outputbook_loc,nameSheet_loc,weightsQuest
                     sheetC.write(rowCounter,columnCounter+2,numOnmogelijkQuestionsAlternativesLower_loc[counter],style=easyxf(border_right_medium))
             columnCounter+=3
             counter+=1    
-        sheetC.write(rowCounter,columnCounter,weightsQuestions_loc[question-1],style=easyxf(border_left_medium + align_horizcenter))  
+        sheetC.write(rowCounter,columnCounter,float(weightsQuestions_loc[question-1]),style=easyxf(border_left_medium + align_horizcenter))  
         columnCounter+=1         
         rowCounter+=1
  
@@ -675,7 +678,7 @@ def write_numberPossibleQuestionsUML(outputbook_loc,nameSheet_loc,weightsQuestio
     rowCounter+=2
     
         
-    for question in xrange(1,numQuestions_loc+1):
+    for question in range(1,numQuestions_loc+1):
         columnCounter=0
         correctAnswer = correctAnswers_loc[question-1]
         #loop over alternatives
@@ -708,7 +711,7 @@ def write_numberPossibleQuestionsUML(outputbook_loc,nameSheet_loc,weightsQuestio
                     sheetC.write(rowCounter,columnCounter+2,numMogelijkQuestionsAlternativesLower_loc[counter],style=easyxf(border_right_medium))
             columnCounter+=3
             counter+=1 
-        sheetC.write(rowCounter,columnCounter,weightsQuestions_loc[question-1],style=easyxf(border_left_medium + align_horizcenter))  
+        sheetC.write(rowCounter,columnCounter,float(weightsQuestions_loc[question-1]),style=easyxf(border_left_medium + align_horizcenter))  
         columnCounter+=1    
         rowCounter+=1
      
@@ -741,7 +744,7 @@ def write_histogramQuestions(outputbook_loc,nameSheet_loc,numParticipants_loc,we
     columnCounter+=1
     rowCounter+=1    
     
-    for question in xrange(1,numQuestions_loc+1):
+    for question in range(1,numQuestions_loc+1):
         columnCounter=0
         sheetC.write(rowCounter,columnCounter,"vraag"+str(question),style=easyxf(font_bold+border_right_medium))
         hist,bins = numpy.histogram(scoreQuestionsIndicatedSeries_loc[:,question-1],bins=numpy.concatenate((possibleScores,[1.0+1.0/5.0]))-1.0/10.0)
@@ -757,7 +760,7 @@ def write_histogramQuestions(outputbook_loc,nameSheet_loc,numParticipants_loc,we
         else:
             sheetC.write(rowCounter,columnCounter,round(averageScoreQuestions_loc[question-1],2),style=easyxf(border_left_medium)) 
         columnCounter+=1  
-        sheetC.write(rowCounter,columnCounter,weightsQuestions_loc[question-1],style=easyxf(border_left_medium + align_horizcenter))  
+        sheetC.write(rowCounter,columnCounter,float(weightsQuestions_loc[question-1]),style=easyxf(border_left_medium + align_horizcenter))  
         columnCounter+=1            
         rowCounter+=1
 
@@ -770,7 +773,7 @@ def write_scoreStudents(outputbook_loc,nameSheet_loc,numSeries_loc,permutations_
     #deelnemersnummers
     sheetC.write(rowCounter, 0,"studentennummer", style=easyxf(style_header_borderRight)) 
     rowCounter+=1
-    for i in xrange(0,len(deelnemers_loc)):
+    for i in range(0,len(deelnemers_loc)):
         sheetC.write(rowCounter,columnCounter,deelnemers_loc[i], style=easyxf(style_header_borderRight))
         rowCounter+=1
     columnCounter+=1;
@@ -779,7 +782,7 @@ def write_scoreStudents(outputbook_loc,nameSheet_loc,numSeries_loc,permutations_
     #total score for indicated series
     sheetC.write(rowCounter,columnCounter,"totale score",style=easyxf(style_header))
     rowCounter+=1
-    for i in xrange(len(totalScore_loc)):
+    for i in range(len(totalScore_loc)):
         sheetC.write(rowCounter,columnCounter,totalScore_loc[i])
         rowCounter+=1
     columnCounter+=1;
@@ -788,7 +791,7 @@ def write_scoreStudents(outputbook_loc,nameSheet_loc,numSeries_loc,permutations_
     #total score for indicated series non rounded
     sheetC.write(rowCounter,columnCounter,"totale score niet afgerond",style=easyxf(style_header))
     rowCounter+=1
-    for i in xrange(len(totalScore_loc)):
+    for i in range(len(totalScore_loc)):
         sheetC.write(rowCounter,columnCounter,totalScore_nonRounded_loc[i])
         rowCounter+=1
     columnCounter+=1;
@@ -798,7 +801,7 @@ def write_scoreStudents(outputbook_loc,nameSheet_loc,numSeries_loc,permutations_
     #indicated series
     sheetC.write(rowCounter,columnCounter,"reeks",style=easyxf(style_header))
     rowCounter+=1
-    for i in xrange(len(totalScore_loc)):
+    for i in range(len(totalScore_loc)):
         sheetC.write(rowCounter,columnCounter,columnSeries_loc[i])
         rowCounter+=1
     columnCounter+=1;
@@ -809,13 +812,13 @@ def write_scoreStudents(outputbook_loc,nameSheet_loc,numSeries_loc,permutations_
     rowCounter = 0;
     #write heading    
     columnCounterHeader = columnCounter
-    for question in xrange(1,numQuestions_loc+1):
+    for question in range(1,numQuestions_loc+1):
         sheetC.write(rowCounter,columnCounterHeader,"score vraag " + str(question),style=easyxf(style_header))
         columnCounterHeader+=1
         
     columnCounterScoreQuestions = columnCounter   
     rowCounter = 1;  
-    for participant in xrange(len(totalScore_loc)): # loop over participants
+    for participant in range(len(totalScore_loc)): # loop over participants
         columnCounter = columnCounterScoreQuestions;
         score = scoreQuestionsIndicatedSeries_loc[participant,:]
         serie = int(columnSeries_loc[participant]-1)
@@ -828,7 +831,7 @@ def write_scoreStudents(outputbook_loc,nameSheet_loc,numSeries_loc,permutations_
                 #find questions
         #score[numpy.where(weightsQuestions_loc==0)[0]]=float('NaN')
         
-        for question in xrange(1,numQuestions_loc+1):
+        for question in range(1,numQuestions_loc+1):
             if numSeries_loc == 1:
                 if (permutations_loc[question-1]-1) in questionsZeroWeight:
                     sheetC.write(rowCounter,columnCounter,"X")
@@ -847,7 +850,7 @@ def write_scoreStudents(outputbook_loc,nameSheet_loc,numSeries_loc,permutations_
     alternatives = list(string.ascii_uppercase)[0:numAlternatives_loc]   
     #answer for different questions and alternatives
     questionAlternativeCounter = 0
-    for question in xrange(1,numQuestions_loc+1):
+    for question in range(1,numQuestions_loc+1):
         for alternative in alternatives:
             rowCounter=0
             sheetC.write(rowCounter,columnCounter,"antwoord vraag " + str(question) + str(alternative),style=easyxf(style_header))
@@ -855,9 +858,8 @@ def write_scoreStudents(outputbook_loc,nameSheet_loc,numSeries_loc,permutations_
             answer = matrixAnswers[:,questionAlternativeCounter]
             questionAlternativeCounter+=1
             rowCounter+=1
-            #print 
-            for i in xrange(len(totalScore_loc)):
-                sheetC.write(rowCounter,columnCounter,answer[i])
+            for i in range(len(totalScore_loc)):
+                sheetC.write(rowCounter,columnCounter,answer[i].decode('UTF-8'))
                 rowCounter+=1                    
             columnCounter+=1;    
             
@@ -870,7 +872,7 @@ def write_scoreStudentsNonPermutated(outputbook_loc,nameSheet_loc,numSeries_loc,
     #deelnemersnummers
     sheetC.write(rowCounter, 0,"studentennummer", style=easyxf(style_header_borderRight)) 
     rowCounter+=1
-    for i in xrange(0,len(deelnemers_loc)):
+    for i in range(0,len(deelnemers_loc)):
         sheetC.write(rowCounter,columnCounter,deelnemers_loc[i], style=easyxf(style_header_borderRight))
         rowCounter+=1
     columnCounter+=1;
@@ -879,7 +881,7 @@ def write_scoreStudentsNonPermutated(outputbook_loc,nameSheet_loc,numSeries_loc,
     #total score for indicated series
     sheetC.write(rowCounter,columnCounter,"totale score",style=easyxf(style_header))
     rowCounter+=1
-    for i in xrange(len(totalScore_loc)):
+    for i in range(len(totalScore_loc)):
         sheetC.write(rowCounter,columnCounter,totalScore_loc[i])
         rowCounter+=1
     columnCounter+=1;
@@ -889,7 +891,7 @@ def write_scoreStudentsNonPermutated(outputbook_loc,nameSheet_loc,numSeries_loc,
     #indicated series
     sheetC.write(rowCounter,columnCounter,"reeks",style=easyxf(style_header))
     rowCounter+=1
-    for i in xrange(len(totalScore_loc)):
+    for i in range(len(totalScore_loc)):
         sheetC.write(rowCounter,columnCounter,columnSeries_loc[i])
         rowCounter+=1
     columnCounter+=1;
@@ -898,13 +900,13 @@ def write_scoreStudentsNonPermutated(outputbook_loc,nameSheet_loc,numSeries_loc,
     rowCounter = 0;
     #write heading    
     columnCounterHeader = columnCounter
-    for question in xrange(1,numQuestions_loc+1):
+    for question in range(1,numQuestions_loc+1):
         sheetC.write(rowCounter,columnCounterHeader,"score vraag " + str(question),style=easyxf(style_header))
         columnCounterHeader+=1
         
     columnCounterScoreQuestions = columnCounter   
     rowCounter = 1;  
-    for participant in xrange(len(totalScore_loc)): # loop over participants
+    for participant in range(len(totalScore_loc)): # loop over participants
         columnCounter = columnCounterScoreQuestions;
         score = scoreQuestionsIndicatedSeries_loc[participant,:]
         #serie = int(columnSeries_loc[participant]-1)
@@ -914,7 +916,7 @@ def write_scoreStudentsNonPermutated(outputbook_loc,nameSheet_loc,numSeries_loc,
                 #find questions
         #score[numpy.where(weightsQuestions_loc==0)[0]]=float('NaN')
         
-        for question in xrange(1,numQuestions_loc+1):
+        for question in range(1,numQuestions_loc+1):
             if (question-1) in questionsZeroWeight:
                 sheetC.write(rowCounter,columnCounter,"X")
             else:
@@ -927,13 +929,13 @@ def write_scoreStudentsNonPermutated(outputbook_loc,nameSheet_loc,numSeries_loc,
     #beware answers are stored per question with the permutation; 
     #so for the us the answers have to be permutated 
     #write heading    
-    for question in xrange(1,numQuestions_loc+1):
+    for question in range(1,numQuestions_loc+1):
         for alternative in alternatives_loc:
             sheetC.write(0,columnCounterHeader,"antwoord vraag " + str(question) + alternative,style=easyxf(style_header))
             columnCounterHeader+=1
     rowCounter = 1;      
     columnCounterAnswers = columnCounter
-    for participant in xrange(len(totalScore_loc)): # loop over participants
+    for participant in range(len(totalScore_loc)): # loop over participants
         columnCounter = columnCounterAnswers;
         serie = int(columnSeries_loc[participant]-1)
         answers =  matrixAnswers[participant]
@@ -943,14 +945,14 @@ def write_scoreStudentsNonPermutated(outputbook_loc,nameSheet_loc,numSeries_loc,
                 #find questions
         #score[numpy.where(weightsQuestions_loc==0)[0]]=float('NaN')
         
-        for question in xrange(1,numQuestions_loc+1):
+        for question in range(1,numQuestions_loc+1):
             if numSeries_loc==1:
                 questionInSerie = numpy.where(permutations_loc==question)[0][0]+1
             else:
                 questionInSerie = numpy.where(permutations_loc[serie]==question)[0][0]+1
             answersQuestion = answers[numAlternatives_loc*(questionInSerie-1):numAlternatives_loc*(questionInSerie-1)+numAlternatives_loc] 
-            for counterAlternative in xrange(0,numAlternatives_loc):
-                sheetC.write(rowCounter,columnCounter,answersQuestion[counterAlternative])
+            for counterAlternative in range(0,numAlternatives_loc):
+                sheetC.write(rowCounter,columnCounter,answersQuestion[counterAlternative].decode('UTF-8'))
                 columnCounter+=1
         rowCounter+=1                
 

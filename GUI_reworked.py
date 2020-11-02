@@ -1,19 +1,24 @@
-from Tkinter import *
-from ttk import *
+import tkinter as tk
+#a=tk.Tk()
+#a.title("my first window")
+
+#from Tkinter import *
+#from ttk import *
 import os
 
 def InputGUI ():
-        myGUI = Tk()
+        myGUI = tk.Tk()
         ##Opbouw GUI venster
-        nameTest = StringVar()
-        globalLabel=Label(myGUI, text= "This folder doesn't exist. Submit a new name.")
-        FolderInputLabel=Label(myGUI, text= "Submit the name of the folder for the test.")
+        nameTest = tk.StringVar()
+        globalLabel=tk.Label(myGUI, text= "This folder doesn't exist. Submit a new name.")
+        FolderInputLabel=tk.Label(myGUI, text= "Submit the name of the folder for the test.")
         title = "Multiple Choice with Elimination"
-        FolderInput=Entry(myGUI, textvariable=nameTest)
-        nameTest.set('2015-juni')
+        FolderInput=tk.Entry(myGUI, textvariable=nameTest)
+        nameTest.set('TTT')
         ##Actie voor knop (ingeven van map waar data staan)
         def initiate():
             InputText = nameTest.get()
+            print(InputText)
             globalLabel.pack_forget()
             if InputText != "verwerkingMeerkeuzeEliminatie_python" and InputText != "" and os.path.exists("../"+InputText):
                 myGUI.geometry('320x100+300+150')
@@ -21,7 +26,7 @@ def InputGUI ():
             else:
                 myGUI.geometry('320x100+300+150')
                 globalLabel.pack()
-        submitButton=Button(myGUI, text = "Submit", command = initiate)
+        submitButton=tk.Button(myGUI, text = "Submit", command = initiate)
         ##Definitie weergave GUI
         myGUI.geometry('320x70+300+150')
         myGUI.title(title)
@@ -39,32 +44,32 @@ TotaleScore = 0
 output = {'questions':Vragen, 'alternatives':Alternatieven, 'permutations':Permutaties, 'totalscore':TotaleScore}
 
 def VragenGUI():
-        myGUI = Tk()
-        numQuestions = IntVar()
+        myGUI = tk.Tk()
+        numQuestions = tk.IntVar()
         numQuestions.set(26)
         questionAlternatives = []
 #Alternatives can be different for every question. For now the output will only return the number of alternatives for question 1.
         numAlternatives = dict()
         AlternativesInput = dict()                                          
-        maxTotalScore = IntVar()
+        maxTotalScore = tk.IntVar()
         maxTotalScore.set(20)
-        permutations = IntVar()
+        permutations = tk.IntVar()
         permutations.set(4)
         title = "Multiple Choice with Elimination"
-        QuestionsLabel=Label(myGUI, text = "Submit the total number of questions below.")
-        AlternativesLabel1=Label(myGUI, text = "Submit the number of alternatives per question. The default value is set to 4.")
-        AlternativesLabel2=Label(myGUI, text = "Change the default by changing the value for Question 1, then press 'Copy Question 1'.")
-        TotalScoreLabel=Label(myGUI, text = "Submit the total score students can obtain from this test.")
-        PermutationsLabel=Label(myGUI, text = "Submit the total number of permutations in your test.")
-        OverviewLabel = Label(myGUI, text ="Overview of your input:")
-        QuestionValueLabel = Label(myGUI, text = "")
+        QuestionsLabel=tk.Label(myGUI, text = "Submit the total number of questions below.")
+        AlternativesLabel1=tk.Label(myGUI, text = "Submit the number of alternatives per question. The default value is set to 4.")
+        AlternativesLabel2=tk.Label(myGUI, text = "Change the default by changing the value for Question 1, then press 'Copy Question 1'.")
+        TotalScoreLabel=tk.Label(myGUI, text = "Submit the total score students can obtain from this test.")
+        PermutationsLabel=tk.Label(myGUI, text = "Submit the total number of permutations in your test.")
+        OverviewLabel = tk.Label(myGUI, text ="Overview of your input:")
+        QuestionValueLabel = tk.Label(myGUI, text = "")
         AlternativesValueLabel = dict()
-        PermutationsValueLabel = Label(myGUI, text ="")
-        TotalScoreValueLabel = Label (myGUI, text = "")
-        QuestionsNegativeLabel = Label (myGUI, text = "The number of questions must be positive.")
-        QuestionsInput = Entry(myGUI, textvariable=numQuestions)
-        TotalScoreInput = Entry(myGUI, textvariable=maxTotalScore)
-        PermutationsInput = Entry(myGUI, textvariable=permutations)
+        PermutationsValueLabel = tk.Label(myGUI, text ="")
+        TotalScoreValueLabel = tk.Label(myGUI, text = "")
+        QuestionsNegativeLabel = tk.Label(myGUI, text = "The number of questions must be positive.")
+        QuestionsInput = tk.Entry(myGUI, textvariable=numQuestions)
+        TotalScoreInput = tk.Entry(myGUI, textvariable=maxTotalScore)
+        PermutationsInput = tk.Entry(myGUI, textvariable=permutations)
         def getQuestions(): #Submit total number of questions. Default value is 26.
                 global Vragen
                 QuestionsNegativeLabel.pack_forget()
@@ -80,11 +85,11 @@ def VragenGUI():
                         AlternativesLabel1.pack()
                         AlternativesLabel2.pack()
                         for x in range(0, numQuestions.get()):
-                                questionAlternatives.append(Label(myGUI,text='Question ' + str(x+1)))
-                                numAlternatives[x]=IntVar()
+                                questionAlternatives.append(tk.Label(myGUI,text='Question ' + str(x+1)))
+                                numAlternatives[x]=tk.IntVar()
                                 numAlternatives[x].set(4)
-                                AlternativesInput[x]=Entry(myGUI, textvariable=numAlternatives[x])
-                        myGUI.geometry('750x'+str(70+22*((numQuestions.get()-1)/3+1))+'+300+150')
+                                AlternativesInput[x]=tk.Entry(myGUI, textvariable=numAlternatives[x])
+                        myGUI.geometry('750x'+str(70+22*round((numQuestions.get()-1)/3+1))+'+300+150')
                         counterCol = 0
                         counterRow = 0
                         for x in range(0,numQuestions.get()):
@@ -138,11 +143,11 @@ def VragenGUI():
                 OverviewLabel.place(x=0,y=0)
                 QuestionValueLabel.config(text ="Your test has " + str(numQuestions.get()) + " questions.")
                 QuestionValueLabel.place(x=0,y=20)
-                myGUI.geometry('600x'+str(130+((numQuestions.get()-1)/3)*20)+'+300+150')
+                myGUI.geometry('600x'+str(130+round((numQuestions.get()-1)/3)*20)+'+300+150')
                 counterCol = 0
                 counterRow = 0
                 for x in range(0,numQuestions.get()):
-                        AlternativesValueLabel[x]=Label(myGUI, text =questionAlternatives[x].cget("text") + " has " + str(numAlternatives[x].get()) + " alternatives.")
+                        AlternativesValueLabel[x]=tk.Label(myGUI, text =questionAlternatives[x].cget("text") + " has " + str(numAlternatives[x].get()) + " alternatives.")
                         AlternativesValueLabel[x].place(x=200*counterCol,y=(40+20*counterRow))
                         if counterCol == 2:
                                 counterRow +=1
@@ -164,10 +169,10 @@ def VragenGUI():
                 myGUI.destroy()
                 output = VragenGUI()
 #Building the initial GUI
-        submitButton=Button(myGUI, text = "Submit", command = getQuestions)
-        copyButton=Button(myGUI, text = "Copy Question 1", command = changeAlternatives)
-        OkButton=Button(myGUI, text = "OK", command = finishQuestionInput)
-        AgainButton=Button(myGUI, text = "Adjust input", command = adjustInput)
+        submitButton=tk.Button(myGUI, text = "Submit", command = getQuestions)
+        copyButton=tk.Button(myGUI, text = "Copy Question 1", command = changeAlternatives)
+        OkButton=tk.Button(myGUI, text = "OK", command = finishQuestionInput)
+        AgainButton=tk.Button(myGUI, text = "Adjust input", command = adjustInput)
         myGUI.geometry('260x70+300+150')
         myGUI.title(title)
         QuestionsLabel.pack()

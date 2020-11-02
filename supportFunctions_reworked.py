@@ -44,14 +44,14 @@ def giveContentColNrs(content_loc, sheet_loc):
             content_colNrs_loc[indexC_loc] = firstRowValues_loc.index(x)
             indexC_loc += 1
         except ValueError:
-            print "the expected content " + x + " is not present in the selected sheet"
+            print ("the expected content " + x + " is not present in the selected sheet")
             break;
     return content_colNrs_loc
     
 def checkForUniqueParticipants(particpants):
     setd = set([x for x in particpants if particpants.count(x) > 1])
     if setd:
-        print "Duplicate particpants found: " + str(setd)
+        print ("Duplicate particpants found: " + str(setd))
         return False
     else:
         return True
@@ -63,7 +63,7 @@ def getMatrixAnswers(sheet_loc,contentBook_loc,correctAnswers_loc,permutations_l
     answers_loc= numpy.array(range(numParticipants_loc*numQuestions_loc*numAlternatives_loc),dtype='a10').reshape(numParticipants_loc,numQuestions_loc*numAlternatives_loc)
    
     counterColumn = 0
-    for question_loc in xrange(1,numQuestions_loc+1):
+    for question_loc in range(1,numQuestions_loc+1):
         for alternative_loc in alternatives_loc:
             name_question_serie1 = "Vraag" + str(question_loc) + alternative_loc
             colNr_loc = content_colNrs_loc[contentBook_loc.index(name_question_serie1)]
@@ -84,10 +84,10 @@ def calculateScoreAllPermutations(sheet_loc,contentBook_loc,numSeries_loc,correc
     matrixAnswersQuestions_loc= numpy.zeros((numParticipants_loc,numAlternatives_loc) )
     #Calculate score for all permutations
                  
-    for question_loc in xrange(1,numQuestions_loc+1):
+    for question_loc in range(1,numQuestions_loc+1):
         #print "----------------------"
         #print "question " + str(question_loc)
-        for permutation in xrange(1,numSeries_loc+1):
+        for permutation in range(1,numSeries_loc+1):
             #print "permutatie " + str(permutation)
             #print "number of question in the first permutation"
             #print numSeries_loc
@@ -107,7 +107,8 @@ def calculateScoreAllPermutations(sheet_loc,contentBook_loc,numSeries_loc,correc
                 # get the column with the answers to this question
                 colNr_loc = content_colNrs_loc[contentBook_loc.index(name_question_serie1)]
                 columnAlternative_loc=sheet_loc.col_values(colNr_loc,1,numParticipants_loc+1)
-                for participant_loc in xrange(numParticipants_loc):
+                for participant_loc in range(numParticipants_loc):
+                    #print (participant_loc)
                     answerIndex = twoOptions_loc.index(columnAlternative_loc[participant_loc])
                     matrixAnswersQuestions_loc[participant_loc,counter_alternative] = answerIndex
                 if  correctAnswer == alternative_loc:   
@@ -149,11 +150,11 @@ def calculateScoreQuestions(matrixAnswersQuestions_loc, correctAnswerIndex_loc):
     scoreCorrectAnswer_ET_rummensyEL = [(1.0*y)/((numAlternatives_loc-y)*(numAlternatives_loc-1)) for y in numpy.arange(0,numAlternatives_loc)]
     
     # find students that indicated correct answer as impossible
-    indicesCorrectAnswerEliminated_loc = [x for x in xrange(numParticipants_loc) if matrixAnswersQuestions_loc[x,correctAnswerIndex_loc]==0]
+    indicesCorrectAnswerEliminated_loc = [x for x in range(numParticipants_loc) if matrixAnswersQuestions_loc[x,correctAnswerIndex_loc]==0]
     scoresQuestion[indicesCorrectAnswerEliminated_loc] = scoreWrongAnswer_ET_rummens
     
     # the remaining questions where the correct answer is not indicated as impossible    
-    remaining=  [x for x in xrange(numParticipants_loc) if matrixAnswersQuestions_loc[x,correctAnswerIndex_loc]!=0]
+    remaining=  [x for x in range(numParticipants_loc) if matrixAnswersQuestions_loc[x,correctAnswerIndex_loc]!=0]
     # count number of correctly eliminated answers (y)
     numberCorrectlyEliminated = sum(numpy.concatenate((matrixAnswersQuestions_loc[:,0:correctAnswerIndex_loc],matrixAnswersQuestions_loc[:,correctAnswerIndex_loc+1:numAlternatives_loc]),axis=1).T ,0)*-1+numAlternatives_loc-1;
    
@@ -174,7 +175,7 @@ def getNumberMogelijkOnmogelijk(sheet_loc,content_loc,numSeries_loc,permutations
     
     #number of onmogelijk in upper group per question
     #loop over question
-    for question_loc in xrange(1,numQuestions_loc+1):
+    for question_loc in range(1,numQuestions_loc+1):
 #        print "----------------------"
 #        print "question " + str(question_loc)
         counter_alternative = 0;
@@ -184,8 +185,8 @@ def getNumberMogelijkOnmogelijk(sheet_loc,content_loc,numSeries_loc,permutations
             colNr_loc = content_colNrs_loc[content_loc.index(name_question_serie1)]
             #get the answers for the participants (so skip for row with name of first row)
             columnAlternative_loc=sheet_loc.col_values(colNr_loc,1,numParticipants_loc+1)            
-            for permutation in xrange(1,numSeries_loc+1):
-                indicesPermutation =  [x for x in xrange(len(columnSeries_loc)) if columnSeries_loc[x]==permutation]                
+            for permutation in range(1,numSeries_loc+1):
+                indicesPermutation =  [x for x in range(len(columnSeries_loc)) if columnSeries_loc[x]==permutation]                
                 if numSeries_loc ==1:
                     numQuestionPermutations_loc = permutations_loc[question_loc-1]              
                 else:
@@ -207,11 +208,11 @@ def getScoreQuestionsIndicatedSeries(scoreQuestionsAllPermutations_loc,columnSer
     #print numQuestions_loc
     #print columnSeries_loc
     scoreQuestionsIndicatedSeries_loc= numpy.zeros((numParticipants_loc,numQuestions_loc))
-    for participant in xrange(numParticipants_loc):
+    for participant in range(numParticipants_loc):
         serieIndicated = columnSeries_loc[participant]
-        #print serieIndicated
+        #print( serieIndicated)
         #print scoreQuestionsAllPermutations_loc[serieIndicated-1,participant,:] 
-        scoreQuestionsIndicatedSeries_loc[participant,:] = scoreQuestionsAllPermutations_loc[serieIndicated-1,participant,:] 
+        scoreQuestionsIndicatedSeries_loc[participant,:] = scoreQuestionsAllPermutations_loc[int(serieIndicated)-1,participant,:] 
     averageScoreQuestions_loc = scoreQuestionsIndicatedSeries_loc.sum(axis=0)/float(numParticipants_loc)    
     return scoreQuestionsIndicatedSeries_loc, averageScoreQuestions_loc
 
@@ -249,7 +250,7 @@ def getOverallStatisticsDifferentSeries(totalScoreDifferentPermutations_loc,scor
     averageScoreQuestionsDifferentSeries_loc = numpy.zeros(numQuestions_loc* numSeries_loc)
     averageScoreQuestionsDifferentSeries_loc = averageScoreQuestionsDifferentSeries_loc.reshape(numQuestions_loc, numSeries_loc)
     
-    for serie in xrange(1,numSeries_loc+1):
+    for serie in range(1,numSeries_loc+1):
         indicesSerie_loc = [x for x in range(0,numParticipants_loc) if columnSeries_loc[x]==serie]
         totalScoreSerie_loc = [totalScoreDifferentPermutations_loc[i,serie-1] for i in indicesSerie_loc]
         numParticipantsSeries_loc[serie-1] = len(totalScoreSerie_loc)
@@ -266,7 +267,7 @@ def calculateTotalScoreDifferentPermutations(scoreQuestionsAllPermutations_loc,m
     numParticipants_loc = len(scoreQuestionsAllPermutations_loc[0])
     #numQuestions_loc = len(scoreQuestionsAllPermutations_loc[0][0])
     totalScorePermutations_loc = numpy.zeros((numParticipants_loc,numSeries_loc))    
-    for serie in xrange(1,numSeries_loc+1):
+    for serie in range(1,numSeries_loc+1):
         totalScore_temp = (scoreQuestionsAllPermutations_loc[serie-1]*weightsQuestions_loc).sum(axis=1)/float(weightsQuestions_loc.sum(axis=0) )*maxTotalScore_loc
         totalScore_temp[totalScore_temp < 0]=0
         totalScore_temp = round2(totalScore_temp)
@@ -311,7 +312,7 @@ def calculateUpperLowerStatistics(sheet_loc,content_loc,numSeries_loc,columnSeri
     
     #number of onmogelijk in upper group per question
     #loop over question
-    for question_loc in xrange(1,numQuestions_loc+1):
+    for question_loc in range(1,numQuestions_loc+1):
 #        print "----------------------"
 #        print "question " + str(question_loc)
         counter_alternative = 0;
@@ -324,8 +325,8 @@ def calculateUpperLowerStatistics(sheet_loc,content_loc,numSeries_loc,columnSeri
             #get the answers for the participants (so skip for row with name of first row)
             columnAlternative_loc=sheet_loc.col_values(colNr_loc,1,numParticipants_loc+1)
                             
-            for permutation in xrange(1,numSeries_loc+1):
-                indicesPermutation =  [x for x in xrange(len(columnSeries_loc)) if columnSeries_loc[x]==permutation]                
+            for permutation in range(1,numSeries_loc+1):
+                indicesPermutation =  [x for x in range(len(columnSeries_loc)) if columnSeries_loc[x]==permutation]                
                 if numSeries_loc ==1:
                     numQuestionPermutations_loc = permutations_loc[question_loc-1]
                 else:

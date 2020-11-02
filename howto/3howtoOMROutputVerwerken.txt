@@ -5,6 +5,7 @@
 	c. permutatie.txt met daarin de permutatie voor de verschillende reeksen. Eén lijn per reeks.
 		de eerste lijn is steeds 1,2,3,4. De volgende lijn geeft voor reeks 2 de volgorde van de vragen aan (bvb 2,3,4, ..., 1 als vraag 1 naar achter is geplaatst tov reeks 1)
 	d. gewichten.txt met daarin de gewichten per vraag (op 0 zetten resulteert in het schrappen van de vraag): TODO: uitspraak van rechter alle studenten moeten 1 punt krijgen op de geschrapte vraag => controleer bij Chloé
+	e. slechteVragen.txt met daarin een indicatorvariabele per vraag (op 0 zetten = goede vraag, 1 = slechte vraag). Voor een slechte vraag krijgt iedereen een punt.
 3. Open berekenScoresPermutaties_reworked
 	a. Pas gegevens aan
 		- naam van de test (nameTest) dit is ook de naam van de folder met alle gegevens in van de toets (OMR output, sleutel, permutatie, gewichten)

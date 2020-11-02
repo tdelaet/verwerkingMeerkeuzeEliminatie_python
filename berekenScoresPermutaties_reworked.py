@@ -25,8 +25,9 @@ import writeResults_reworked
 import GUI_reworked
 
 
-print "Use the Graphical User Interface to continue"
+print ("Use the Graphical User Interface to continue")
 nameTest = GUI_reworked.InputGUI()
+#nameTest="TTT"
 
 nameFile = "../"+ nameTest + "/OMR/OMRoutput.xlsx" #name of excel file with scanned forms
 nameSheet = "outputScan" #sheet name of excel file with scanned forms
@@ -34,12 +35,19 @@ nameSheet = "outputScan" #sheet name of excel file with scanned forms
 ############################
 
 output = GUI_reworked.VragenGUI()
-
 numQuestions = output['questions']
 numAlternatives = output['alternatives'][1]
 maxTotalScore = output['totalscore']
 numSeries= output['permutations'] # number of series
 twoOptions=["onmogelijk","mogelijk"] #elimination options should be first
+
+#numQuestions = 14
+#numAlternatives = 4
+#maxTotalScore = 10
+#numSeries= 1 # number of series
+#twoOptions=["onmogelijk","mogelijk"] #elimination options should be first
+
+
 
 ############################
 
@@ -58,7 +66,7 @@ correctAnswersDifferentPermutations = []
 if numSeries ==1:
     numpy.savetxt("../"+ nameTest + "/Results/Sleutels" + "/sleutel"+ "_reeks1" +".txt",  [correctAnswers[x-1] for x in permutations], delimiter=" ", fmt="%s")
 else:
-    for i in xrange(len(permutations)):
+    for i in range(len(permutations)):
         numpy.savetxt("../"+ nameTest + "/Results/Sleutels" + "/sleutel"+ "_reeks" + str(i+1)+".txt",  [correctAnswers[x-1] for x in permutations[i]], delimiter=" ", fmt="%s")
 
 plt.close("all")
@@ -69,7 +77,7 @@ alternatives = list(string.ascii_uppercase)[0:numAlternatives]
 ############################
 #create list of expected content of scan file
 content = ["studentennummer","vragenreeks"]
-for question in xrange(1,numQuestions+1):
+for question in range(1,numQuestions+1):
     for alternative in alternatives:
         name = "Vraag" + str(question) + alternative
         content.append(name)
@@ -77,7 +85,7 @@ for question in xrange(1,numQuestions+1):
 ###########################
         
 if not( checkInputVariables.checkInputVariables(nameFile,nameSheet,numQuestions,numAlternatives,numSeries,correctAnswers,permutations,weightsQuestions,badQuestions, twoOptions)):
-     print "ERROR found in input variables"     
+     print ("ERROR found in input variables"     )
   
 # read file and get sheet
 book= open_workbook(nameFile)
@@ -111,7 +119,7 @@ deelnemers=sheet.col_values(studentenNrCol,1,num_rows)
 
 # check for double participants
 if not supportFunctions_reworked.checkForUniqueParticipants(deelnemers):
-    print "ERROR: Duplicate participants found"
+    print ("ERROR: Duplicate participants found")
 
 
 name = "vragenreeks"
@@ -208,7 +216,7 @@ catHigh = possibleScores + 1.0/10.0
 binsHist = numpy.sort(numpy.concatenate((catLow,catHigh)))
 
 
-for question in xrange(1,numQuestions+1):
+for question in range(1,numQuestions+1):
     ax = plt.subplot(numRowsPict,numColsPict,question)
     n, bins, patches = plt.hist(scoreQuestionsIndicatedSeries[:,question-1],bins=binsHist)
     plt.xticks(possibleScores)
@@ -228,7 +236,7 @@ numRowsPict = int(numpy.ceil(numQuestions/numColsPict)) +1
 fig, axes = plt.subplots(nrows=numRowsPict, ncols=numColsPict)
 fig.tight_layout() # Or equivalently,  "plt.tight_layout()"
 
-for question in xrange(1,numQuestions+1):
+for question in range(1,numQuestions+1):
     ax = plt.subplot(numRowsPict,numColsPict,question)
     n, bins, patches = plt.hist([scoreQuestionsUpper[:,question-1], scoreQuestionsMiddle[:,question-1], scoreQuestionsLower[:,question-1]],bins=binsHist, stacked=True,  label=['Upper', 'Middle', 'Lower'],color=['g','b','r'])
     plt.xticks(possibleScores)
